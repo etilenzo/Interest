@@ -1,0 +1,12 @@
+ 
+BasedOnStyle: Google
+ColumnLimit: '100'
+IndentWidth: '4'
+TabWidth: '4'
+AccessModifierOffset: '-4'
+MaxEmptyLinesToKeep: '4'
+UseTab: Never
+SortIncludes: false 
+AlwaysBreakAfterDefinitionReturnType: None
+AlwaysBreakAfterReturnType: None
+
