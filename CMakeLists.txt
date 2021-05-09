@@ -11,7 +11,7 @@ project(Interest VERSION ${INTEREST_VERSION} LANGUAGES CXX)
 ###
 ### Options
 ###
-set(ENABLE_TESTS ON)
+option(ENABLE_TESTS ON)
 option(BUILD_SHARED_LIBS "Build as shared/static library." OFF)
 
 ###
@@ -70,6 +70,7 @@ install(FILES
 ###
 ### Tests
 ###
+
 if (${ENABLE_TESTS})
     message(STATUS "Building of tests is enabled")
     enable_testing()
