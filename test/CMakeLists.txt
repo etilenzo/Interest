@@ -8,7 +8,7 @@ set(TEST_SRC_LIST
     Section/Section.cpp
 
     Ini/parceBrackets.cpp
-    Ini/CommonTest.cpp
+    Ini/common.cpp
 
     )
 
