@@ -2,8 +2,7 @@
 
 #### Test library written in C++ using last features for parsing ini formatted streams
 
-Requires C++ 20 standard
-{: .alert .alert-warning}
+> Requires C++ 20 standard
 
 ### Example:
 ```c++
