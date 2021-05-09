@@ -6,7 +6,7 @@
 
 using namespace ES;
 
-TEST(Ini, a1) {
+TEST(Ini, common) {
     std::ifstream is("test_stream.ini");
     Ini i;
     i.parseFromStream(is);
