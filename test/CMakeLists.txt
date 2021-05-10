@@ -7,7 +7,6 @@ set(TEST_SRC_LIST
     Section/KV.cpp
     Section/Section.cpp
 
-    Ini/parceBrackets.cpp
     Ini/common.cpp
 
     )

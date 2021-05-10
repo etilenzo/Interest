@@ -11,7 +11,7 @@ project(Interest VERSION ${INTEREST_VERSION} LANGUAGES CXX)
 ###
 ### Options
 ###
-option(ENABLE_TESTS ON)
+option(ENABLE_TESTS OFF)
 option(BUILD_SHARED_LIBS "Build as shared/static library." OFF)
 
 ###
