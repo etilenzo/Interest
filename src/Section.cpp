@@ -116,7 +116,7 @@ std::string& Section::insert(std::string_view key) {
     }
 }
 
-std::string& Section::operator[](const std::string& key) {
+std::string& Section::operator[](const std::string_view key) {
     if (!options.empty()) {
         auto temp = std::find_if(options.begin(), options.end(),
                                  [key](const KV& i) { return i.key == key; });
