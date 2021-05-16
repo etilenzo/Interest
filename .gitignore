@@ -4,10 +4,10 @@
 
 ###
 ini_serialization
-UserOptions.ini
-NewShit.ini
 Interest/
 test/Interest_test
+html/
+latex/
 
 ### C++ ###
 # Prerequisites
