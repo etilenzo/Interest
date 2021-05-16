@@ -23,6 +23,9 @@ Ini& Ini::operator=(const Ini& ini) {
 }
 
 Section& Ini::insert(std::string_view name) {
+    /* BUG: Функция не ищет, существует ли такая структура уже, а создаёт в любом случае. Это может
+     * понести за собой неприятные последствия. Читай стандарт, мудило
+     */
     Section temp(name, std::vector<KV>());
     sections.push_back(temp);
     return sections.back();
