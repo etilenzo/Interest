@@ -44,6 +44,9 @@ std::string beautifyPrefix(std::string_view line);
 /// @brief Remove line breaker, carriage return and space symbols from the line suffix
 std::string beautifySuffix(std::string_view line);
 
+/// @brief Parce brackets for Section name
+std::string parseBrackets(std::string_view line);
+
 
 /////////////////////////////////////////////////////////////////////
 
@@ -147,8 +150,8 @@ struct Section {
 
     /**
      * @brief Operator [] for the struct
-     * @details Tries to find KV struct with given key in options vector. If found, returns l-value
-     * reference to the value string of this KV struct. If not, calls insert()
+     * @details Tries to find KV struct with the given key in options vector. If found, returns
+     * l-value reference to the value string of this KV struct. If not, calls insert()
      * @param key key of the searched struct
      * @return l-value reference to value of found or created KV struct
      */

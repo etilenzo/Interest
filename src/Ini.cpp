@@ -22,21 +22,6 @@ Ini& Ini::operator=(const Ini& ini) {
     return *this;
 }
 
-std::string Ini::parseBrackets(std::string_view line) {
-    std::size_t opening_bracket_pos = line.find(OPENING_BRACKET);
-    std::size_t closing_bracket_pos = line.find(CLOSING_BRACKET);
-
-    if (opening_bracket_pos != std::string::npos) {
-        if (closing_bracket_pos != std::string::npos) {
-            return std::string(line.substr(opening_bracket_pos + 1, closing_bracket_pos - 1));
-        } else {
-            throw std::runtime_error("Missing closing bracket");
-        }
-    } else {
-        throw std::runtime_error("Missing opening bracket");
-    }
-}
-
 Section& Ini::insert(std::string_view name) {
     Section temp(name, std::vector<KV>());
     sections.push_back(temp);
@@ -66,7 +51,8 @@ void Ini::parseFromStream(std::istream& is) {
                 }
             } catch (const std::runtime_error& err) {
                 if (err.what() != "Missing opening bracket"s) {
-                    throw std::runtime_error(err.what() + "\nOn line: "s + std::to_string(num));
+                    throw std::runtime_error(err.what() + LINE_BREAKER + "On line: "s +
+                                             std::to_string(num));
                 } else {
                     if (num == 1) {
                         throw std::runtime_error(
@@ -80,7 +66,8 @@ void Ini::parseFromStream(std::istream& is) {
                 KV child(line);
                 operator[](name).options.push_back(child);
             } catch (const std::runtime_error& err) {
-                throw std::runtime_error(err.what() + "\nOn line: "s + std::to_string(num));
+                throw std::runtime_error(err.what() + LINE_BREAKER + "On line: "s +
+                                         std::to_string(num));
             }
         }
     } else {
@@ -88,12 +75,12 @@ void Ini::parseFromStream(std::istream& is) {
     }
 }
 
-void Ini::dumpToStream(std::ostream& os) {
+void Ini::dumpToStream(std::ostream& os) const {
     for (const Section& temp : sections) {
-        os << "[" << temp.name << "]\n";
+        os << OPENING_BRACKET << temp.name << CLOSING_BRACKET << std::endl;
 
         for (auto& line : temp.options) {
-            os << line.key << "=" << line.value << "\n";
+            os << line.key << EQUAL_SYMBOL << line.value << std::endl;
         }
     }
 }
@@ -117,13 +104,7 @@ Section& Ini::operator[](const std::string& name) {
 }
 
 std::ostream& operator<<(std::ostream& os, const ES::Ini& container) {
-    for (auto i = container.sections.begin(); i != container.sections.end(); ++i) {
-        if (++i != container.sections.end()) {
-            os << *i << LINE_BREAKER;
-        } else {
-            os << *i;
-        }
-    }
+    container.dumpToStream(os);
 
     return os;
 }

@@ -34,6 +34,21 @@ std::string beautifySuffix(std::string_view line) {
     return std::string(line);
 }
 
+std::string parseBrackets(std::string_view line) {
+    std::size_t opening_bracket_pos = line.find(OPENING_BRACKET);
+    std::size_t closing_bracket_pos = line.find(CLOSING_BRACKET);
+
+    if (opening_bracket_pos != std::string::npos) {
+        if (closing_bracket_pos != std::string::npos) {
+            return std::string(line.substr(opening_bracket_pos + 1, closing_bracket_pos - 1));
+        } else {
+            throw std::runtime_error("Missing closing bracket");
+        }
+    } else {
+        throw std::runtime_error("Missing opening bracket");
+    }
+}
+
 
 /////////////////////////////////////////////////////////////////////
 
