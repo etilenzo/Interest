@@ -6,7 +6,7 @@ namespace ES {
 /////////////////////////////////////////////////////////////////////
 
 
-std::string uncommentLine(std::string_view line) noexcept {
+std::string uncommentLine(std::string_view line) {
     std::size_t comment_pos = line.find_first_of(COMMENT_SYMBOLS);
 
     if (comment_pos != std::string::npos) {
@@ -16,7 +16,7 @@ std::string uncommentLine(std::string_view line) noexcept {
     return std::string(line);
 }
 
-std::string beautifyPrefix(std::string_view line) noexcept {
+std::string beautifyPrefix(std::string_view line) {
     while (line.starts_with(CARRIAGE_RETURN) || line.starts_with(LINE_BREAKER) ||
            line.starts_with(SPACE_SYMBOL)) {
         line.remove_prefix(1);
@@ -25,7 +25,7 @@ std::string beautifyPrefix(std::string_view line) noexcept {
     return std::string(line);
 }
 
-std::string beautifySuffix(std::string_view line) noexcept {
+std::string beautifySuffix(std::string_view line) {
     while (line.ends_with(CARRIAGE_RETURN) || line.ends_with(LINE_BREAKER) ||
            line.ends_with(SPACE_SYMBOL)) {
         line.remove_suffix(1);
