@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief This file contains declarations of KV and Section structs
+ * @author Evilenzo
+ * @version 0.1
+ */
+
 #pragma once
 
 #include <iostream>
