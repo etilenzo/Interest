@@ -2,6 +2,10 @@
 
 namespace ES {
 
+
+/////////////////////////////////////////////////////////////////////
+
+
 std::string uncommentLine(std::string_view line) noexcept {
     std::size_t comment_pos = line.find_first_of(COMMENT_SYMBOLS);
 
@@ -30,6 +34,10 @@ std::string beautifySuffix(std::string_view line) noexcept {
     return std::string(line);
 }
 
+
+/////////////////////////////////////////////////////////////////////
+
+
 KV::KV() {}
 
 KV::KV(std::string_view _key, std::string_view _value) : key(_key), value(_value) {}
@@ -42,6 +50,8 @@ KV::KV(const KV& kv) {
 }
 
 KV& KV::operator=(const KV& kv) {
+    if (this == &kv) return *this;
+
     key = kv.key;
     value = kv.value;
 
@@ -71,6 +81,31 @@ void KV::fromString(std::string_view line) {
     }
 }
 
+KV::~KV() {}
+
+
+/////////////////////////////////////////////////////////////////////
+
+
+Section::Section() {}
+
+Section::Section(std::string_view _name, std::vector<KV> _options)
+    : name(_name), options(_options) {}
+
+Section::Section(const Section& section) {
+    name = section.name;
+    options = section.options;
+}
+
+Section& Section::operator=(const Section& section) {
+    if (this == &section) return *this;
+
+    name = section.name;
+    options = section.options;
+
+    return *this;
+}
+
 std::string& Section::insert(std::string_view key) {
     if (!key.empty()) {
         KV temp(key, EMPTY_STRING);
@@ -91,6 +126,8 @@ std::string& Section::operator[](const std::string& key) {
     }
 }
 
+Section::~Section() {}
+
 std::ostream& operator<<(std::ostream& os, const Section& sect) {
     os << std::accumulate(sect.options.begin(), sect.options.end(),
                           OPENING_BRACKET + sect.name + CLOSING_BRACKET,
@@ -99,5 +136,9 @@ std::ostream& operator<<(std::ostream& os, const Section& sect) {
                           });
     return os;
 }
+
+
+/////////////////////////////////////////////////////////////////////
+
 
 }  // namespace ES

@@ -36,12 +36,16 @@ struct KV {
 
     void fromString(std::string_view line);
 
-    ~KV() {}
+    ~KV();
 };
 
 struct Section {
-    Section() {}
-    Section(std::string_view _name, std::vector<KV> _options) : name(_name), options(_options) {}
+    Section();
+    Section(std::string_view _name, std::vector<KV> _options);
+
+    Section(const Section& section);
+
+    Section& operator=(const Section& section);
 
     std::string name;
     std::vector<KV> options;
@@ -49,6 +53,8 @@ struct Section {
     std::string& insert(std::string_view key);
 
     std::string& operator[](const std::string& key);
+
+    ~Section();
 };
 
 std::ostream& operator<<(std::ostream& os, const Section& sect);
