@@ -23,14 +23,20 @@ std::string beautifyPrefix(std::string_view line) noexcept;
 std::string beautifySuffix(std::string_view line) noexcept;
 
 struct KV {
-    KV() {}
-    KV(std::string_view _key, std::string_view _value) : key(_key), value(_value) {}
-    explicit KV(std::string_view line) { fromString(line); }
+    KV();
+    KV(std::string_view _key, std::string_view _value);
+    explicit KV(std::string_view line);
+
+    KV(const KV& kv);
+
+    KV& operator=(const KV& kv);
 
     std::string key;
     std::string value;
 
     void fromString(std::string_view line);
+
+    ~KV() {}
 };
 
 struct Section {

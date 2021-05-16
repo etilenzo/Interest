@@ -30,6 +30,24 @@ std::string beautifySuffix(std::string_view line) noexcept {
     return std::string(line);
 }
 
+KV::KV() {}
+
+KV::KV(std::string_view _key, std::string_view _value) : key(_key), value(_value) {}
+
+KV::KV(std::string_view line) { fromString(line); }
+
+KV::KV(const KV& kv) {
+    key = kv.key;
+    value = kv.value;
+}
+
+KV& KV::operator=(const KV& kv) {
+    key = kv.key;
+    value = kv.value;
+
+    return *this;
+}
+
 void KV::fromString(std::string_view line) {
     std::string temp = beautifySuffix(uncommentLine(line));
 
