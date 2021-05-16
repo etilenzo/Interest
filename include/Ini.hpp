@@ -7,8 +7,6 @@
 
 namespace ES {
 
-std::optional<std::string> parseBraces(std::string_view line);
-
 class Ini {
 public:
     Ini() {}
