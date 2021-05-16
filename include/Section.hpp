@@ -9,14 +9,14 @@
 
 namespace ES {
 
-static inline constexpr char OPENING_BRACKET = '[';
-static inline constexpr char CLOSING_BRACKET = ']';
-static inline constexpr char EQUAL_SYMBOL = '=';
-static inline constexpr char LINE_BREAKER = '\n';
-static inline constexpr char CARRIAGE_RETURN = '\r';
-static inline constexpr char SPACE_SYMBOL = ' ';
-static inline constexpr char COMMENT_SYMBOLS[3] = "#;";
-static inline constexpr char EMPTY_STRING[1] = "";
+inline constexpr char OPENING_BRACKET = '[';
+inline constexpr char CLOSING_BRACKET = ']';
+inline constexpr char EQUAL_SYMBOL = '=';
+inline constexpr char LINE_BREAKER = '\n';
+inline constexpr char CARRIAGE_RETURN = '\r';
+inline constexpr char SPACE_SYMBOL = ' ';
+inline constexpr char COMMENT_SYMBOLS[3] = "#;";
+inline constexpr char EMPTY_STRING[1] = "";
 
 std::string uncommentLine(std::string_view line);
 std::string beautifyPrefix(std::string_view line);
