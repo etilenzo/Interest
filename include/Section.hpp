@@ -18,9 +18,9 @@ inline constexpr char SPACE_SYMBOL = ' ';
 inline constexpr char COMMENT_SYMBOLS[3] = "#;";
 inline constexpr char EMPTY_STRING[1] = "";
 
-std::string uncommentLine(std::string_view line);
-std::string beautifyPrefix(std::string_view line);
-std::string beautifySuffix(std::string_view line);
+std::string uncommentLine(std::string_view line) noexcept;
+std::string beautifyPrefix(std::string_view line) noexcept;
+std::string beautifySuffix(std::string_view line) noexcept;
 
 struct KV {
     KV() {}
