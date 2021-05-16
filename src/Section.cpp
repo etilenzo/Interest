@@ -128,9 +128,9 @@ std::string& Section::operator[](const std::string_view key) {
 
 Section::~Section() {}
 
-std::ostream& operator<<(std::ostream& os, const Section& sect) {
-    os << std::accumulate(sect.options.begin(), sect.options.end(),
-                          OPENING_BRACKET + sect.name + CLOSING_BRACKET,
+std::ostream& operator<<(std::ostream& os, const Section& section) {
+    os << std::accumulate(section.options.begin(), section.options.end(),
+                          OPENING_BRACKET + section.name + CLOSING_BRACKET,
                           [](const std::string& a, const KV& b) {
                               return a + LINE_BREAKER + b.key + EQUAL_SYMBOL + b.value;
                           });

@@ -1,6 +1,7 @@
 /**
  * @file
- * @brief This file contains declarations of KV and Section structs
+ * @brief This file contains declarations of KV and Section structs plus some util functions and
+ * symbol constants
  * @author Evilenzo
  * @version 0.1
  */
@@ -54,27 +55,27 @@ struct KV {
 
     /**
      *  @brief Create struct with param initialization
-     *  @param _key Key
-     *  @param _value Value
+     *  @param _key key
+     *  @param _value value
      */
     KV(std::string_view _key, std::string_view _value);
 
     /**
      *  @brief Create struct from string
-     *  @param line Line to parse
+     *  @param line line to parse
      *  @see fromString()
      */
     explicit KV(std::string_view line);
 
     /**
      * @brief Copy constructor
-     * @param kv L-value reference to another struct
+     * @param kv l-value reference to another struct
      */
     KV(const KV& kv);
 
     /**
      * @brief Copy operator =
-     * @param kv Const l-value reference to another struct
+     * @param kv const l-value reference to another struct
      * @return *this
      */
     KV& operator=(const KV& kv);
@@ -89,7 +90,7 @@ struct KV {
     /**
      * @brief Parse key and value from string
      * @details Beautifies string and parses it. Throws exceptions if string is incorrect
-     * @param line String to parse
+     * @param line string to parse
      * @see uncommentLine()
      * @see beautifyPrefix()
      * @see beautifySuffix()
@@ -111,20 +112,20 @@ struct Section {
 
     /**
      *  @brief Create struct with param initialization
-     *  @param _name Name
+     *  @param _name name
      *  @param _options KV vector
      */
     Section(std::string_view _name, std::vector<KV> _options);
 
     /**
      * @brief Copy constructor
-     * @param section L-value reference to another struct
+     * @param section l-value reference to another struct
      */
     Section(const Section& section);
 
     /**
      * @brief Copy operator =
-     * @param section Const l-value reference to another struct
+     * @param section const l-value reference to another struct
      * @return *this
      */
     Section& operator=(const Section& section);
@@ -139,8 +140,8 @@ struct Section {
      * @brief Insert KV with given key
      * @details Creates KV struct with given key and empty value then returns l-value reference to
      * value string. Throws exception if key param is empty
-     * @param key Key
-     * @return L-value reference to value of created KV struct
+     * @param key key
+     * @return l-value reference to value of created KV struct
      */
     std::string& insert(std::string_view key);
 
@@ -148,8 +149,8 @@ struct Section {
      * @brief Operator [] for the struct
      * @details Tries to find KV struct with given key in options vector. If found, returns l-value
      * reference to the value string of this KV struct. If not, calls insert()
-     * @param key Key of the searched struct
-     * @return L-value reference to value of found or created KV struct
+     * @param key key of the searched struct
+     * @return l-value reference to value of found or created KV struct
      */
     std::string& operator[](const std::string_view key);
 
@@ -157,6 +158,12 @@ struct Section {
     ~Section();
 };
 
-std::ostream& operator<<(std::ostream& os, const Section& sect);
+/**
+ * @brief Overloaded operator << to output section content in std::ostream
+ * @param os std::ostream l-value reference
+ * @param section section l-value reference
+ * @return std::ostream l-value reference
+ */
+std::ostream& operator<<(std::ostream& os, const Section& section);
 
 }  // namespace ES
