@@ -1,6 +1,6 @@
 # Interest
 
-#### Test library written in C++ using last features for parsing ini formatted streams
+#### Example library written in C++ using last features for parsing ini formatted streams
 
 > Requires C++ 20 standard
 
