@@ -9,8 +9,12 @@ namespace ES {
 
 class Ini {
 public:
-    Ini() {}
-    explicit Ini(std::istream& is) { parseFromStream(is); }
+    Ini();
+    explicit Ini(std::istream& is);
+
+    Ini(const Ini& ini);
+
+    Ini& operator=(const Ini& ini);
 
     std::vector<Section> sections;
 
@@ -29,6 +33,8 @@ public:
 
     Section& operator[](const std::string& name);
     friend std::ostream& operator<<(std::ostream& os, const Ini& container);
+
+    ~Ini();
 
 private:
     Section& insert(std::string_view name);

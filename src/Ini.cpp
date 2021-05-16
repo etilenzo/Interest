@@ -4,6 +4,24 @@ using std::literals::operator""s;
 
 namespace ES {
 
+
+/////////////////////////////////////////////////////////////////////
+
+
+Ini::Ini() {}
+
+Ini::Ini(std::istream& is) { parseFromStream(is); }
+
+Ini::Ini(const Ini& ini) { sections = ini.sections; }
+
+Ini& Ini::operator=(const Ini& ini) {
+    if (this == &ini) return *this;
+
+    sections = ini.sections;
+
+    return *this;
+}
+
 std::string Ini::parseBrackets(std::string_view line) {
     std::size_t opening_bracket_pos = line.find(OPENING_BRACKET);
     std::size_t closing_bracket_pos = line.find(CLOSING_BRACKET);
@@ -109,5 +127,11 @@ std::ostream& operator<<(std::ostream& os, const ES::Ini& container) {
 
     return os;
 }
+
+Ini::~Ini() {}
+
+
+/////////////////////////////////////////////////////////////////////
+
 
 }  // namespace ES
