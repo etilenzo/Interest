@@ -112,7 +112,7 @@ struct Section {
     /**
      *  @brief Create struct with param initialization
      *  @param _name Name
-     *  @param _options Key-Value vector
+     *  @param _options KV vector
      */
     Section(std::string_view _name, std::vector<KV> _options);
 
@@ -132,7 +132,7 @@ struct Section {
     /// @brief Name
     std::string name;
 
-    /// @brief Key-Value structs vector
+    /// @brief KV structs vector
     std::vector<KV> options;
 
     /**
