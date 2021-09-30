@@ -28,7 +28,7 @@ inline constexpr char EQUAL_SYMBOL = '=';
 inline constexpr char LINE_BREAKER = '\n';
 inline constexpr char CARRIAGE_RETURN = '\r';
 inline constexpr char SPACE_SYMBOL = ' ';
-inline constexpr char COMMENT_SYMBOLS[3] = "#;";
+inline constexpr char COMMENT_SYMBOLS[3] = {'#', ';'};
 inline constexpr char EMPTY_STRING[1] = "";
 
 
@@ -39,13 +39,13 @@ inline constexpr char EMPTY_STRING[1] = "";
 void uncommentLine(std::string& line);
 
 /// @brief Remove line breaker, carriage return and space symbols from the line prefix
-std::string beautifyPrefix(std::string_view line);
+void beautifyPrefix(std::string& line);
 
 /// @brief Remove line breaker, carriage return and space symbols from the line suffix
-std::string beautifySuffix(std::string_view line);
+void beautifySuffix(std::string& line);
 
 /// @brief Parce brackets for Section name
-std::string parseBrackets(std::string_view line);
+void parseBrackets(std::string& line);
 
 
 /////////////////////////////////////////////////////////////////////

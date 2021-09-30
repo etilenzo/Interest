@@ -43,7 +43,8 @@ void Ini::parseFromStream(std::istream& is) {
             ++num;
 
             try {
-                std::string temp = parseBrackets(line);
+                parseBrackets(line);
+                std::string temp = line;
 
                 if (!temp.empty()) {
                     name = temp;

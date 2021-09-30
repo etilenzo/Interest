@@ -36,9 +36,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC "include")
 
 if (${ENABLE_TESTS})
     find_package(doctest REQUIRED)
+    target_link_libraries(${PROJECT_NAME} PRIVATE doctest::doctest)
 endif()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE doctest::doctest)
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${HEADER_LIST}")
 set_property(TARGET ${PROJECT_NAME} PROPERTY VERSION "${INTEREST_VERSION}")
 

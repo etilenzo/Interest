@@ -12,37 +12,57 @@ void uncommentLine(std::string& line) {
     if (comment_pos != std::string::npos) line.erase(comment_pos);
 }
 
-std::string beautifyPrefix(std::string_view line) {
-    while (line.starts_with(CARRIAGE_RETURN) || line.starts_with(LINE_BREAKER) ||
-           line.starts_with(SPACE_SYMBOL)) {
-        line.remove_prefix(1);
+void beautifyPrefix(std::string& line) {
+    std::string::iterator iter = line.begin();
+    bool cycled = false;
+
+    while (iter != line.end()) {
+        if (*iter == CARRIAGE_RETURN || *iter == LINE_BREAKER || *iter == SPACE_SYMBOL) {
+            ++iter;
+            cycled = true;
+        } else
+            break;
     }
 
-    return std::string(line);
+    if (cycled) line.erase(line.begin(), iter);
 }
 
-std::string beautifySuffix(std::string_view line) {
-    while (line.ends_with(CARRIAGE_RETURN) || line.ends_with(LINE_BREAKER) ||
-           line.ends_with(SPACE_SYMBOL)) {
-        line.remove_suffix(1);
+void beautifySuffix(std::string& line) {
+    std::string::reverse_iterator iter = line.rbegin();
+    bool cycled = false;
+
+    while (iter != line.rend()) {
+        if (*iter == CARRIAGE_RETURN || *iter == LINE_BREAKER || *iter == SPACE_SYMBOL) {
+            ++iter;
+            cycled = true;
+        } else
+            break;
     }
 
-    return std::string(line);
+    if (cycled) line.erase(iter.base(), line.end());
 }
 
-std::string parseBrackets(std::string_view line) {
+void parseBrackets(std::string& line) {
     std::size_t opening_bracket_pos = line.find(OPENING_BRACKET);
     std::size_t closing_bracket_pos = line.find(CLOSING_BRACKET);
 
     if (opening_bracket_pos != std::string::npos) {
-        if (closing_bracket_pos != std::string::npos) {
-            return std::string(line.substr(opening_bracket_pos + 1, closing_bracket_pos - 1));
-        } else {
-            throw std::runtime_error("Missing closing bracket");
-        }
-    } else {
-        throw std::runtime_error("Missing opening bracket");
-    }
+        if (opening_bracket_pos == 0) {
+            if (closing_bracket_pos != std::string::npos) {
+                if (closing_bracket_pos == line.size() - 1) {
+                    if (opening_bracket_pos < closing_bracket_pos)
+                        line = line.substr(opening_bracket_pos + 1,
+                                           closing_bracket_pos - opening_bracket_pos - 1);
+                    else
+                        throw std::runtime_error("[ is going after ]");
+                } else
+                    throw std::runtime_error("Syntax error: line is not ending with ]");
+            } else
+                throw std::runtime_error("Missing ]");
+        } else
+            throw std::runtime_error("Syntax error: line is not staring with [");
+    } else
+        throw std::runtime_error("Missing [");
 }
 
 

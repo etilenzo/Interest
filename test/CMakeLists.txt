@@ -1,11 +1,7 @@
 set(TEST_SRC_LIST
     main.cpp
 
-    Section/uncommentLine.cpp
-    #Section/beautifyPrefix.cpp
-    #Section/beautifySuffix.cpp
-    #Section/KV.cpp
-    #Section/Section.cpp
+    Section_test.cpp
 
     #Ini/common.cpp
 
