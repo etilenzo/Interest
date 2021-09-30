@@ -1,10 +1,10 @@
-#include <gtest/gtest.h>
+#include "doctest/doctest.h"
 
 #include "Section.hpp"
 
 using namespace ES;
 
-TEST(KV, simpleDeclaration) {
+/*TEST(KV, simpleDeclaration) {
     ASSERT_NO_THROW(KV k);
     KV k;
     ASSERT_NO_THROW(k.m_key = "1");
@@ -61,7 +61,7 @@ TEST(KV, fromStringEmptyKey) {
 TEST(KV, fromStringWrongKey) {
     KV k;
     ASSERT_ANY_THROW(k.fromString(" =you"));
-}
+}*/
 
 TEST(KV, fromStringEmptyValue) {
     KV k;

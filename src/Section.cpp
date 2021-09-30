@@ -6,14 +6,10 @@ namespace ES {
 /////////////////////////////////////////////////////////////////////
 
 
-std::string uncommentLine(std::string_view line) {
+void uncommentLine(std::string& line) {
     std::size_t comment_pos = line.find_first_of(COMMENT_SYMBOLS);
 
-    if (comment_pos != std::string::npos) {
-        line = line.substr(0, comment_pos);
-    }
-
-    return std::string(line);
+    if (comment_pos != std::string::npos) line.erase(comment_pos);
 }
 
 std::string beautifyPrefix(std::string_view line) {
@@ -57,7 +53,7 @@ KV::KV() {}
 
 KV::KV(const std::string_view key, const std::string_view value) : m_key(key), m_value(value) {}
 
-KV::KV(std::string_view line) { fromString(line); }
+// KV::KV(std::string_view line) { fromString(line); }
 
 KV::KV(const KV& kv) {
     m_key = kv.m_key;
@@ -73,7 +69,7 @@ KV& KV::operator=(const KV& kv) {
     return *this;
 }
 
-void KV::fromString(std::string_view line) {
+/*void KV::fromString(std::string_view line) {
     std::string temp = beautifySuffix(uncommentLine(line));
 
     if (!temp.empty()) {
@@ -150,7 +146,7 @@ std::ostream& operator<<(std::ostream& os, const Section& section) {
                               return a + LINE_BREAKER + b.m_key + EQUAL_SYMBOL + b.m_value;
                           });
     return os;
-}
+}*/
 
 
 /////////////////////////////////////////////////////////////////////

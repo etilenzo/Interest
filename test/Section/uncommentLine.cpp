@@ -1,36 +1,38 @@
-#include <gtest/gtest.h>
+#include "doctest/doctest.h"
 
 #include "Section.hpp"
 
 using namespace ES;
 
-TEST(uncommentLine, empty) {
-    std::string s = EMPTY_STRING;
-    ASSERT_NO_THROW(uncommentLine(s));
-    ASSERT_EQ(uncommentLine(s), EMPTY_STRING);
-}
-
-TEST(uncommentLine, noNeed) {
-    std::string s = "no need in uncommenting";
-    ASSERT_EQ(uncommentLine(s), "no need in uncommenting");
-}
-
-TEST(uncommentLine, commentSharpReturnEmpty) {
-    std::string s = "#some text after comment";
-    ASSERT_EQ(uncommentLine(s), EMPTY_STRING);
-}
-
-TEST(uncommentLine, commentSharpReturnText) {
-    std::string s = "some text# comment";
-    ASSERT_EQ(uncommentLine(s), "some text");
-}
-
-TEST(uncommentLine, commentSemicolonReturnEmpty) {
-    std::string s = ";some text after comment";
-    ASSERT_EQ(uncommentLine(s), EMPTY_STRING);
-}
-
-TEST(uncommentLine, commentSemicolonReturnText) {
-    std::string s = "some text; comment";
-    ASSERT_EQ(uncommentLine(s), "some text");
+TEST_CASE("uncommentLine") {
+    SUBCASE("Empty string") {
+        std::string s = EMPTY_STRING;
+        REQUIRE_NOTHROW(uncommentLine(s));
+        REQUIRE(s == EMPTY_STRING);
+    }
+    SUBCASE("No need in uncommenting") {
+        std::string s = "Hi! I am pretty string!";
+        REQUIRE_NOTHROW(uncommentLine(s));
+        REQUIRE(s == "Hi! I am pretty string!");
+    }
+    SUBCASE("Empty string after uncommenting") {
+        std::string s = "#very useful comment";
+        REQUIRE_NOTHROW(uncommentLine(s));
+        REQUIRE(s == EMPTY_STRING);
+    }
+    SUBCASE("Uncomment #") {
+        std::string s = "text#comment";
+        REQUIRE_NOTHROW(uncommentLine(s));
+        REQUIRE(s == "text");
+    }
+    SUBCASE("Uncomment ;") {
+        std::string s = "text;comment";
+        REQUIRE_NOTHROW(uncommentLine(s));
+        REQUIRE(s == "text");
+    }
+    SUBCASE("Uncomment messy string") {
+        std::string s = "text;comment1#comment2#comment3";
+        REQUIRE_NOTHROW(uncommentLine(s));
+        REQUIRE(s == "text");
+    }
 }

@@ -35,11 +35,10 @@ add_library(${PROJECT_NAME} "${SRC_LIST}")
 target_include_directories(${PROJECT_NAME} PUBLIC "include")
 
 if (${ENABLE_TESTS})
-    find_package(GTest REQUIRED)
-    target_include_directories(${PROJECT_NAME} PRIVATE ${GTEST_INCLUDE_DIRS})
+    find_package(doctest REQUIRED)
 endif()
 
-target_link_libraries(${PROJECT_NAME} ${GTEST_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE doctest::doctest)
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${HEADER_LIST}")
 set_property(TARGET ${PROJECT_NAME} PROPERTY VERSION "${INTEREST_VERSION}")
 
