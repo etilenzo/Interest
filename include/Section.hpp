@@ -53,6 +53,12 @@ std::string parseBrackets(std::string_view line);
 
 /// @brief Key-Value struct
 struct KV {
+    /// @brief Key
+    std::string m_key;
+
+    /// @brief Value
+    std::string m_value;
+
     /// @brief Empty constructor
     KV();
 
@@ -61,7 +67,7 @@ struct KV {
      *  @param _key key
      *  @param _value value
      */
-    KV(std::string_view _key, std::string_view _value);
+    KV(const std::string_view key, const std::string_view value);
 
     /**
      *  @brief Create struct from string
@@ -82,13 +88,6 @@ struct KV {
      * @return *this
      */
     KV& operator=(const KV& kv);
-
-    /// @brief Key
-    std::string key;
-
-    /// @brief Value
-    std::string value;
-
 
     /**
      * @brief Parse key and value from string

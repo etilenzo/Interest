@@ -83,7 +83,7 @@ void Ini::dumpToStream(std::ostream& os) const {
         os << OPENING_BRACKET << temp.name << CLOSING_BRACKET << std::endl;
 
         for (auto& line : temp.options) {
-            os << line.key << EQUAL_SYMBOL << line.value << std::endl;
+            os << line.m_key << EQUAL_SYMBOL << line.m_value << std::endl;
         }
     }
 }

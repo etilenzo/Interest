@@ -27,8 +27,8 @@ TEST(Section, insert) {
     ASSERT_NO_THROW(s.insert("hi"));
     s.insert("hi");
     ASSERT_FALSE(s.options.empty());
-    ASSERT_EQ(s.options[0].key, "hi");
-    ASSERT_EQ(s.options[0].value, EMPTY_STRING);
+    ASSERT_EQ(s.options[0].m_key, "hi");
+    ASSERT_EQ(s.options[0].m_value, EMPTY_STRING);
 }
 
 TEST(Section, insertEmpty) {
@@ -40,8 +40,8 @@ TEST(Section, SBinsert) {
     Section s("me", std::vector<KV>());
     ASSERT_NO_THROW(s["hi"]);
     s["hi"];
-    ASSERT_EQ(s.options[0].key, "hi");
-    ASSERT_EQ(s.options[0].value, EMPTY_STRING);
+    ASSERT_EQ(s.options[0].m_key, "hi");
+    ASSERT_EQ(s.options[0].m_value, EMPTY_STRING);
 }
 
 TEST(Section, SBinsertEmpty) {
@@ -53,8 +53,8 @@ TEST(Section, SBinsertWithInit) {
     Section s("me", std::vector<KV>());
     ASSERT_NO_THROW(s["hi"] = "world");
     s["hi"] = "world";
-    ASSERT_EQ(s.options[0].key, "hi");
-    ASSERT_EQ(s.options[0].value, "world");
+    ASSERT_EQ(s.options[0].m_key, "hi");
+    ASSERT_EQ(s.options[0].m_value, "world");
 }
 
 TEST(Section, SBinsertWithSearch) {

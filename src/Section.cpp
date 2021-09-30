@@ -55,20 +55,20 @@ std::string parseBrackets(std::string_view line) {
 
 KV::KV() {}
 
-KV::KV(std::string_view _key, std::string_view _value) : key(_key), value(_value) {}
+KV::KV(const std::string_view key, const std::string_view value) : m_key(key), m_value(value) {}
 
 KV::KV(std::string_view line) { fromString(line); }
 
 KV::KV(const KV& kv) {
-    key = kv.key;
-    value = kv.value;
+    m_key = kv.m_key;
+    m_value = kv.m_value;
 }
 
 KV& KV::operator=(const KV& kv) {
     if (this == &kv) return *this;
 
-    key = kv.key;
-    value = kv.value;
+    m_key = kv.m_key;
+    m_value = kv.m_value;
 
     return *this;
 }
@@ -83,8 +83,8 @@ void KV::fromString(std::string_view line) {
             std::string _key = beautifySuffix(temp.substr(0, equal_pos));
 
             if (!_key.empty()) {
-                key = _key;
-                value = beautifyPrefix(temp.substr(equal_pos + 1, line.length() - 1));
+                m_key = _key;
+                m_value = beautifyPrefix(temp.substr(equal_pos + 1, line.length() - 1));
             } else {
                 throw std::runtime_error("Incorrect line. Key must not be empty");
             }
@@ -125,7 +125,7 @@ std::string& Section::insert(std::string_view key) {
     if (!key.empty()) {
         KV temp(key, EMPTY_STRING);
         options.push_back(temp);
-        return options.back().value;
+        return options.back().m_value;
     } else {
         throw std::runtime_error("Empty key");
     }
@@ -134,8 +134,8 @@ std::string& Section::insert(std::string_view key) {
 std::string& Section::operator[](const std::string_view key) {
     if (!options.empty()) {
         auto temp = std::find_if(options.begin(), options.end(),
-                                 [key](const KV& i) { return i.key == key; });
-        return temp->key == key ? temp->value : insert(key);
+                                 [key](const KV& i) { return i.m_key == key; });
+        return temp->m_key == key ? temp->m_value : insert(key);
     } else {
         return insert(key);
     }
@@ -147,7 +147,7 @@ std::ostream& operator<<(std::ostream& os, const Section& section) {
     os << std::accumulate(section.options.begin(), section.options.end(),
                           OPENING_BRACKET + section.name + CLOSING_BRACKET,
                           [](const std::string& a, const KV& b) {
-                              return a + LINE_BREAKER + b.key + EQUAL_SYMBOL + b.value;
+                              return a + LINE_BREAKER + b.m_key + EQUAL_SYMBOL + b.m_value;
                           });
     return os;
 }
