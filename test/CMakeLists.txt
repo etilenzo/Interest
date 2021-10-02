@@ -1,7 +1,7 @@
 set(TEST_SRC_LIST
     main.cpp
 
-    Section_test.cpp
+    Section_functions_test.cpp
 
     #Ini/common.cpp
 

@@ -73,7 +73,7 @@ KV::KV() {}
 
 KV::KV(const std::string_view key, const std::string_view value) : m_key(key), m_value(value) {}
 
-// KV::KV(std::string_view line) { fromString(line); }
+KV::KV(std::string_view line) { fromString(line); }
 
 KV::KV(const KV& kv) {
     m_key = kv.m_key;
@@ -89,14 +89,17 @@ KV& KV::operator=(const KV& kv) {
     return *this;
 }
 
-/*void KV::fromString(std::string_view line) {
-    std::string temp = beautifySuffix(uncommentLine(line));
+void KV::fromString(std::string& line) {
+    uncommentLine(line);
+    beautifySuffix(line);
 
-    if (!temp.empty()) {
-        std::size_t equal_pos = temp.find(EQUAL_SYMBOL);
+    if (!line.empty()) {
+        std::size_t equal_pos = line.find(EQUAL_SYMBOL);
 
         if (equal_pos != std::string::npos) {
-            std::string _key = beautifySuffix(temp.substr(0, equal_pos));
+            line.erase(0, equal_pos);
+            beautifySuffix(line);
+            std::string _key = line;
 
             if (!_key.empty()) {
                 m_key = _key;
@@ -108,7 +111,7 @@ KV& KV::operator=(const KV& kv) {
             throw std::runtime_error("Incorrect line. Missing '=' symbol");
         }
     } else {
-        throw std::runtime_error("Incorrect line. Beautifiers returned empty string");
+        throw std::runtime_error("Empty line");
     }
 }
 
@@ -118,7 +121,7 @@ KV::~KV() {}
 /////////////////////////////////////////////////////////////////////
 
 
-Section::Section() {}
+/*Section::Section() {}
 
 Section::Section(std::string_view _name, std::vector<KV> _options)
     : name(_name), options(_options) {}

@@ -83,7 +83,7 @@ struct KV {
     KV(const KV& kv);
 
     /**
-     * @brief Copy operator =
+     * @brief Copy assignment operator
      * @param kv const l-value reference to another struct
      * @return *this
      */
@@ -97,7 +97,7 @@ struct KV {
      * @see beautifyPrefix()
      * @see beautifySuffix()
      */
-    void fromString(std::string_view line);
+    void fromString(std::string& line);
 
     /// @brief Empty destructor
     ~KV();

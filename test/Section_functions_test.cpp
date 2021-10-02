@@ -121,6 +121,4 @@ TEST_CASE("Section") {
             }
         }
     }
-
-    SUBCASE("KV") {}
 }
