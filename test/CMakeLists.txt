@@ -2,6 +2,7 @@ set(TEST_SRC_LIST
     main.cpp
 
     Section_functions_test.cpp
+    Section_KV_test.cpp
 
     #Ini/common.cpp
 
