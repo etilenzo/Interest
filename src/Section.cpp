@@ -72,8 +72,8 @@ KV::KV(const KV& kv) {
 }
 
 KV::KV(KV&& kv) : m_key(std::move(kv.m_key)), m_value(std::move(kv.m_value)) {
-    kv.m_key.erase();
-    kv.m_value.erase();
+    kv.m_key.clear();
+    kv.m_value.clear();
 }
 
 KV& KV::operator=(const KV& kv) {
@@ -91,8 +91,8 @@ KV& KV::operator=(KV&& kv) {
     m_key = std::move(kv.m_key);
     m_value = std::move(kv.m_value);
 
-    kv.m_key.erase();
-    kv.m_value.erase();
+    kv.m_key.clear();
+    kv.m_value.clear();
 
     return *this;
 }
@@ -142,8 +142,8 @@ Section::Section(const Section& section) {
 
 Section::Section(Section&& section)
     : m_name(std::move(section.m_name)), m_options(std::move(section.m_options)) {
-    section.m_name.erase();
-    section.m_options.erase(m_options.begin(), m_options.end());
+    section.m_name.clear();
+    section.m_options.clear();
 }
 
 Section& Section::operator=(const Section& section) {
@@ -160,8 +160,8 @@ Section& Section::operator=(Section&& section) {
 
     m_name = std::move(section.m_name);
     m_options = std::move(section.m_options);
-    section.m_name.erase();
-    section.m_options.erase(m_options.begin(), m_options.end());
+    section.m_name.clear();
+    section.m_options.clear();
 
     return *this;
 }
@@ -188,6 +188,8 @@ std::string& Section::insert(T key) {
     } else
         throw std::runtime_error("Empty key");
 }
+
+void Section::clear() { m_options.clear(); }
 
 Section::~Section() {}
 

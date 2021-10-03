@@ -224,6 +224,11 @@ struct Section {
     template <typename T>
     std::string& insert(T key);
 
+    /**
+     * @brief Clear container
+     */
+    void clear();
+
     /// Empty destructor
     ~Section();
 };

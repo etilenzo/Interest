@@ -35,6 +35,15 @@ Ini& Ini::operator=(Ini&& ini) {
     return *this;
 }
 
+Section& Ini::operator[](const std::string& name) {
+    if (m_sections.size() != 0) {
+        auto temp = std::find_if(m_sections.begin(), m_sections.end(),
+                                 [name](const Section& i) { return i.m_name == name; });
+        return temp->name == name ? *temp : insert(name);
+    } else
+        return insert(name);
+}
+
 Section& Ini::insert(std::string_view name) {
     // BUG : Функция не ищет, существует ли такая структура уже, а создаёт в любом случае
     Section temp(name, std::vector<KV>());
@@ -107,16 +116,6 @@ void Ini::removeEmpty() {
 }
 
 void Ini::clear() { m_sections.clear(); }
-
-Section& Ini::operator[](const std::string& name) {
-    if (m_sections.size() != 0) {
-        auto temp = std::find_if(m_sections.begin(), m_sections.end(),
-                                 [name](const Section& i) { return i.m_name == name; });
-        return temp->name == name ? *temp : insert(name);
-    } else {
-        return insert(name);
-    }
-}
 
 std::ostream& operator<<(std::ostream& os, const ES::Ini& container) {
     container.dumpToStream(os);
