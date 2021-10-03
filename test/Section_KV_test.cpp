@@ -73,6 +73,8 @@ TEST_CASE("Section") {
             REQUIRE(kv3.m_value == "Value");
         }
 
+        SUBCASE("Empty value") { REQUIRE(KV("Key= ").m_value == ""); }
+
         // TODO: fromString tests
         // Sry, takes to long to write
     }

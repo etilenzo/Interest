@@ -43,27 +43,13 @@ void beautifySuffix(std::string& line) {
 }
 
 void parseBrackets(std::string& line) {
-    // TODO: Изменить это на for
-    std::size_t opening_bracket_pos = line.find(OPENING_BRACKET);
-    std::size_t closing_bracket_pos = line.find(CLOSING_BRACKET);
-
-    if (opening_bracket_pos != std::string::npos) {
-        if (opening_bracket_pos == 0) {
-            if (closing_bracket_pos != std::string::npos) {
-                if (closing_bracket_pos == line.size() - 1) {
-                    if (opening_bracket_pos < closing_bracket_pos)
-                        line = line.substr(opening_bracket_pos + 1,
-                                           closing_bracket_pos - opening_bracket_pos - 1);
-                    else
-                        throw std::runtime_error("[ is going after ]");
-                } else
-                    throw std::runtime_error("Syntax error: line is not ending with ]");
-            } else
-                throw std::runtime_error("Missing ]");
+    if (line.starts_with(OPENING_BRACKET)) {
+        if (line.ends_with(CLOSING_BRACKET)) {
+            line = line.substr(1, line.size() - 2);
         } else
-            throw std::runtime_error("Syntax error: line is not staring with [");
+            throw std::runtime_error("Syntax error: line is not ending with ]");
     } else
-        throw std::runtime_error("Missing [");
+        throw std::runtime_error("Syntax error: line is not staring with [");
 }
 
 
