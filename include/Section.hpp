@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief This file contains declaration Section struct
+ * @brief This file contains declaration Section class
  * @author Evilenzo
  * @version 0.1
  */
@@ -10,17 +10,15 @@
 #include <algorithm>
 #include <numeric>
 #include <memory>
-#include <string>
 #include <vector>
 
 #include "KV.hpp"
-
 
 namespace ES {
 
 
 /// @brief Ini section struct
-struct Section {
+class Section {
     /// @brief Name
     std::string m_name;
 

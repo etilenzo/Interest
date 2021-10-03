@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief This file contains tests of KV struct
+ * @brief This file contains tests of KV class
  * @author Evilenzo
  * @version 0.1
  */

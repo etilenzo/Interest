@@ -8,15 +8,10 @@
 #pragma once
 
 #include <fstream>
-#include <iostream>
 
 #include "Section.hpp"
 
-
 namespace ES {
-
-
-/////////////////////////////////////////////////////////////////////
 
 
 /// @brief Ini container class
@@ -111,7 +106,8 @@ public:
     ~Ini();
 
 private:
-    Section& insert(std::string_view name);
+    Section& insert(std::string name);
 };
+
 
 }  // namespace ES

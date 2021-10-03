@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief This file contains declaration of KV struct
+ * @brief This file contains declaration of KV class
  * @author Evilenzo
  * @version 0.1
  */
@@ -9,12 +9,12 @@
 
 #include "Beautifiers.hpp"
 
-
 namespace ES {
 
 
 /// @brief Key-Value struct
 struct KV {
+public:
     /// @brief Key
     std::string m_key;
 

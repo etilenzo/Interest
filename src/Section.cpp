@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief This file contains definition of Section struct
+ * @brief This file contains definition of Section class
  * @author Evilenzo
  * @version 0.1
  */

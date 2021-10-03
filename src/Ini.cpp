@@ -5,9 +5,6 @@ using std::literals::operator""s;
 namespace ES {
 
 
-/////////////////////////////////////////////////////////////////////
-
-
 Ini::Ini() {}
 
 Ini::Ini(std::istream& is) { parseFromStream(is); }
@@ -53,7 +50,7 @@ Section& Ini::insert(std::string_view name) {
 
 void Ini::parseFromStream(std::istream& is) {
     if (is) {
-        m_sections.clear();
+        clear();
 
         std::string line;
         std::size_t num = 0;
@@ -124,8 +121,6 @@ std::ostream& operator<<(std::ostream& os, const ES::Ini& container) {
 }
 
 Ini::~Ini() {}
-
-/////////////////////////////////////////////////////////////////////
 
 
 }  // namespace ES
