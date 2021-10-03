@@ -36,10 +36,7 @@ Ini& Ini::operator=(Ini&& ini) {
 }
 
 Section& Ini::insert(std::string_view name) {
-    /* BUG : Функция не ищет, существует ли такая структура уже, а создаёт в любом случае. Это может
-     * понести за собой неприятные последствия.Читай стандарт,
-     * мудило
-     */
+    // BUG : Функция не ищет, существует ли такая структура уже, а создаёт в любом случае
     Section temp(name, std::vector<KV>());
     m_sections.push_back(temp);
     return m_sections.back();

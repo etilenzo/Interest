@@ -70,15 +70,6 @@ public:
     Section& operator[](const std::string& name);
 
     /**
-     * @brief Operator << for std::ostream
-     * @details Same as dumpToStream() but nice
-     * @param os std::ostream l-value reference
-     * @param container Ini container const reference
-     * @return std::ostream l-value reference
-     */
-    friend std::ostream& operator<<(std::ostream& os, const Ini& container);
-
-    /**
      * @brief Parse Ini from input stream
      * @details Parse std::istream line by line beautifiing every string. Throws exceptions if
      * stream contains wrong ini formatting
@@ -106,6 +97,15 @@ public:
      * @brief Clear container
      */
     void clear();
+
+    /**
+     * @brief Operator << for std::ostream
+     * @details Same as dumpToStream() but nice
+     * @param os std::ostream l-value reference
+     * @param container Ini container const reference
+     * @return std::ostream l-value reference
+     */
+    friend std::ostream& operator<<(std::ostream& os, const Ini& container);
 
     /// Empty destructor
     ~Ini();
