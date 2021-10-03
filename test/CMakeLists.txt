@@ -3,8 +3,9 @@ set(TEST_SRC_LIST
 
     Section_functions_test.cpp
     Section_KV_test.cpp
+    Section_Section_test.cpp
 
-    #Ini/common.cpp
+    Ini_test.cpp
 
     )
 

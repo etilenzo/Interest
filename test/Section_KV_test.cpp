@@ -4,8 +4,8 @@
 
 using namespace ES;
 
-TEST_CASE("Section") {
-    SUBCASE("KV") {
+TEST_CASE("File Section.cpp") {
+    SUBCASE("KV struct") {
         SUBCASE("Empty constructor") { REQUIRE_NOTHROW(KV kv); }
 
         SUBCASE("Key-Value constructor") {

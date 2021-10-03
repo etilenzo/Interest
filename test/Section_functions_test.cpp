@@ -4,7 +4,7 @@
 
 using namespace ES;
 
-TEST_CASE("Section") {
+TEST_CASE("File Section.cpp") {
     SUBCASE("Formatting functions") {
         SUBCASE("uncommentLine") {
             SUBCASE("Empty string") {
