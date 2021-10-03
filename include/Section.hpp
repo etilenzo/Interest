@@ -86,7 +86,7 @@ struct KV {
 
     /**
      * @brief Copy constructor
-     * @param kv l-value reference to another struct
+     * @param kv const l-value reference to another struct
      */
     KV(const KV& kv);
 
@@ -140,34 +140,47 @@ struct KV {
 
 /// @brief Ini section struct
 struct Section {
+    /// @brief Name
+    std::string m_name;
+
+    /// @brief KV structs vector
+    std::vector<KV> m_options;
+
     /// @brief Empty constructor
     Section();
 
     /**
      *  @brief Create struct with param initialization
-     *  @param _name name
-     *  @param _options KV vector
+     *  @param name m_name
+     *  @param options KV vector
      */
-    Section(std::string_view _name, std::vector<KV> _options);
+    Section(const std::string& name, const std::vector<KV>& options);
 
     /**
      * @brief Copy constructor
-     * @param section l-value reference to another struct
+     * @param section const l-value reference to another struct
      */
     Section(const Section& section);
 
     /**
-     * @brief Copy operator =
+     * @brief Move constructor
+     * @param section r-value reference to another struct
+     */
+    Section(Section&& section);
+
+    /**
+     * @brief Copy assignment operator
      * @param section const l-value reference to another struct
      * @return *this
      */
     Section& operator=(const Section& section);
 
-    /// @brief Name
-    std::string name;
-
-    /// @brief KV structs vector
-    std::vector<KV> options;
+    /**
+     * @brief Move assignment operator
+     * @param section r-value reference to another struct
+     * @return *this
+     */
+    Section& operator=(Section&& section);
 
     /**
      * @brief Insert KV with given key

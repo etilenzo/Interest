@@ -81,9 +81,9 @@ void Ini::parseFromStream(std::istream& is) {
 
 void Ini::dumpToStream(std::ostream& os) const {
     for (const Section& temp : sections) {
-        os << OPENING_BRACKET << temp.name << CLOSING_BRACKET << std::endl;
+        os << OPENING_BRACKET << temp.m_name << CLOSING_BRACKET << std::endl;
 
-        for (auto& line : temp.options) {
+        for (auto& line : temp.m_options) {
             os << line.m_key << EQUAL_SYMBOL << line.m_value << std::endl;
         }
     }
@@ -91,7 +91,7 @@ void Ini::dumpToStream(std::ostream& os) const {
 
 void Ini::removeEmpty() {
     sections.erase(std::remove_if(sections.begin(), sections.end(),
-                                  [](const Section& i) { return i.options.empty(); }),
+                                  [](const Section& i) { return i.m_options.empty(); }),
                    sections.end());
 }
 
@@ -100,7 +100,7 @@ void Ini::clear() { sections.clear(); }
 Section& Ini::operator[](const std::string& name) {
     if (sections.size() != 0) {
         auto temp = std::find_if(sections.begin(), sections.end(),
-                                 [name](const Section& i) { return i.name == name; });
+                                 [name](const Section& i) { return i.m_name == name; });
         return temp->name == name ? *temp : insert(name);
     } else {
         return insert(name);

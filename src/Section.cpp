@@ -139,21 +139,38 @@ KV::~KV() {}
 /////////////////////////////////////////////////////////////////////
 
 
-/*Section::Section() {}
+Section::Section() {}
 
-Section::Section(std::string_view _name, std::vector<KV> _options)
-    : name(_name), options(_options) {}
+Section::Section(const std::string& name, const std::vector<KV>& options)
+    : m_name(name), m_options(options) {}
 
 Section::Section(const Section& section) {
-    name = section.name;
-    options = section.options;
+    m_name = section.m_name;
+    m_options = section.m_options;
+}
+
+Section::Section(Section&& section)
+    : m_name(std::move(section.m_name)), m_options(std::move(section.m_options)) {
+    section.m_name.erase();
+    section.m_options.erase(m_options.begin(), m_options.end());
 }
 
 Section& Section::operator=(const Section& section) {
     if (this == &section) return *this;
 
-    name = section.name;
-    options = section.options;
+    m_name = section.m_name;
+    m_options = section.m_options;
+
+    return *this;
+}
+
+Section& Section::operator=(Section&& section) {
+    if (this == &section) return *this;
+
+    m_name = std::move(section.m_name);
+    m_options = std::move(section.m_options);
+    section.m_name.erase();
+    section.m_options.erase(m_options.begin(), m_options.end());
 
     return *this;
 }
@@ -161,16 +178,16 @@ Section& Section::operator=(const Section& section) {
 std::string& Section::insert(std::string_view key) {
     if (!key.empty()) {
         KV temp(key, EMPTY_STRING);
-        options.push_back(temp);
-        return options.back().m_value;
+        m_options.push_back(temp);
+        return m_options.back().m_value;
     } else {
         throw std::runtime_error("Empty key");
     }
 }
 
 std::string& Section::operator[](const std::string_view key) {
-    if (!options.empty()) {
-        auto temp = std::find_if(options.begin(), options.end(),
+    if (!m_options.empty()) {
+        auto temp = std::find_if(m_options.begin(), m_options.end(),
                                  [key](const KV& i) { return i.m_key == key; });
         return temp->m_key == key ? temp->m_value : insert(key);
     } else {
@@ -181,13 +198,13 @@ std::string& Section::operator[](const std::string_view key) {
 Section::~Section() {}
 
 std::ostream& operator<<(std::ostream& os, const Section& section) {
-    os << std::accumulate(section.options.begin(), section.options.end(),
-                          OPENING_BRACKET + section.name + CLOSING_BRACKET,
+    os << std::accumulate(section.m_options.begin(), section.m_options.end(),
+                          OPENING_BRACKET + section.m_name + CLOSING_BRACKET,
                           [](const std::string& a, const KV& b) {
                               return a + LINE_BREAKER + b.m_key + EQUAL_SYMBOL + b.m_value;
                           });
     return os;
-}*/
+}
 
 
 /////////////////////////////////////////////////////////////////////
