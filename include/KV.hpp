@@ -13,7 +13,7 @@ namespace ES {
 
 
 /// @brief Key-Value struct
-struct KV {
+class KV {
 public:
     /// @brief Key
     std::string m_key;

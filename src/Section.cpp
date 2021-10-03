@@ -53,6 +53,8 @@ std::string& Section::operator[](const std::string& key) { return find(key); }
 
 std::string& Section::operator[](std::string&& key) { return find(key); }
 
+void Section::clear() { m_options.clear(); }
+
 template <typename T>
 std::string& Section::find(T key) {
     if (!m_options.empty()) {
@@ -72,9 +74,8 @@ std::string& Section::insert(T key) {
         throw std::runtime_error("Empty key");
 }
 
-void Section::clear() { m_options.clear(); }
-
 Section::~Section() {}
+
 
 std::ostream& operator<<(std::ostream& os, const Section& section) {
     os << std::accumulate(section.m_options.begin(), section.m_options.end(),

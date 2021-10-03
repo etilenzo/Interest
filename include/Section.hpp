@@ -19,6 +19,7 @@ namespace ES {
 
 /// @brief Ini section struct
 class Section {
+public:
     /// @brief Name
     std::string m_name;
 
@@ -87,6 +88,15 @@ class Section {
     std::string& operator[](std::string&& key);
 
     /**
+     * @brief Clear container
+     */
+    void clear();
+
+    /// Empty destructor
+    ~Section();
+
+private:
+    /**
      * @brief Finds KV or creates one
      * @details Tries to find KV struct with the given key in options vector. If found, returns
      * l-value reference to the value string of this KV struct. If not, calls insert()
@@ -99,20 +109,12 @@ class Section {
     /**
      * @brief Insert KV with given key
      * @details Creates KV struct with given key and empty value then returns l-value reference to
-     * value string. Throws exception if key param is empty
+     * value string
      * @param key key
      * @return l-value reference to value of created KV struct
      */
     template <typename T>
     std::string& insert(T key);
-
-    /**
-     * @brief Clear container
-     */
-    void clear();
-
-    /// Empty destructor
-    ~Section();
 };
 
 
