@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief This file contains tests of Ini class
+ * @brief This file contains tests of Section struct
  * @author Evilenzo
  * @version 0.1
  */
@@ -11,4 +11,4 @@
 
 using namespace ES;
 
-TEST_CASE("Ini") {}
+TEST_CASE("Section") {}
