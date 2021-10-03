@@ -7,7 +7,7 @@ namespace ES {
 
 /////////////////////////////////////////////////////////////////////
 
-
+/*
 Ini::Ini() {}
 
 Ini::Ini(std::istream& is) { parseFromStream(is); }
@@ -23,10 +23,9 @@ Ini& Ini::operator=(const Ini& ini) {
 }
 
 Section& Ini::insert(std::string_view name) {
-    /* BUG: Функция не ищет, существует ли такая структура уже, а создаёт в любом случае. Это может
-     * понести за собой неприятные последствия. Читай стандарт, мудило
-     */
-    Section temp(name, std::vector<KV>());
+    *BUG : Функция не ищет, существует ли такая структура уже,
+        а создаёт в любом случае.Это может* понести за собой неприятные последствия.Читай стандарт,
+        мудило* Section temp(name, std::vector<KV>());
     sections.push_back(temp);
     return sections.back();
 }
@@ -68,7 +67,7 @@ void Ini::parseFromStream(std::istream& is) {
 
             try {
                 KV child(line);
-                operator[](name).options.push_back(child);
+                // operator[](name).options.push_back(child);
             } catch (const std::runtime_error& err) {
                 throw std::runtime_error(err.what() + LINE_BREAKER + "On line: "s +
                                          std::to_string(num));
@@ -114,7 +113,7 @@ std::ostream& operator<<(std::ostream& os, const ES::Ini& container) {
 }
 
 Ini::~Ini() {}
-
+*/
 
 /////////////////////////////////////////////////////////////////////
 

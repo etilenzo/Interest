@@ -13,7 +13,6 @@
 #include <numeric>
 #include <memory>
 #include <string>
-#include <string_view>
 #include <vector>
 
 
@@ -71,16 +70,23 @@ struct KV {
     KV(const std::string& key, const std::string& value);
 
     /**
-     *  @brief Create struct from string
-     *  @param line l-value reference to line to parse
-     *  @see fromString()
+     *  @brief Create struct with param initialization
+     *  @param key m_key
+     *  @param value m_value
      */
-    KV(std::string& line);
+    KV(std::string&& key, std::string&& value);
 
     /**
-     * @brief Create struct from string
-     * @param line r-value reference to line to parse
-     * @see fromString()
+     *  @brief Create struct from string
+     *  @param line line to parse
+     *  @see fromString()
+     */
+    KV(const std::string& line);
+
+    /**
+     *  @brief Create struct from string
+     *  @param line line to parse
+     *  @see fromString()
      */
     KV(std::string&& line);
 
@@ -99,14 +105,14 @@ struct KV {
     /**
      * @brief Copy assignment operator
      * @param kv const l-value reference to another struct
-     * @return *this if param is reference on this struct
+     * @return *this
      */
     KV& operator=(const KV& kv);
 
     /**
      * @brief Move assignment operator
      * @param kv r-value reference to another struct
-     * @return *this if param is reference on this struct
+     * @return *this
      */
     KV& operator=(KV&& kv);
 
@@ -118,17 +124,8 @@ struct KV {
      * @see beautifyPrefix()
      * @see beautifySuffix()
      */
-    void fromString(std::string& line);
-
-    /**
-     * @brief Parse key and value from string
-     * @details Beautifies string and parses it. Throws exceptions if string is incorrect
-     * @param line string to parse
-     * @see uncommentLine()
-     * @see beautifyPrefix()
-     * @see beautifySuffix()
-     */
-    void fromString(std::string&& line);
+    template <typename T>
+    void fromString(T line);
 
     /// @brief Empty destructor
     ~KV();
@@ -157,6 +154,13 @@ struct Section {
     Section(const std::string& name, const std::vector<KV>& options);
 
     /**
+     *  @brief Create struct with param initialization
+     *  @param name m_name
+     *  @param options KV vector
+     */
+    Section(std::string&& name, std::vector<KV>&& options);
+
+    /**
      * @brief Copy constructor
      * @param section const l-value reference to another struct
      */
@@ -183,22 +187,42 @@ struct Section {
     Section& operator=(Section&& section);
 
     /**
+     * @brief Operator [] for the struct
+     * @details Calls find()
+     * @param key key of the searched struct
+     * @return l-value reference to value of found or created KV struct
+     * @see find()
+     */
+    std::string& operator[](const std::string& key);
+
+    /**
+     * @brief Operator [] for the struct
+     * @details Calls find()
+     * @param key key of the searched struct
+     * @return l-value reference to value of found or created KV struct
+     * @see find()
+     */
+    std::string& operator[](std::string&& key);
+
+    /**
+     * @brief Finds KV or creates one
+     * @details Tries to find KV struct with the given key in options vector. If found, returns
+     * l-value reference to the value string of this KV struct. If not, calls insert()
+     * @param key key of the searched struct
+     * @return l-value reference to value of found or created KV struct
+     */
+    template <typename T>
+    std::string& find(T key);
+
+    /**
      * @brief Insert KV with given key
      * @details Creates KV struct with given key and empty value then returns l-value reference to
      * value string. Throws exception if key param is empty
      * @param key key
      * @return l-value reference to value of created KV struct
      */
-    std::string& insert(std::string_view key);
-
-    /**
-     * @brief Operator [] for the struct
-     * @details Tries to find KV struct with the given key in options vector. If found, returns
-     * l-value reference to the value string of this KV struct. If not, calls insert()
-     * @param key key of the searched struct
-     * @return l-value reference to value of found or created KV struct
-     */
-    std::string& operator[](const std::string_view key);
+    template <typename T>
+    std::string& insert(T key);
 
     /// Empty destructor
     ~Section();
@@ -207,7 +231,7 @@ struct Section {
 /**
  * @brief Overloaded operator << to output section content in std::ostream
  * @param os std::ostream l-value reference
- * @param section section l-value reference
+ * @param section section const l-value reference
  * @return std::ostream l-value reference
  */
 std::ostream& operator<<(std::ostream& os, const Section& section);

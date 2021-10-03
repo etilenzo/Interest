@@ -74,7 +74,9 @@ KV::KV() {}
 
 KV::KV(const std::string& key, const std::string& value) : m_key(key), m_value(value) {}
 
-KV::KV(std::string& line) { fromString(line); }
+KV::KV(std::string&& key, std::string&& value) : m_key(std::move(key)), m_value(std::move(value)) {}
+
+KV::KV(const std::string& line) { fromString(line); }
 
 KV::KV(std::string&& line) { fromString(line); }
 
@@ -109,14 +111,16 @@ KV& KV::operator=(KV&& kv) {
     return *this;
 }
 
-void KV::fromString(std::string& line) {
+template <typename T>
+void KV::fromString(T line) {
     uncommentLine(line);
     beautifySuffix(line);
 
     if (!line.empty()) {
         std::size_t equal_pos = line.find(EQUAL_SYMBOL);
+
         if (equal_pos != std::string::npos) {
-            std::string key = line.substr(0, equal_pos);
+            std::string&& key = line.substr(0, equal_pos);
             beautifySuffix(key);
 
             if (!key.empty()) {
@@ -131,8 +135,6 @@ void KV::fromString(std::string& line) {
         throw std::runtime_error("Empty line");
 }
 
-void KV::fromString(std::string&& line) { fromString(line); }
-
 KV::~KV() {}
 
 
@@ -143,6 +145,9 @@ Section::Section() {}
 
 Section::Section(const std::string& name, const std::vector<KV>& options)
     : m_name(name), m_options(options) {}
+
+Section::Section(std::string&& name, std::vector<KV>&& options)
+    : m_name(std::move(name)), m_options(std::move(options)) {}
 
 Section::Section(const Section& section) {
     m_name = section.m_name;
@@ -175,24 +180,27 @@ Section& Section::operator=(Section&& section) {
     return *this;
 }
 
-std::string& Section::insert(std::string_view key) {
-    if (!key.empty()) {
-        KV temp(key, EMPTY_STRING);
-        m_options.push_back(temp);
-        return m_options.back().m_value;
-    } else {
-        throw std::runtime_error("Empty key");
-    }
-}
+std::string& Section::operator[](const std::string& key) { return find(key); }
 
-std::string& Section::operator[](const std::string_view key) {
+std::string& Section::operator[](std::string&& key) { return find(key); }
+
+template <typename T>
+std::string& Section::find(T key) {
     if (!m_options.empty()) {
         auto temp = std::find_if(m_options.begin(), m_options.end(),
                                  [key](const KV& i) { return i.m_key == key; });
         return temp->m_key == key ? temp->m_value : insert(key);
-    } else {
+    } else
         return insert(key);
-    }
+}
+
+template <typename T>
+std::string& Section::insert(T key) {
+    if (!key.empty()) {
+        m_options.push_back(KV(key, EMPTY_STRING));
+        return m_options.back().m_value;
+    } else
+        throw std::runtime_error("Empty key");
 }
 
 Section::~Section() {}
