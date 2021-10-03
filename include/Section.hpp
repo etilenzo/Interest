@@ -1,106 +1,22 @@
 /**
  * @file
- * @brief This file contains declarations of KV and Section structs plus some util functions and
- * symbol constants
+ * @brief This file contains declaration Section struct
  * @author Evilenzo
  * @version 0.1
  */
 
 #pragma once
 
-#include <iostream>
 #include <algorithm>
 #include <numeric>
 #include <memory>
 #include <string>
 #include <vector>
 
+#include "KV.hpp"
+
 
 namespace ES {
-
-
-/// @brief Key-Value struct
-struct KV {
-    /// @brief Key
-    std::string m_key;
-
-    /// @brief Value
-    std::string m_value;
-
-    /// @brief Empty constructor
-    KV();
-
-    /**
-     *  @brief Create struct with param initialization
-     *  @param key m_key
-     *  @param value m_value
-     */
-    KV(const std::string& key, const std::string& value);
-
-    /**
-     *  @brief Create struct with param initialization
-     *  @param key m_key
-     *  @param value m_value
-     */
-    KV(std::string&& key, std::string&& value);
-
-    /**
-     *  @brief Create struct from string
-     *  @param line line to parse
-     *  @see fromString()
-     */
-    KV(const std::string& line);
-
-    /**
-     *  @brief Create struct from string
-     *  @param line line to parse
-     *  @see fromString()
-     */
-    KV(std::string&& line);
-
-    /**
-     * @brief Copy constructor
-     * @param kv const l-value reference to another struct
-     */
-    KV(const KV& kv);
-
-    /**
-     * @brief Move constructor
-     * @param kv r-value reference to another struct
-     */
-    KV(KV&& kv);
-
-    /**
-     * @brief Copy assignment operator
-     * @param kv const l-value reference to another struct
-     * @return *this
-     */
-    KV& operator=(const KV& kv);
-
-    /**
-     * @brief Move assignment operator
-     * @param kv r-value reference to another struct
-     * @return *this
-     */
-    KV& operator=(KV&& kv);
-
-    /**
-     * @brief Parse key and value from string
-     * @details Beautifies string and parses it. Throws exceptions if string is incorrect
-     * @param line string to parse
-     * @see uncommentLine()
-     * @see beautifyPrefix()
-     * @see beautifySuffix()
-     */
-    template <typename T>
-    void fromString(T line);
-
-    /// @brief Empty destructor
-    ~KV();
-};
-
-
-/////////////////////////////////////////////////////////////////////
 
 
 /// @brief Ini section struct
@@ -201,6 +117,7 @@ struct Section {
     ~Section();
 };
 
+
 /**
  * @brief Overloaded operator << to output section content in std::ostream
  * @param os std::ostream l-value reference
@@ -208,5 +125,6 @@ struct Section {
  * @return std::ostream l-value reference
  */
 std::ostream& operator<<(std::ostream& os, const Section& section);
+
 
 }  // namespace ES
