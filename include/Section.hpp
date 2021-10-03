@@ -11,6 +11,7 @@
 #include <iostream>
 #include <algorithm>
 #include <numeric>
+#include <memory>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -64,17 +65,24 @@ struct KV {
 
     /**
      *  @brief Create struct with param initialization
-     *  @param _key key
-     *  @param _value value
+     *  @param key m_key
+     *  @param value m_value
      */
-    KV(const std::string_view key, const std::string_view value);
+    KV(const std::string& key, const std::string& value);
 
     /**
      *  @brief Create struct from string
-     *  @param line line to parse
+     *  @param line l-value reference to line to parse
      *  @see fromString()
      */
-    explicit KV(std::string_view line);
+    KV(std::string& line);
+
+    /**
+     * @brief Create struct from string
+     * @param line r-value reference to line to parse
+     * @see fromString()
+     */
+    KV(std::string&& line);
 
     /**
      * @brief Copy constructor
@@ -83,11 +91,24 @@ struct KV {
     KV(const KV& kv);
 
     /**
+     * @brief Move constructor
+     * @param kv r-value reference to another struct
+     */
+    KV(KV&& kv);
+
+    /**
      * @brief Copy assignment operator
      * @param kv const l-value reference to another struct
-     * @return *this
+     * @return *this if param is reference on this struct
      */
     KV& operator=(const KV& kv);
+
+    /**
+     * @brief Move assignment operator
+     * @param kv r-value reference to another struct
+     * @return *this if param is reference on this struct
+     */
+    KV& operator=(KV&& kv);
 
     /**
      * @brief Parse key and value from string
@@ -98,6 +119,16 @@ struct KV {
      * @see beautifySuffix()
      */
     void fromString(std::string& line);
+
+    /**
+     * @brief Parse key and value from string
+     * @details Beautifies string and parses it. Throws exceptions if string is incorrect
+     * @param line string to parse
+     * @see uncommentLine()
+     * @see beautifyPrefix()
+     * @see beautifySuffix()
+     */
+    void fromString(std::string&& line);
 
     /// @brief Empty destructor
     ~KV();

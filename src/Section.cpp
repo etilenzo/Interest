@@ -43,6 +43,7 @@ void beautifySuffix(std::string& line) {
 }
 
 void parseBrackets(std::string& line) {
+    // TODO: Изменить это на for
     std::size_t opening_bracket_pos = line.find(OPENING_BRACKET);
     std::size_t closing_bracket_pos = line.find(CLOSING_BRACKET);
 
@@ -71,13 +72,20 @@ void parseBrackets(std::string& line) {
 
 KV::KV() {}
 
-KV::KV(const std::string_view key, const std::string_view value) : m_key(key), m_value(value) {}
+KV::KV(const std::string& key, const std::string& value) : m_key(key), m_value(value) {}
 
-KV::KV(std::string_view line) { fromString(line); }
+KV::KV(std::string& line) { fromString(line); }
+
+KV::KV(std::string&& line) { fromString(line); }
 
 KV::KV(const KV& kv) {
     m_key = kv.m_key;
     m_value = kv.m_value;
+}
+
+KV::KV(KV&& kv) : m_key(std::move(kv.m_key)), m_value(std::move(kv.m_value)) {
+    kv.m_key.erase();
+    kv.m_value.erase();
 }
 
 KV& KV::operator=(const KV& kv) {
@@ -89,31 +97,41 @@ KV& KV::operator=(const KV& kv) {
     return *this;
 }
 
+KV& KV::operator=(KV&& kv) {
+    if (this == &kv) return *this;
+
+    m_key = std::move(kv.m_key);
+    m_value = std::move(kv.m_value);
+
+    kv.m_key.erase();
+    kv.m_value.erase();
+
+    return *this;
+}
+
 void KV::fromString(std::string& line) {
     uncommentLine(line);
     beautifySuffix(line);
 
     if (!line.empty()) {
         std::size_t equal_pos = line.find(EQUAL_SYMBOL);
-
         if (equal_pos != std::string::npos) {
-            line.erase(0, equal_pos);
-            beautifySuffix(line);
-            std::string _key = line;
+            std::string key = line.substr(0, equal_pos);
+            beautifySuffix(key);
 
-            if (!_key.empty()) {
-                m_key = _key;
-                m_value = beautifyPrefix(temp.substr(equal_pos + 1, line.length() - 1));
-            } else {
+            if (!key.empty()) {
+                m_key = std::move(key);
+                line.erase(0, equal_pos + 1);
+                m_value = std::move(line);
+            } else
                 throw std::runtime_error("Incorrect line. Key must not be empty");
-            }
-        } else {
+        } else
             throw std::runtime_error("Incorrect line. Missing '=' symbol");
-        }
-    } else {
+    } else
         throw std::runtime_error("Empty line");
-    }
 }
+
+void KV::fromString(std::string&& line) { fromString(line); }
 
 KV::~KV() {}
 
