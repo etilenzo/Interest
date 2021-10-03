@@ -21,10 +21,14 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(HEADER_LIST
+    include/Beautifiers.hpp
+    include/KV.hpp
     include/Section.hpp
     include/Ini.hpp)
 
 set(SRC_LIST
+    src/Beautifiers.cpp
+    src/KV.cpp
     src/Section.cpp
     src/Ini.cpp)
 
