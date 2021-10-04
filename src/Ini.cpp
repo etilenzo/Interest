@@ -125,7 +125,10 @@ Section& Ini::find(T name) {
     if (m_sections.size() != 0) {
         auto temp = std::find_if(m_sections.begin(), m_sections.end(),
                                  [name](const Section& i) { return i.m_name == name; });
-        return temp != m_sections.end() ? *temp : insert(name);
+        if (temp != m_sections.end())
+            return *temp;
+        else
+            return insert(name);
     } else
         return insert(name);
 }

@@ -60,7 +60,10 @@ std::string& Section::find(T key) {
     if (!m_options.empty()) {
         auto temp = std::find_if(m_options.begin(), m_options.end(),
                                  [key](const KV& i) { return i.m_key == key; });
-        return temp != m_options.end() ? temp->m_value : insert(key);
+        if (temp != m_options.end())
+            return temp->m_value;
+        else
+            return insert(key);
     } else
         return insert(key);
 }
