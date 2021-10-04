@@ -1,4 +1,11 @@
-﻿#include "Ini.hpp"
+﻿/**
+ * @file
+ * @brief This file contains definition of Ini class
+ * @author Evilenzo
+ * @version 0.1
+ */
+
+#include "Ini.hpp"
 
 using std::literals::operator""s;
 
@@ -32,21 +39,9 @@ Ini& Ini::operator=(Ini&& ini) {
     return *this;
 }
 
-Section& Ini::operator[](const std::string& name) {
-    if (m_sections.size() != 0) {
-        auto temp = std::find_if(m_sections.begin(), m_sections.end(),
-                                 [name](const Section& i) { return i.m_name == name; });
-        return temp->name == name ? *temp : insert(name);
-    } else
-        return insert(name);
-}
+Section& Ini::operator[](const std::string& name) { return find(name); }
 
-Section& Ini::insert(std::string_view name) {
-    // BUG : Функция не ищет, существует ли такая структура уже, а создаёт в любом случае
-    Section temp(name, std::vector<KV>());
-    m_sections.push_back(temp);
-    return m_sections.back();
-}
+Section& Ini::operator[](std::string&& name) { return find(name); }
 
 void Ini::parseFromStream(std::istream& is) {
     if (is) {
@@ -55,46 +50,56 @@ void Ini::parseFromStream(std::istream& is) {
         std::string line;
         std::size_t num = 0;
         std::string name;
+        std::vector<std::string> names;
+        std::vector<std::string> keys;
+        Section* section;
 
         while (getline(is, line)) {
             ++num;
 
             try {
-                parseBrackets(line);
+                beautifyPrefix(line);
+                beautifySuffix(line);
                 std::string temp = line;
+                parseBrackets(temp);
 
                 if (!temp.empty()) {
-                    name = temp;
-                    insert(name);
-                    continue;
-                } else {
+                    if (names.empty() || *std::find(names.begin(), names.end(), temp) != temp) {
+                        name = std::move(temp);
+                        names.push_back(name);
+                        section = &insert(name);
+                        keys.clear();
+                        continue;
+                    }
+                } else
                     throw std::runtime_error("Empty section name");
-                }
             } catch (const std::runtime_error& err) {
-                if (err.what() != "Missing opening bracket"s) {
+                if (err.what() != "Syntax error: line is not staring with ["s)
                     throw std::runtime_error(err.what() + LINE_BREAKER + "On line: "s +
                                              std::to_string(num));
-                } else {
-                    if (num == 1) {
+                else {
+                    if (num == 1)
                         throw std::runtime_error(
                             "Ini formatting is wrong.\n"
                             "Missing first section");
-                    }
                 }
             }
 
             try {
-                KV child(line);
-                // operator[](name).options.push_back(child);
+                KV kv(line);
+                if (keys.empty() || *std::find(keys.begin(), keys.end(), kv.m_key) != kv.m_key) {
+                    keys.push_back(kv.m_key);
+                    section->m_options.push_back(std::move(kv));
+                }
             } catch (const std::runtime_error& err) {
                 throw std::runtime_error(err.what() + LINE_BREAKER + "On line: "s +
                                          std::to_string(num));
             }
         }
-    } else {
+    } else
         throw std::runtime_error("Input stream is broken");
-    }
 }
+
 
 void Ini::dumpToStream(std::ostream& os) const {
     for (const Section& temp : m_sections) {
@@ -114,13 +119,31 @@ void Ini::removeEmpty() {
 
 void Ini::clear() { m_sections.clear(); }
 
+template <typename T>
+Section& Ini::find(T name) {
+    if (m_sections.size() != 0) {
+        auto temp = std::find_if(m_sections.begin(), m_sections.end(),
+                                 [name](const Section& i) { return i.m_name == name; });
+        return temp->m_name == name ? *temp : insert(name);
+    } else
+        return insert(name);
+}
+
+template <typename T>
+Section& Ini::insert(T name) {
+    Section temp(name, std::vector<KV>());
+    m_sections.push_back(temp);
+    return m_sections.back();
+}
+
+Ini::~Ini() {}
+
+
 std::ostream& operator<<(std::ostream& os, const ES::Ini& container) {
     container.dumpToStream(os);
 
     return os;
 }
-
-Ini::~Ini() {}
 
 
 }  // namespace ES

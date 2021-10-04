@@ -7,8 +7,15 @@
 
 #include "doctest/doctest.h"
 
-#include "Section.hpp"
+#include "Ini.hpp"
 
 using namespace ES;
 
-TEST_CASE("Ini") {}
+TEST_CASE("Ini") {
+    SUBCASE("Common test") {
+        std::ifstream is("test_stream.ini");
+        Ini ini;
+        ini.parseFromStream(is);
+        REQUIRE(ini["SessionKey.UsePotionMP"]["Key1.Offset"] == "72");
+    }
+}

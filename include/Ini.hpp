@@ -65,6 +65,15 @@ public:
     Section& operator[](const std::string& name);
 
     /**
+     * @brief Operator [] for the class
+     * @details Tries to find Section struct with the given name in sections vector. If found,
+     * returns l-value reference to it. If not, calls insert()
+     * @param name name of the searched struct
+     * @return l-value reference to value of found or created Section struct
+     */
+    Section& operator[](std::string&& name);
+
+    /**
      * @brief Parse Ini from input stream
      * @details Parse std::istream line by line beautifiing every string. Throws exceptions if
      * stream contains wrong ini formatting
@@ -106,7 +115,11 @@ public:
     ~Ini();
 
 private:
-    Section& insert(std::string name);
+    template <typename T>
+    Section& find(T name);
+
+    template <typename T>
+    Section& insert(T name);
 };
 
 
