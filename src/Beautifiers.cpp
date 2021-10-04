@@ -46,14 +46,15 @@ void beautifySuffix(std::string& line) {
     if (cycled) line.erase(iter.base(), line.end());
 }
 
-void parseBrackets(std::string& line) {
+void trimBrackets(std::string& line) {
     if (line.starts_with(OPENING_BRACKET)) {
         if (line.ends_with(CLOSING_BRACKET)) {
             line = line.substr(1, line.size() - 2);
-        } else
-            throw std::runtime_error("Syntax error: line is not ending with ]");
-    } else
-        throw std::runtime_error("Syntax error: line is not staring with [");
+            return;
+        }
+    }
+
+    line.clear();
 }
 
 

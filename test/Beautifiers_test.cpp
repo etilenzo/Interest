@@ -14,9 +14,9 @@ using namespace ES;
 TEST_CASE("Beautifiers") {
     SUBCASE("uncommentLine") {
         SUBCASE("Empty string") {
-            std::string s = EMPTY_STRING;
+            std::string s;
             REQUIRE_NOTHROW(uncommentLine(s));
-            REQUIRE(s == EMPTY_STRING);
+            REQUIRE(s.empty());
         }
         SUBCASE("No need in uncommenting") {
             std::string s = "Hi! I am pretty string!";
@@ -26,7 +26,7 @@ TEST_CASE("Beautifiers") {
         SUBCASE("Empty string after uncommenting") {
             std::string s = "#very useful comment";
             REQUIRE_NOTHROW(uncommentLine(s));
-            REQUIRE(s == EMPTY_STRING);
+            REQUIRE(s.empty());
         }
         SUBCASE("Uncomment #") {
             std::string s = "text#comment";
@@ -91,38 +91,39 @@ TEST_CASE("Beautifiers") {
         }
     }
 
-    SUBCASE("parseBrackets") {
+    SUBCASE("trimBrackets") {
         SUBCASE("Empty string") {
             std::string s = EMPTY_STRING;
-            REQUIRE_THROWS(parseBrackets(s));
+            REQUIRE_NOTHROW(trimBrackets(s));
         }
         SUBCASE("Missing brackets") {
             std::string s = "text";
-            REQUIRE_THROWS(parseBrackets(s));
+            REQUIRE_NOTHROW(trimBrackets(s));
+            REQUIRE(s.empty());
         }
         SUBCASE("Missing opening bracket") {
             std::string s = "text]";
-            REQUIRE_THROWS(parseBrackets(s));
+            REQUIRE_THROWS(trimBrackets(s));
         }
         SUBCASE("Missing closing bracket") {
             std::string s = "[text";
-            REQUIRE_THROWS(parseBrackets(s));
+            REQUIRE_THROWS(trimBrackets(s));
         }
         SUBCASE("Wrong placed brackets") {
             std::string s = "]text[";
-            REQUIRE_THROWS(parseBrackets(s));
+            REQUIRE_THROWS(trimBrackets(s));
         }
         SUBCASE("Section with shit before [") {
             std::string s = "awd[text]";
-            REQUIRE_THROWS(parseBrackets(s));
+            REQUIRE_THROWS(trimBrackets(s));
         }
         SUBCASE("Section with shit after ]") {
             std::string s = "[text]adsw";
-            REQUIRE_THROWS(parseBrackets(s));
+            REQUIRE_THROWS(trimBrackets(s));
         }
         SUBCASE("Good section") {
             std::string s = "[text]";
-            REQUIRE_NOTHROW(parseBrackets(s));
+            REQUIRE_NOTHROW(trimBrackets(s));
             REQUIRE(s == "text");
         }
     }

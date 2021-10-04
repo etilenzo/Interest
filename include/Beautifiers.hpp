@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <string>
+#include <variant>
 
 namespace ES {
 
@@ -36,7 +37,7 @@ void beautifyPrefix(std::string& line);
 void beautifySuffix(std::string& line);
 
 /// @brief Parce brackets for Section name
-void parseBrackets(std::string& line);
+void trimBrackets(std::string& line);
 
 
 }  // namespace ES

@@ -61,7 +61,7 @@ void Ini::parseFromStream(std::istream& is) {
                 beautifyPrefix(line);
                 beautifySuffix(line);
                 std::string temp = line;
-                parseBrackets(temp);
+                trimBrackets(temp);
 
                 if (!temp.empty()) {
                     if (names.empty() ||
