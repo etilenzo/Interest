@@ -49,9 +49,9 @@ Section& Section::operator=(Section&& section) {
     return *this;
 }
 
-std::string& Section::operator[](const std::string& key) { return find(key); }
+std::string& Section::operator[](const std::string& key) { return find<std::string>(key); }
 
-std::string& Section::operator[](std::string&& key) { return find(key); }
+std::string& Section::operator[](std::string&& key) { return find<std::string&&>(std::move(key)); }
 
 void Section::clear() { m_options.clear(); }
 
@@ -63,15 +63,15 @@ std::string& Section::find(T key) {
         if (temp != m_options.end())
             return temp->m_value;
         else
-            return insert(key);
+            return insert(std::move(key));
     } else
-        return insert(key);
+        return insert(std::move(key));
 }
 
 template <typename T>
 std::string& Section::insert(T key) {
     if (!key.empty()) {
-        m_options.push_back(KV(key, EMPTY_STRING));
+        m_options.push_back(KV(std::move(key), EMPTY_STRING));
         return m_options.back().m_value;
     } else
         throw std::runtime_error("Empty key");
