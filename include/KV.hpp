@@ -89,6 +89,12 @@ public:
     template <typename T>
     void fromString(T line);
 
+    /**
+     * @brief Determine if class is empty
+     * @return true if key is empty
+     */
+    bool empty();
+
     /// @brief Empty destructor
     ~KV();
 };

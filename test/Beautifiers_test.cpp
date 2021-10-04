@@ -47,14 +47,14 @@ TEST_CASE("Beautifiers") {
 
     SUBCASE("beautifyPrefix") {
         SUBCASE("Empty string") {
-            std::string s = EMPTY_STRING;
+            std::string s;
             REQUIRE_NOTHROW(beautifyPrefix(s));
-            REQUIRE(s == EMPTY_STRING);
+            REQUIRE(s.empty());
         }
         SUBCASE("Empty string after beautifiing") {
-            std::string s = "\n \r    \r\n \r";
+            std::string s = "    ";
             REQUIRE_NOTHROW(beautifyPrefix(s));
-            REQUIRE(s == EMPTY_STRING);
+            REQUIRE(s.empty());
         }
         SUBCASE("No need in beautifiing") {
             std::string s = "text";
@@ -62,7 +62,7 @@ TEST_CASE("Beautifiers") {
             REQUIRE(s == "text");
         }
         SUBCASE("Nasty string") {
-            std::string s = "\r  \n\r \r \n\n   text";
+            std::string s = "   text";
             REQUIRE_NOTHROW(beautifyPrefix(s));
             REQUIRE(s == "text");
         }
@@ -70,14 +70,14 @@ TEST_CASE("Beautifiers") {
 
     SUBCASE("beautifySuffix") {
         SUBCASE("Empty string") {
-            std::string s = EMPTY_STRING;
+            std::string s;
             REQUIRE_NOTHROW(beautifySuffix(s));
-            REQUIRE(s == EMPTY_STRING);
+            REQUIRE(s.empty());
         }
         SUBCASE("Empty string after beautifiing") {
             std::string s = "\n \r    \r\n \r";
             REQUIRE_NOTHROW(beautifySuffix(s));
-            REQUIRE(s == EMPTY_STRING);
+            REQUIRE(s.empty());
         }
         SUBCASE("No need in beautifiing") {
             std::string s = "text";
@@ -93,8 +93,9 @@ TEST_CASE("Beautifiers") {
 
     SUBCASE("trimBrackets") {
         SUBCASE("Empty string") {
-            std::string s = EMPTY_STRING;
+            std::string s;
             REQUIRE_NOTHROW(trimBrackets(s));
+            REQUIRE(s.empty());
         }
         SUBCASE("Missing brackets") {
             std::string s = "text";
@@ -103,23 +104,28 @@ TEST_CASE("Beautifiers") {
         }
         SUBCASE("Missing opening bracket") {
             std::string s = "text]";
-            REQUIRE_THROWS(trimBrackets(s));
+            REQUIRE_NOTHROW(trimBrackets(s));
+            REQUIRE(s.empty());
         }
         SUBCASE("Missing closing bracket") {
             std::string s = "[text";
-            REQUIRE_THROWS(trimBrackets(s));
+            REQUIRE_NOTHROW(trimBrackets(s));
+            REQUIRE(s.empty());
         }
         SUBCASE("Wrong placed brackets") {
             std::string s = "]text[";
-            REQUIRE_THROWS(trimBrackets(s));
+            REQUIRE_NOTHROW(trimBrackets(s));
+            REQUIRE(s.empty());
         }
         SUBCASE("Section with shit before [") {
             std::string s = "awd[text]";
-            REQUIRE_THROWS(trimBrackets(s));
+            REQUIRE_NOTHROW(trimBrackets(s));
+            REQUIRE(s.empty());
         }
         SUBCASE("Section with shit after ]") {
             std::string s = "[text]adsw";
-            REQUIRE_THROWS(trimBrackets(s));
+            REQUIRE_NOTHROW(trimBrackets(s));
+            REQUIRE(s.empty());
         }
         SUBCASE("Good section") {
             std::string s = "[text]";

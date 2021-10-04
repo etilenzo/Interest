@@ -54,25 +54,35 @@ KV& KV::operator=(KV&& kv) {
 template <typename T>
 void KV::fromString(T line) {
     uncommentLine(line);
-    beautifySuffix(line);
 
     if (!line.empty()) {
         std::size_t equal_pos = line.find(EQUAL_SYMBOL);
 
         if (equal_pos != std::string::npos) {
             std::string&& key = line.substr(0, equal_pos);
+            beautifyPrefix(key);
             beautifySuffix(key);
 
             if (!key.empty()) {
                 m_key = std::move(key);
+
                 line.erase(0, equal_pos + 1);
+                beautifyPrefix(line);
+                beautifySuffix(line);
+
                 m_value = std::move(line);
-            } else
-                throw std::runtime_error("Incorrect line. Key must not be empty");
-        } else
-            throw std::runtime_error("Incorrect line. Missing '=' symbol");
-    } else
-        throw std::runtime_error("Empty line");
+
+                return;
+            }
+        }
+    }
+}
+
+bool KV::empty() {
+    if (m_key.empty() && m_value.empty())
+        return true;
+    else
+        return false;
 }
 
 KV::~KV() {}

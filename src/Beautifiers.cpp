@@ -21,7 +21,7 @@ void beautifyPrefix(std::string& line) {
     bool cycled = false;
 
     while (iter != line.end()) {
-        if (*iter == CARRIAGE_RETURN || *iter == LINE_BREAKER || *iter == SPACE_SYMBOL) {
+        if (*iter == SPACE_SYMBOL) {
             ++iter;
             cycled = true;
         } else

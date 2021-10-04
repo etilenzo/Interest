@@ -43,23 +43,25 @@ Section& Ini::operator[](const std::string& name) { return find(name); }
 
 Section& Ini::operator[](std::string&& name) { return find(name); }
 
-void Ini::parseFromStream(std::istream& is) {
+std::optional<Error> Ini::parseFromStream(std::istream& is) {
     if (is) {
         clear();
 
         std::string line;
         std::size_t num = 0;
         std::string name;
+        Section* section;
         std::vector<std::string> names;
         std::vector<std::string> keys;
-        Section* section;
 
         while (getline(is, line)) {
             ++num;
 
-            try {
-                beautifyPrefix(line);
-                beautifySuffix(line);
+            uncommentLine(line);
+            beautifyPrefix(line);
+            beautifySuffix(line);
+
+            if (!line.empty()) {
                 std::string temp = line;
                 trimBrackets(temp);
 
@@ -70,35 +72,29 @@ void Ini::parseFromStream(std::istream& is) {
                         names.push_back(name);
                         section = &insert(name);
                         keys.clear();
+
                         continue;
                     }
-                } else
-                    throw std::runtime_error("Empty section name");
-            } catch (const std::runtime_error& err) {
-                if (err.what() != "Syntax error: line is not staring with ["s)
-                    throw std::runtime_error(err.what() + LINE_BREAKER + "On line: "s +
-                                             std::to_string(num));
-                else {
-                    if (num == 1)
-                        throw std::runtime_error(
-                            "Ini formatting is wrong.\n"
-                            "Missing first section");
+                } else if (num == 1) {
+                    return Error(Code::MISSING_FIRST_SECTION, num);
+                } else {
+                    KV kv(line);
+                    if (!kv.empty()) {
+                        if (keys.empty() ||
+                            std::find(keys.begin(), keys.end(), kv.m_key) == keys.end()) {
+                            keys.push_back(kv.m_key);
+                            section->m_options.push_back(std::move(kv));
+                        }
+                    } else {
+                        return Error(Code::WRONG_STRING, num);
+                    }
                 }
-            }
-
-            try {
-                KV kv(line);
-                if (keys.empty() || std::find(keys.begin(), keys.end(), kv.m_key) == keys.end()) {
-                    keys.push_back(kv.m_key);
-                    section->m_options.push_back(std::move(kv));
-                }
-            } catch (const std::runtime_error& err) {
-                throw std::runtime_error(err.what() + LINE_BREAKER + "On line: "s +
-                                         std::to_string(num));
             }
         }
+
+        return std::nullopt;
     } else
-        throw std::runtime_error("Input stream is broken");
+        return Error(Code::BROKEN_INPUT_STREAM, 0);
 }
 
 

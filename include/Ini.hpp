@@ -8,11 +8,25 @@
 #pragma once
 
 #include <fstream>
+#include <optional>
 
 #include "Section.hpp"
 
 namespace ES {
 
+
+enum Code {
+    BROKEN_INPUT_STREAM,    // Input stream is broken
+    MISSING_FIRST_SECTION,  // First section is missing
+    WRONG_STRING
+};
+
+struct Error {
+    Error(Code _code, std::size_t _line) : code(_code), line(_line) {}
+
+    Code code;
+    std::size_t line;
+};
 
 /// @brief Ini container class
 class Ini {
@@ -79,7 +93,7 @@ public:
      * stream contains wrong ini formatting
      * @param is std::istream l-value reference
      */
-    void parseFromStream(std::istream& is);
+    std::optional<Error> parseFromStream(std::istream& is);
 
     /**
      * @brief Dump Ini to output stream
