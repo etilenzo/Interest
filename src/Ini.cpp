@@ -59,7 +59,7 @@ std::optional<Error> Ini::parseFromStream(std::istream& is) {
 
             removeComment(line);
             beautifyPrefix(line);
-            beautifySuffix(line);
+            removeBreakers(line);
 
             if (!line.empty()) {
                 std::string temp = line;

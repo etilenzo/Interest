@@ -68,7 +68,7 @@ void KV::fromString(T line) {
 
                 line.erase(0, equal_pos + 1);
                 beautifyPrefix(line);
-                beautifySuffix(line);
+                removeBreakers(line);
 
                 m_value = std::move(line);
 

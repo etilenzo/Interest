@@ -30,11 +30,14 @@ inline constexpr char EMPTY_STRING[1] = "";
 /// @brief Remove everything after # or ! from  the line
 void removeComment(std::string& line);
 
-/// @brief Remove line breaker, carriage return and space symbols from the line prefix
+/// @brief Remove space symbols from the line prefix
 void beautifyPrefix(std::string& line);
 
-/// @brief Remove line breaker, carriage return and space symbols from the line suffix
+/// @brief Remove space symbols from the line suffix
 void beautifySuffix(std::string& line);
+
+/// @brief Remove line breaker, carriage return and space symbols from the line suffix
+void removeBreakers(std::string& line);
 
 /// @brief Parce brackets for Section name
 void trimBrackets(std::string& line);

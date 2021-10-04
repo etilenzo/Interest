@@ -36,6 +36,21 @@ void beautifySuffix(std::string& line) {
     bool cycled = false;
 
     while (iter != line.rend()) {
+        if (*iter == SPACE_SYMBOL) {
+            ++iter;
+            cycled = true;
+        } else
+            break;
+    }
+
+    if (cycled) line.erase(iter.base(), line.end());
+}
+
+void removeBreakers(std::string& line) {
+    std::string::reverse_iterator iter = line.rbegin();
+    bool cycled = false;
+
+    while (iter != line.rend()) {
         if (*iter == CARRIAGE_RETURN || *iter == LINE_BREAKER || *iter == SPACE_SYMBOL) {
             ++iter;
             cycled = true;

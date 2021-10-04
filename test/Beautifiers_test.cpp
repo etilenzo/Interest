@@ -61,7 +61,7 @@ TEST_CASE("Beautifiers") {
             REQUIRE_NOTHROW(beautifyPrefix(s));
             REQUIRE(s == "text");
         }
-        SUBCASE("Nasty string") {
+        SUBCASE("Needs to be beautified") {
             std::string s = "   text";
             REQUIRE_NOTHROW(beautifyPrefix(s));
             REQUIRE(s == "text");
@@ -75,7 +75,7 @@ TEST_CASE("Beautifiers") {
             REQUIRE(s.empty());
         }
         SUBCASE("Empty string after beautifiing") {
-            std::string s = "\n \r    \r\n \r";
+            std::string s = "   ";
             REQUIRE_NOTHROW(beautifySuffix(s));
             REQUIRE(s.empty());
         }
@@ -84,9 +84,32 @@ TEST_CASE("Beautifiers") {
             REQUIRE_NOTHROW(beautifySuffix(s));
             REQUIRE(s == "text");
         }
-        SUBCASE("Nasty string") {
-            std::string s = "text\r  \n\r \r \n\n   ";
+        SUBCASE("Needs to be beautified") {
+            std::string s = "text   ";
             REQUIRE_NOTHROW(beautifySuffix(s));
+            REQUIRE(s == "text");
+        }
+    }
+
+    SUBCASE("removeBreakers") {
+        SUBCASE("Empty string") {
+            std::string s;
+            REQUIRE_NOTHROW(removeBreakers(s));
+            REQUIRE(s.empty());
+        }
+        SUBCASE("Empty string after beautifiing") {
+            std::string s = "   ";
+            REQUIRE_NOTHROW(removeBreakers(s));
+            REQUIRE(s.empty());
+        }
+        SUBCASE("No need in beautifiing") {
+            std::string s = "text";
+            REQUIRE_NOTHROW(removeBreakers(s));
+            REQUIRE(s == "text");
+        }
+        SUBCASE("Needs to be beautified") {
+            std::string s = "text  \r \n \n\r \r ";
+            REQUIRE_NOTHROW(removeBreakers(s));
             REQUIRE(s == "text");
         }
     }
