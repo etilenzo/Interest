@@ -10,7 +10,7 @@
 namespace ES {
 
 
-void uncommentLine(std::string& line) {
+void removeComment(std::string& line) {
     std::size_t comment_pos = line.find_first_of(COMMENT_SYMBOLS);
 
     if (comment_pos != std::string::npos) line.erase(comment_pos);

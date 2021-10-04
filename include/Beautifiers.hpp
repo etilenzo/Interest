@@ -28,7 +28,7 @@ inline constexpr char EMPTY_STRING[1] = "";
 
 
 /// @brief Remove everything after # or ! from  the line
-void uncommentLine(std::string& line);
+void removeComment(std::string& line);
 
 /// @brief Remove line breaker, carriage return and space symbols from the line prefix
 void beautifyPrefix(std::string& line);

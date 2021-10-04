@@ -57,7 +57,7 @@ std::optional<Error> Ini::parseFromStream(std::istream& is) {
         while (getline(is, line)) {
             ++num;
 
-            uncommentLine(line);
+            removeComment(line);
             beautifyPrefix(line);
             beautifySuffix(line);
 

@@ -12,35 +12,35 @@
 using namespace ES;
 
 TEST_CASE("Beautifiers") {
-    SUBCASE("uncommentLine") {
+    SUBCASE("removeComment") {
         SUBCASE("Empty string") {
             std::string s;
-            REQUIRE_NOTHROW(uncommentLine(s));
+            REQUIRE_NOTHROW(removeComment(s));
             REQUIRE(s.empty());
         }
         SUBCASE("No need in uncommenting") {
             std::string s = "Hi! I am pretty string!";
-            REQUIRE_NOTHROW(uncommentLine(s));
+            REQUIRE_NOTHROW(removeComment(s));
             REQUIRE(s == "Hi! I am pretty string!");
         }
         SUBCASE("Empty string after uncommenting") {
             std::string s = "#very useful comment";
-            REQUIRE_NOTHROW(uncommentLine(s));
+            REQUIRE_NOTHROW(removeComment(s));
             REQUIRE(s.empty());
         }
         SUBCASE("Uncomment #") {
             std::string s = "text#comment";
-            REQUIRE_NOTHROW(uncommentLine(s));
+            REQUIRE_NOTHROW(removeComment(s));
             REQUIRE(s == "text");
         }
         SUBCASE("Uncomment ;") {
             std::string s = "text;comment";
-            REQUIRE_NOTHROW(uncommentLine(s));
+            REQUIRE_NOTHROW(removeComment(s));
             REQUIRE(s == "text");
         }
         SUBCASE("Nasty string") {
             std::string s = "text;comment1#comment2#comment3";
-            REQUIRE_NOTHROW(uncommentLine(s));
+            REQUIRE_NOTHROW(removeComment(s));
             REQUIRE(s == "text");
         }
     }

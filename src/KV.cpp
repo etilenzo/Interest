@@ -53,7 +53,7 @@ KV& KV::operator=(KV&& kv) {
 
 template <typename T>
 void KV::fromString(T line) {
-    uncommentLine(line);
+    removeComment(line);
 
     if (!line.empty()) {
         std::size_t equal_pos = line.find(EQUAL_SYMBOL);
