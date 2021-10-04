@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief This file contains declaration of Ini class
+ * @brief This file contains declaration of Ini class and Error struct
  * @author Evilenzo
  * @version 0.1
  */
@@ -15,18 +15,31 @@
 namespace ES {
 
 
-enum Code {
-    BROKEN_INPUT_STREAM,    // Input stream is broken
-    MISSING_FIRST_SECTION,  // First section is missing
-    WRONG_STRING
-};
+/// @brief Error codes enum
+enum Code { BROKEN_INPUT_STREAM, MISSING_FIRST_SECTION, WRONG_STRING };
 
+/// @brief Error struct containing code and line number
 struct Error {
-    Error(Code _code, std::size_t _line) : code(_code), line(_line) {}
-
+    /// @brief Error code
     Code code;
+
+    /// @brief Line number
     std::size_t line;
+
+    /// @brief Empty constructor
+    Error();
+
+    /**
+     * @brief Constructor with param initialization
+     * @param _code error code
+     * @param _line line number
+     */
+    Error(Code _code, std::size_t _line);
 };
+
+
+/////////////////////////////////////////////////////////////////////
+
 
 /// @brief Ini container class
 class Ini {

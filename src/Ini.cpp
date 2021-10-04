@@ -1,6 +1,6 @@
 ﻿/**
  * @file
- * @brief This file contains definition of Ini class
+ * @brief This file contains definition of Ini class and Error struct
  * @author Evilenzo
  * @version 0.1
  */
@@ -10,6 +10,14 @@
 using std::literals::operator""s;
 
 namespace ES {
+
+
+Error::Error() {}
+
+Error::Error(Code _code, std::size_t _line) : code(_code), line(_line) {}
+
+
+/////////////////////////////////////////////////////////////////////
 
 
 Ini::Ini() {}
