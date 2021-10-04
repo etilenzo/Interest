@@ -21,8 +21,8 @@ public:
     /// @brief Value
     std::string m_value;
 
-    /// @brief Empty constructor
-    KV();
+    /// @brief Default constructor
+    KV() = default;
 
     /**
      *  @brief Create struct with param initialization
@@ -62,7 +62,7 @@ public:
      * @brief Move constructor
      * @param kv r-value reference to another struct
      */
-    KV(KV&& kv);
+    KV(KV&& kv) noexcept;
 
     /**
      * @brief Copy assignment operator
@@ -76,7 +76,7 @@ public:
      * @param kv r-value reference to another struct
      * @return *this
      */
-    KV& operator=(KV&& kv);
+    KV& operator=(KV&& kv) noexcept;
 
     /**
      * @brief Parse key and value from string
@@ -93,10 +93,10 @@ public:
      * @brief Determine if class is empty
      * @return true if key is empty
      */
-    bool empty();
+    bool empty() const;
 
-    /// @brief Empty destructor
-    ~KV();
+    /// @brief Default destructor
+    ~KV() = default;
 };
 
 

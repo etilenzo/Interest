@@ -26,8 +26,8 @@ public:
     /// @brief KV structs vector
     std::vector<KV> m_options;
 
-    /// @brief Empty constructor
-    Section();
+    /// @brief Default constructor
+    Section() = default;
 
     /**
      *  @brief Create struct with param initialization
@@ -53,7 +53,7 @@ public:
      * @brief Move constructor
      * @param section r-value reference to another struct
      */
-    Section(Section&& section);
+    Section(Section&& section) noexcept;
 
     /**
      * @brief Copy assignment operator
@@ -67,7 +67,7 @@ public:
      * @param section r-value reference to another struct
      * @return *this
      */
-    Section& operator=(Section&& section);
+    Section& operator=(Section&& section) noexcept;
 
     /**
      * @brief Operator [] for the struct
@@ -93,7 +93,7 @@ public:
     void clear();
 
     /// Empty destructor
-    ~Section();
+    ~Section() = default;
 
 private:
     /**

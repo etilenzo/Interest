@@ -27,7 +27,7 @@ struct Error {
     std::size_t line;
 
     /// @brief Empty constructor
-    Error();
+    Error() = default;
 
     /**
      * @brief Constructor with param initialization
@@ -48,7 +48,7 @@ public:
     std::vector<Section> m_sections;
 
     /// @brief Empty constructor
-    Ini();
+    Ini() = default;
 
     /**
      * @brief Create Ini container from input stream
@@ -66,7 +66,7 @@ public:
      * @brief Move constructor
      * @param ini r-value reference to another class
      */
-    Ini(Ini&& ini);
+    Ini(Ini&& ini) noexcept;
 
     /**
      * @brief Copy assignment operator
@@ -80,7 +80,7 @@ public:
      * @param ini r-value reference to another class
      * @return *this
      */
-    Ini& operator=(Ini&& ini);
+    Ini& operator=(Ini&& ini) noexcept;
 
     /**
      * @brief Operator [] for the class
@@ -139,7 +139,7 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Ini& container);
 
     /// Empty destructor
-    ~Ini();
+    ~Ini() = default;
 
 private:
     template <typename T>

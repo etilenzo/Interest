@@ -10,27 +10,24 @@
 namespace ES {
 
 
-Section::Section() {}
-
 Section::Section(const std::string& name, const std::vector<KV>& options)
     : m_name(name), m_options(options) {}
 
 Section::Section(std::string&& name, std::vector<KV>&& options)
     : m_name(std::move(name)), m_options(std::move(options)) {}
 
-Section::Section(const Section& section) {
-    m_name = section.m_name;
-    m_options = section.m_options;
-}
+Section::Section(const Section& section) : m_name(section.m_name), m_options(section.m_options) {}
 
-Section::Section(Section&& section)
+Section::Section(Section&& section) noexcept
     : m_name(std::move(section.m_name)), m_options(std::move(section.m_options)) {
     section.m_name.clear();
     section.m_options.clear();
 }
 
 Section& Section::operator=(const Section& section) {
-    if (this == &section) return *this;
+    if (this == &section) {
+        return *this;
+    }
 
     m_name = section.m_name;
     m_options = section.m_options;
@@ -38,8 +35,10 @@ Section& Section::operator=(const Section& section) {
     return *this;
 }
 
-Section& Section::operator=(Section&& section) {
-    if (this == &section) return *this;
+Section& Section::operator=(Section&& section) noexcept {
+    if (this == &section) {
+        return *this;
+    }
 
     m_name = std::move(section.m_name);
     m_options = std::move(section.m_options);
@@ -60,24 +59,26 @@ std::string& Section::find(T key) {
     if (!m_options.empty()) {
         auto temp = std::find_if(m_options.begin(), m_options.end(),
                                  [key](const KV& i) { return i.m_key == key; });
-        if (temp != m_options.end())
+        if (temp != m_options.end()) {
             return temp->m_value;
-        else
-            return insert(std::move(key));
-    } else
-        return insert(std::move(key));
+        }
+
+        return insert<T>(std::move(key));
+    }
+
+    return insert<T>(std::move(key));
 }
 
 template <typename T>
 std::string& Section::insert(T key) {
     if (!key.empty()) {
-        m_options.push_back(KV(std::move(key), EMPTY_STRING));
+        m_options.push_back(KV(key, EMPTY_STRING));
         return m_options.back().m_value;
-    } else
-        throw std::runtime_error("Empty key");
-}
+    }
 
-Section::~Section() {}
+    // TODO: To be changed
+    throw std::runtime_error("Empty key");
+}
 
 
 std::ostream& operator<<(std::ostream& os, const Section& section) {

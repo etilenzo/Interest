@@ -10,8 +10,6 @@
 namespace ES {
 
 
-KV::KV() {}
-
 KV::KV(const std::string& key, const std::string& value) : m_key(key), m_value(value) {}
 
 KV::KV(std::string&& key, std::string&& value) : m_key(std::move(key)), m_value(std::move(value)) {}
@@ -20,18 +18,17 @@ KV::KV(const std::string& line) { fromString<std::string>(line); }
 
 KV::KV(std::string&& line) { fromString<std::string&&>(std::move(line)); }
 
-KV::KV(const KV& kv) {
-    m_key = kv.m_key;
-    m_value = kv.m_value;
-}
+KV::KV(const KV& kv) : m_key(kv.m_key), m_value(kv.m_value) {}
 
-KV::KV(KV&& kv) : m_key(std::move(kv.m_key)), m_value(std::move(kv.m_value)) {
+KV::KV(KV&& kv) noexcept : m_key(std::move(kv.m_key)), m_value(std::move(kv.m_value)) {
     kv.m_key.clear();
     kv.m_value.clear();
 }
 
 KV& KV::operator=(const KV& kv) {
-    if (this == &kv) return *this;
+    if (this == &kv) {
+        return *this;
+    }
 
     m_key = kv.m_key;
     m_value = kv.m_value;
@@ -39,8 +36,10 @@ KV& KV::operator=(const KV& kv) {
     return *this;
 }
 
-KV& KV::operator=(KV&& kv) {
-    if (this == &kv) return *this;
+KV& KV::operator=(KV&& kv) noexcept {
+    if (this == &kv) {
+        return *this;
+    }
 
     m_key = std::move(kv.m_key);
     m_value = std::move(kv.m_value);
@@ -78,14 +77,7 @@ void KV::fromString(T line) {
     }
 }
 
-bool KV::empty() {
-    if (m_key.empty() && m_value.empty())
-        return true;
-    else
-        return false;
-}
-
-KV::~KV() {}
+bool KV::empty() const { return m_key.empty() && m_value.empty(); }
 
 
 }  // namespace ES

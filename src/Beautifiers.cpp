@@ -13,7 +13,9 @@ namespace ES {
 void removeComment(std::string& line) {
     std::size_t comment_pos = line.find_first_of(COMMENT_SYMBOLS);
 
-    if (comment_pos != std::string::npos) line.erase(comment_pos);
+    if (comment_pos != std::string::npos) {
+        line.erase(comment_pos);
+    }
 }
 
 void beautifyPrefix(std::string& line) {
@@ -24,11 +26,14 @@ void beautifyPrefix(std::string& line) {
         if (*iter == SPACE_SYMBOL) {
             ++iter;
             cycled = true;
-        } else
+        } else {
             break;
+        }
     }
 
-    if (cycled) line.erase(line.begin(), iter);
+    if (cycled) {
+        line.erase(line.begin(), iter);
+    }
 }
 
 void beautifySuffix(std::string& line) {
@@ -39,11 +44,14 @@ void beautifySuffix(std::string& line) {
         if (*iter == SPACE_SYMBOL) {
             ++iter;
             cycled = true;
-        } else
+        } else {
             break;
+        }
     }
 
-    if (cycled) line.erase(iter.base(), line.end());
+    if (cycled) {
+        line.erase(iter.base(), line.end());
+    }
 }
 
 void removeBreakers(std::string& line) {
@@ -54,11 +62,14 @@ void removeBreakers(std::string& line) {
         if (*iter == CARRIAGE_RETURN || *iter == LINE_BREAKER || *iter == SPACE_SYMBOL) {
             ++iter;
             cycled = true;
-        } else
+        } else {
             break;
+        }
     }
 
-    if (cycled) line.erase(iter.base(), line.end());
+    if (cycled) {
+        line.erase(iter.base(), line.end());
+    }
 }
 
 void trimBrackets(std::string& line) {
@@ -71,6 +82,5 @@ void trimBrackets(std::string& line) {
 
     line.clear();
 }
-
 
 }  // namespace ES

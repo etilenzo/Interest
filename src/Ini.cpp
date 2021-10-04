@@ -7,12 +7,8 @@
 
 #include "Ini.hpp"
 
-using std::literals::operator""s;
-
 namespace ES {
 
-
-Error::Error() {}
 
 Error::Error(Code _code, std::size_t _line) : code(_code), line(_line) {}
 
@@ -20,26 +16,26 @@ Error::Error(Code _code, std::size_t _line) : code(_code), line(_line) {}
 /////////////////////////////////////////////////////////////////////
 
 
-Ini::Ini() {}
-
 Ini::Ini(std::istream& is) { parseFromStream(is); }
 
 Ini::Ini(const Ini& ini) : m_sections(ini.m_sections) {}
 
-Ini::Ini(Ini&& ini) : m_sections(std::move(ini.m_sections)) {
-    ini.m_sections.erase(ini.m_sections.begin(), ini.m_sections.end());
-}
+Ini::Ini(Ini&& ini) noexcept : m_sections(std::move(ini.m_sections)) { ini.m_sections.clear(); }
 
 Ini& Ini::operator=(const Ini& ini) {
-    if (this == &ini) return *this;
+    if (this == &ini) {
+        return *this;
+    }
 
     m_sections = ini.m_sections;
 
     return *this;
 }
 
-Ini& Ini::operator=(Ini&& ini) {
-    if (this == &ini) return *this;
+Ini& Ini::operator=(Ini&& ini) noexcept {
+    if (this == &ini) {
+        return *this;
+    }
 
     m_sections = std::move(ini.m_sections);
     ini.m_sections.erase(ini.m_sections.begin(), ini.m_sections.end());
@@ -58,7 +54,7 @@ std::optional<Error> Ini::parseFromStream(std::istream& is) {
         std::string line;
         std::size_t num = 0;
         std::string name;
-        Section* section;
+        Section* section = nullptr;
         std::vector<std::string> names;
         std::vector<std::string> keys;
 
@@ -101,8 +97,9 @@ std::optional<Error> Ini::parseFromStream(std::istream& is) {
         }
 
         return std::nullopt;
-    } else
-        return Error(Code::BROKEN_INPUT_STREAM, 0);
+    }
+
+    return Error(Code::BROKEN_INPUT_STREAM, 0);
 }
 
 
@@ -110,7 +107,7 @@ void Ini::dumpToStream(std::ostream& os) const {
     for (const Section& temp : m_sections) {
         os << OPENING_BRACKET << temp.m_name << CLOSING_BRACKET << std::endl;
 
-        for (auto& line : temp.m_options) {
+        for (const auto& line : temp.m_options) {
             os << line.m_key << EQUAL_SYMBOL << line.m_value << std::endl;
         }
     }
@@ -126,16 +123,18 @@ void Ini::clear() { m_sections.clear(); }
 
 template <typename T>
 Section& Ini::find(T name) {
-    if (m_sections.size() != 0) {
+    if (!m_sections.empty()) {
         auto temp = std::find_if(m_sections.begin(), m_sections.end(),
                                  [name](const Section& i) { return i.m_name == name; });
 
-        if (temp != m_sections.end())
+        if (temp != m_sections.end()) {
             return *temp;
-        else
-            return insert(name);
-    } else
+        }
+
         return insert(name);
+    }
+
+    return insert(name);
 }
 
 template <typename T>
@@ -144,8 +143,6 @@ Section& Ini::insert(T name) {
     m_sections.push_back(temp);
     return m_sections.back();
 }
-
-Ini::~Ini() {}
 
 
 std::ostream& operator<<(std::ostream& os, const ES::Ini& container) {
