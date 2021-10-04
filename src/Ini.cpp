@@ -64,7 +64,8 @@ void Ini::parseFromStream(std::istream& is) {
                 parseBrackets(temp);
 
                 if (!temp.empty()) {
-                    if (names.empty() || *std::find(names.begin(), names.end(), temp) != temp) {
+                    if (names.empty() ||
+                        std::find(names.begin(), names.end(), temp) == names.end()) {
                         name = std::move(temp);
                         names.push_back(name);
                         section = &insert(name);
@@ -87,7 +88,7 @@ void Ini::parseFromStream(std::istream& is) {
 
             try {
                 KV kv(line);
-                if (keys.empty() || *std::find(keys.begin(), keys.end(), kv.m_key) != kv.m_key) {
+                if (keys.empty() || std::find(keys.begin(), keys.end(), kv.m_key) == keys.end()) {
                     keys.push_back(kv.m_key);
                     section->m_options.push_back(std::move(kv));
                 }
@@ -124,7 +125,7 @@ Section& Ini::find(T name) {
     if (m_sections.size() != 0) {
         auto temp = std::find_if(m_sections.begin(), m_sections.end(),
                                  [name](const Section& i) { return i.m_name == name; });
-        return temp->m_name == name ? *temp : insert(name);
+        return temp != m_sections.end() ? *temp : insert(name);
     } else
         return insert(name);
 }
