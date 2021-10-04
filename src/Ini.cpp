@@ -70,7 +70,7 @@ std::optional<Error> Ini::parseFromStream(std::istream& is) {
                         std::find(names.begin(), names.end(), temp) == names.end()) {
                         name = std::move(temp);
                         names.push_back(name);
-                        section = &insert(name);
+                        section = &insert(std::move(name));
                         keys.clear();
 
                         continue;
@@ -78,7 +78,7 @@ std::optional<Error> Ini::parseFromStream(std::istream& is) {
                 } else if (num == 1) {
                     return Error(Code::MISSING_FIRST_SECTION, num);
                 } else {
-                    KV kv(line);
+                    KV kv(std::move(line));
                     if (!kv.empty()) {
                         if (keys.empty() ||
                             std::find(keys.begin(), keys.end(), kv.m_key) == keys.end()) {
@@ -121,6 +121,7 @@ Section& Ini::find(T name) {
     if (m_sections.size() != 0) {
         auto temp = std::find_if(m_sections.begin(), m_sections.end(),
                                  [name](const Section& i) { return i.m_name == name; });
+
         if (temp != m_sections.end())
             return *temp;
         else

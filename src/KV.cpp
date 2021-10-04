@@ -16,9 +16,9 @@ KV::KV(const std::string& key, const std::string& value) : m_key(key), m_value(v
 
 KV::KV(std::string&& key, std::string&& value) : m_key(std::move(key)), m_value(std::move(value)) {}
 
-KV::KV(const std::string& line) { fromString(line); }
+KV::KV(const std::string& line) { fromString<std::string>(line); }
 
-KV::KV(std::string&& line) { fromString(line); }
+KV::KV(std::string&& line) { fromString<std::string&&>(std::move(line)); }
 
 KV::KV(const KV& kv) {
     m_key = kv.m_key;
