@@ -34,13 +34,16 @@ public:
      * @brief Copy constructor
      * @param container const l-value reference to another instance
      */
-    Container(const Container& container) noexcept : m_elements(container.m_elements) {}
+    Container(const Container& container) noexcept
+        : m_name(container.m_name), m_elements(container.m_elements) {}
 
     /**
      * @brief Move constructor
      * @param container r-value reference to another instance
      */
-    Container(Container&& container) noexcept : m_elements(std::move(container.m_elements)) {
+    Container(Container&& container) noexcept
+        : m_name(std::move(container.m_name)), m_elements(std::move(container.m_elements)) {
+        container.m_name.clear();
         container.m_elements.reset();
     }
 
@@ -54,6 +57,7 @@ public:
             return *this;
         }
 
+        m_name = std::move(container.m_name);
         m_elements = std::move(container.m_elements);
 
         return *this;
@@ -69,7 +73,9 @@ public:
             return *this;
         }
 
+        m_name = std::move(container.m_name);
         m_elements = std::move(container.m_elements);
+        container.m_name.clear();
         container.m_elements.reset();
 
         return *this;
