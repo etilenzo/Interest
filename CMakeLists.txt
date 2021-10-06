@@ -24,16 +24,22 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(HEADER_LIST
     include/Beautifiers.hpp
+
     include/KV.hpp
+
     include/Container.hpp
     include/Section.hpp
-    include/Ini.hpp)
+    include/Ini.hpp
+    )
 
 set(SRC_LIST
     src/Beautifiers.cpp
+
     src/KV.cpp
+
     src/Section.cpp
-    src/Ini.cpp)
+    src/Ini.cpp
+    )
 
 ###
 ### Build the project
