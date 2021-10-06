@@ -39,7 +39,7 @@ public:
      * @brief Move constructor
      * @param container r-value reference to another instance
      */
-    Container(Container&& container) noexcept : m_elements(std::move(container)) {
+    Container(Container&& container) noexcept : m_elements(std::move(container.m_elements)) {
         container.m_elements.reset();
     }
 
@@ -94,11 +94,11 @@ public:
 
     /**
      * @brief Remove empty entries
-     * @details Works only for containers containing containers! Must be overrided for others!
+     * @details Works only for types having empty() function. Must be overrided for others!
      */
     virtual void removeEmpty() {
         for (auto it = m_elements->begin(); it != m_elements->end();) {
-            if (it->m_elements->empty()) {
+            if (it->empty()) {
                 it = m_elements->erase(it);
             } else {
                 ++it;
