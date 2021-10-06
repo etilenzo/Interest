@@ -9,9 +9,6 @@
 
 #include <algorithm>
 #include <numeric>
-// TODO: Delete
-#include <memory>
-#include <vector>
 
 #include "Container.hpp"
 #include "KV.hpp"
@@ -19,51 +16,35 @@
 namespace ES {
 
 
-/// @brief Section class
+/// @brief Section container class
 class Section : public Container<KV> {
 public:
     /// @brief Empty constructor
     Section() = default;
 
     /**
-     *  @brief Create class with param initialization
-     *  @param name m_name
-     *  @param options KV vector
+     * @brief Container with param initialization
+     * @param name m_name
+     * @param options m_options
      */
-    Section(const std::string& name, const std::vector<KV>& options);
-
-    /**
-     *  @brief Create class with param initialization
-     *  @param name m_name
-     *  @param options KV vector
-     */
-    Section(std::string&& name, std::vector<KV>&& options);
+    Section(std::string name, std::vector<KV> options) noexcept : Container<KV>(name, options) {}
 
     /**
      * @brief Copy constructor
-     * @param section const l-value reference to another instance
+     * @param container const l-value reference to another instance
      */
-    Section(const Section& section);
+    Container(const Container& container) noexcept
+        : m_name(container.m_name), m_elements(container.m_elements) {}
 
     /**
      * @brief Move constructor
-     * @param section r-value reference to another instance
+     * @param container r-value reference to another instance
      */
-    Section(Section&& section) noexcept;
-
-    /**
-     * @brief Copy assignment operator
-     * @param section const l-value reference to another instance
-     * @return *this
-     */
-    Section& operator=(const Section& section);
-
-    /**
-     * @brief Move assignment operator
-     * @param section r-value reference to another instance
-     * @return *this
-     */
-    Section& operator=(Section&& section) noexcept;
+    Container(Container&& container) noexcept
+        : m_name(std::move(container.m_name)), m_elements(std::move(container.m_elements)) {
+        container.m_name.clear();
+        container.m_elements.reset();
+    }
 
     /**
      * @brief Operator [] for the class

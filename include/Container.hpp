@@ -35,7 +35,8 @@ public:
      * @param name m_name
      * @param elements m_elements
      */
-    Container(std::string name, T elements) noexcept : m_name(name), m_elements(elements) {}
+    Container(std::string name, std::vector<T> elements) noexcept
+        : m_name(name), m_elements(elements) {}
 
     /**
      * @brief Copy constructor
