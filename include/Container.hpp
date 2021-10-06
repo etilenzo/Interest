@@ -9,13 +9,18 @@
 
 #include <memory>
 #include <vector>
-#include <string>
+
+namespace ES {
+
+
+template <typename T>
+using Elements = std::shared_ptr<std::vector<T>>;
 
 template <typename T>
 class Container {
 public:
     /// @brief Vector of contained elements
-    std::vector<T> m_elements;
+    Elements<T> m_elements;
 
     /// @brief Empty constructor
     Container() = default;
@@ -91,3 +96,6 @@ public:
     /// Empty destructor
     virtual ~Container() = default;
 };
+
+
+}  // namespace ES
