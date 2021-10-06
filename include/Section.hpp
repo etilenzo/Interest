@@ -44,26 +44,26 @@ public:
 
     /**
      * @brief Copy constructor
-     * @param section const l-value reference to another struct
+     * @param section const l-value reference to another instance
      */
     Section(const Section& section);
 
     /**
      * @brief Move constructor
-     * @param section r-value reference to another struct
+     * @param section r-value reference to another instance
      */
     Section(Section&& section) noexcept;
 
     /**
      * @brief Copy assignment operator
-     * @param section const l-value reference to another struct
+     * @param section const l-value reference to another instance
      * @return *this
      */
     Section& operator=(const Section& section);
 
     /**
      * @brief Move assignment operator
-     * @param section r-value reference to another struct
+     * @param section r-value reference to another instance
      * @return *this
      */
     Section& operator=(Section&& section) noexcept;

@@ -15,36 +15,36 @@ template <typename T>
 class Container {
 public:
     /// @brief Vector of contained elements
-    std::vector<T> m_sections;
+    std::vector<T> m_elements;
 
     /// @brief Empty constructor
     Container() = default;
 
     /**
      * @brief Copy constructor
-     * @param ini const l-value reference to another class
+     * @param container const l-value reference to another instance
      */
     Container(const Container& container);
 
     /**
      * @brief Move constructor
-     * @param ini r-value reference to another class
+     * @param container r-value reference to another instance
      */
     Container(Container&& container) noexcept;
 
     /**
      * @brief Copy assignment operator
-     * @param ini const l-value reference to another class
+     * @param container const l-value reference to another instance
      * @return *this
      */
-    // Ini& operator=(const Ini& ini);
+    // container& operator=(const container& container);
 
     /**
      * @brief Move assignment operator
-     * @param ini r-value reference to another class
+     * @param container r-value reference to another instance
      * @return *this
      */
-    // Ini& operator=(Ini&& ini) noexcept;
+    // container& operator=(container&& container) noexcept;
 
     /**
      * @brief Operator [] for the class
@@ -78,10 +78,10 @@ public:
      * @brief Operator << for std::ostream
      * @details Same as dumpToStream() but nice
      * @param os std::ostream l-value reference
-     * @param container Ini container const reference
+     * @param container container container const reference
      * @return std::ostream l-value reference
      */
-    // friend std::ostream& operator<<(std::ostream& os, const Ini& container);
+    // friend std::ostream& operator<<(std::ostream& os, const container& container);
 
     /// Empty destructor
     ~Container() = default;
