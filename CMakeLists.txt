@@ -32,7 +32,6 @@ set(HEADER_LIST
 set(SRC_LIST
     src/Beautifiers.cpp
     src/KV.cpp
-    src/Container.cpp
     src/Section.cpp
     src/Ini.cpp)
 
