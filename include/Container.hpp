@@ -13,6 +13,7 @@
 #include <vector>
 
 #include <boost/function.hpp>
+#include <boost/optional.hpp>
 
 namespace ES {
 // TODO: Check all noexcept methods
@@ -109,13 +110,13 @@ public:
             return comparator(i, line);
         };
 
-        std::optional<T&> element = find(cmp);
+        boost::optional<T> element = find(cmp);
 
         if (element) {
             return *element;
         }
 
-        return insert(construct(std::move(line)));
+        return insert(construct(line));
     }
 
     /**
@@ -125,12 +126,12 @@ public:
      * @see comparator()
      * @see find()
      */
-    virtual std::optional<const T&> operator[](std::string line) const noexcept {
+    virtual boost::optional<const T&> operator[](std::string line) const noexcept {
         boost::function<bool(const T& i)> cmp = [&, line](const T& i) {
             return comparator(i, line);
         };
 
-        return std::optional<const T&>(find(cmp));
+        return boost::optional<T&>(find(cmp));
     }
 
     /**
@@ -178,7 +179,7 @@ protected:
      * @details Uses find_if() to find object by comparator
      * @return std::nullopt if not found or l-value reference on object
      */
-    virtual std::optional<T&> find(boost::function<bool(const T&)> cmp) const {
+    virtual boost::optional<T> find(boost::function<bool(const T&)> cmp) const {
         if (!m_elements->empty()) {
             auto temp = std::find_if(m_elements->begin(), m_elements->end(), cmp);
 
@@ -186,10 +187,10 @@ protected:
                 return *temp;
             }
 
-            return std::nullopt;
+            return boost::none;
         }
 
-        return std::nullopt;
+        return boost::none;
     }
 
     /**
@@ -197,9 +198,9 @@ protected:
      * @param temp temporary object made by construct
      * @return l-value reference on this object
      */
-    virtual T& insert(T& temp) {
+    virtual T& insert(T temp) {
         m_elements->push_back(temp);
-        return temp;
+        return m_elements->back();
     }
 };
 

@@ -45,7 +45,7 @@ public:
     ~Section() = default;
 
 private:
-    bool comparator(const KV& i, std::string line) noexcept override;
+    bool comparator(const KV& i, std::string line) const noexcept override;
 
     KV construct(std::string line) override;
 };

@@ -16,7 +16,7 @@ Section::Section(const Section& section) noexcept : Container(section) {}
 
 Section::Section(Section&& section) noexcept : Container(section) {}
 
-bool Section::comparator(const KV& i, std::string line) noexcept { return i.m_key == line; }
+bool Section::comparator(const KV& i, std::string line) const noexcept { return i.m_key == line; }
 
 KV Section::construct(std::string line) { return KV(std::move(line), EMPTY_STRING); }
 
