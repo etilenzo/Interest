@@ -31,6 +31,13 @@ public:
     Container() = default;
 
     /**
+     * @brief Constructor with param initialization
+     * @param name m_name
+     * @param elements m_elements
+     */
+    Container(std::string name, T elements) noexcept : m_name(name), m_elements(elements) {}
+
+    /**
      * @brief Copy constructor
      * @param container const l-value reference to another instance
      */
