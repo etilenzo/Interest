@@ -19,24 +19,21 @@
 namespace ES {
 
 
-/// @brief Section struct
+/// @brief Section class
 class Section : public Container<KV> {
 public:
-    /// @brief Name
-    std::string m_name;
-
-    /// @brief Default constructor
+    /// @brief Empty constructor
     Section() = default;
 
     /**
-     *  @brief Create struct with param initialization
+     *  @brief Create class with param initialization
      *  @param name m_name
      *  @param options KV vector
      */
     Section(const std::string& name, const std::vector<KV>& options);
 
     /**
-     *  @brief Create struct with param initialization
+     *  @brief Create class with param initialization
      *  @param name m_name
      *  @param options KV vector
      */
@@ -69,19 +66,19 @@ public:
     Section& operator=(Section&& section) noexcept;
 
     /**
-     * @brief Operator [] for the struct
+     * @brief Operator [] for the class
      * @details Calls find()
-     * @param key key of the searched struct
-     * @return l-value reference to value of found or created KV struct
+     * @param key key of the searched class
+     * @return l-value reference to value of found or created KV class
      * @see find()
      */
     std::string& operator[](const std::string& key);
 
     /**
-     * @brief Operator [] for the struct
+     * @brief Operator [] for the class
      * @details Calls find()
-     * @param key key of the searched struct
-     * @return l-value reference to value of found or created KV struct
+     * @param key key of the searched class
+     * @return l-value reference to value of found or created KV class
      * @see find()
      */
     std::string& operator[](std::string&& key);
@@ -97,20 +94,20 @@ public:
 private:
     /**
      * @brief Finds KV or creates one
-     * @details Tries to find KV struct with the given key in options vector. If found, returns
-     * l-value reference to the value string of this KV struct. If not, calls insert()
-     * @param key key of the searched struct
-     * @return l-value reference to value of found or created KV struct
+     * @details Tries to find KV class with the given key in options vector. If found, returns
+     * l-value reference to the value string of this KV class. If not, calls insert()
+     * @param key key of the searched class
+     * @return l-value reference to value of found or created KV class
      */
     template <typename T>
     std::string& find(T key);
 
     /**
      * @brief Insert KV with given key
-     * @details Creates KV struct with given key and empty value then returns l-value reference to
+     * @details Creates KV class with given key and empty value then returns l-value reference to
      * value string
      * @param key key
-     * @return l-value reference to value of created KV struct
+     * @return l-value reference to value of created KV class
      */
     template <typename T>
     std::string& insert(T key);
