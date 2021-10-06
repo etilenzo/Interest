@@ -6,7 +6,7 @@ set(TEST_SRC_LIST
     KV_test.cpp
 
     Section_test.cpp
-    Ini_test.cpp
+    #Ini_test.cpp
 
     )
 

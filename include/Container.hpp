@@ -12,6 +12,8 @@
 #include <string>
 #include <vector>
 
+#include <boost/function.hpp>
+
 namespace ES {
 // TODO: Check all noexcept methods
 
@@ -36,7 +38,7 @@ public:
      * @param elements m_elements
      */
     Container(std::string name, std::vector<T> elements) noexcept
-        : m_name(name), m_elements(elements) {}
+        : m_name(name), m_elements(std::make_shared<std::vector<T>>(elements)) {}
 
     /**
      * @brief Copy constructor
@@ -103,7 +105,11 @@ public:
      * @see construct()
      */
     virtual T& operator[](std::string line) {
-        std::optional<T&> element = find([this, line](const T& i) { comparator(i, line); });
+        boost::function<bool(const T& i)> cmp = [&, line](const T& i) {
+            return comparator(i, line);
+        };
+
+        std::optional<T&> element = find(cmp);
 
         if (element) {
             return *element;
@@ -120,7 +126,11 @@ public:
      * @see find()
      */
     virtual std::optional<const T&> operator[](std::string line) const noexcept {
-        return std::optional<const T&>(find([this, line](const T& i) { comparator(i, line); }));
+        boost::function<bool(const T& i)> cmp = [&, line](const T& i) {
+            return comparator(i, line);
+        };
+
+        return std::optional<const T&>(find(cmp));
     }
 
     /**
@@ -154,23 +164,23 @@ protected:
      * @param line the line being checked for compliance
      * @return
      */
-    virtual bool comparator(const T& i, std::string line) noexcept;
+    virtual bool comparator(const T& i, std::string line) const noexcept;
 
     /**
      * @brief Construct a new object and return reference on it
      * @param line key, name etc.
      * @return l-value reference on created object
      */
-    virtual T& construct(std::string line);
+    virtual T construct(std::string line);
 
     /**
      * @brief Finds element by comparator
      * @details Uses find_if() to find object by comparator
      * @return std::nullopt if not found or l-value reference on object
      */
-    virtual std::optional<T&> find(bool (*comp)(const T&)) const {
-        if (!m_elements.empty()) {
-            auto temp = std::find_if(m_elements->begin(), m_elements->end(), comp);
+    virtual std::optional<T&> find(boost::function<bool(const T&)> cmp) const {
+        if (!m_elements->empty()) {
+            auto temp = std::find_if(m_elements->begin(), m_elements->end(), cmp);
 
             if (temp != m_elements->end()) {
                 return *temp;
@@ -188,7 +198,7 @@ protected:
      * @return l-value reference on this object
      */
     virtual T& insert(T& temp) {
-        m_elements->push_back(*temp);
+        m_elements->push_back(temp);
         return temp;
     }
 };

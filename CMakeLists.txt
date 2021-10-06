@@ -29,7 +29,7 @@ set(HEADER_LIST
 
     include/Container.hpp
     include/Section.hpp
-    include/Ini.hpp
+    #include/Ini.hpp
     )
 
 set(SRC_LIST
@@ -38,14 +38,23 @@ set(SRC_LIST
     src/KV.cpp
 
     src/Section.cpp
-    src/Ini.cpp
+    #src/Ini.cpp
     )
+
+###
+### Additional libraries
+###
+### TODO: To be changed on COMPONENTS but I can't get how...
+find_package(Boost REQUIRED)
+INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
 
 ###
 ### Build the project
 ###
 add_library(${PROJECT_NAME} "${SRC_LIST}")
 target_include_directories(${PROJECT_NAME} PUBLIC "include")
+
+target_link_libraries(${PROJECT_NAME} LINK_PUBLIC ${Boost_LIBRARIES})
 
 if (${ENABLE_TESTS})
     find_package(doctest REQUIRED)
