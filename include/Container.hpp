@@ -8,6 +8,7 @@
 #pragma once
 
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -21,7 +22,7 @@ template <typename T>
 class Container {
 public:
     /// @brief Name of container (optional for final containers)
-    std::string name;
+    std::string m_name;
 
     /// @brief Vector of contained elements
     Elements<T> m_elements;
@@ -33,7 +34,7 @@ public:
      * @brief Copy constructor
      * @param container const l-value reference to another instance
      */
-    Container(const Container& container) : m_elements(container.m_elements) {}
+    Container(const Container& container) noexcept : m_elements(container.m_elements) {}
 
     /**
      * @brief Move constructor
@@ -48,7 +49,7 @@ public:
      * @param container const l-value reference to another instance
      * @return *this
      */
-    virtual Container& operator=(const Container& container) {
+    virtual Container& operator=(const Container& container) noexcept {
         if (this == &container) {
             return *this;
         }
@@ -81,16 +82,19 @@ public:
      * @param name name of the searched struct
      * @return l-value reference to value of found or created Section struct
      */
-    virtual Container& operator[](const std::string& name);
+    virtual Container& operator[](std::string line) {
+        std::optional<T&> element = find([this, line](const T& i) { comparator(i, line); });
 
-    /**
-     * @brief Operator [] for the class
-     * @details Tries to find Section struct with the given name in sections vector. If found,
-     * returns l-value reference to it. If not, calls insert()
-     * @param name name of the searched struct
-     * @return l-value reference to value of found or created Section struct
-     */
-    virtual Container& operator[](std::string&& name);
+        if (element) {
+            return *element;
+        }
+
+        return insert(construct(std::move(line)));
+    }
+
+    bool comparator(const T& i, std::string line);
+
+    T& construct(std::string line);
 
     /**
      * @brief Remove empty entries
@@ -129,8 +133,21 @@ public:
     virtual ~Container() = default;
 
 protected:
-    virtual find();
-    virtual insert();
+    virtual std::optional<T&> find(bool (*comp)(const T&)) {
+        if (!m_elements.empty()) {
+            auto temp = std::find_if(m_elements->begin(), m_elements->end(), comp);
+
+            if (temp != m_elements->end()) {
+                return *temp;
+            }
+
+            return std::nullopt;
+        }
+
+        return std::nullopt;
+    }
+
+    virtual T& insert(T& temp) { m_elements->push_back(temp); }
 };
 
 
