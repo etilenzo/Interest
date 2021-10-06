@@ -13,7 +13,7 @@
 #include <vector>
 
 namespace ES {
-// TODO: Const methods
+// TODO: Check all noexcept methods
 
 template <typename T>
 using Elements = std::shared_ptr<std::vector<T>>;
@@ -83,18 +83,18 @@ public:
     }
 
     /**
-     * @brief Find and return or insert
+     * @brief Finds and returns or inserts
      * @details Tries to find element with the comparator in the m_elements vector. If found,
      * returns l-value reference to it. If not, calls insert() with construct() to construct and
      * insert object in m_elements
-     * @param name key, name etc. of the searched value
+     * @param line key, name etc. of the searched value
      * @return l-value reference to found or created object
      * @see comparator()
      * @see find()
      * @see insert()
      * @see construct()
      */
-    virtual Container& operator[](std::string line) {
+    virtual T& operator[](std::string line) {
         std::optional<T&> element = find([this, line](const T& i) { comparator(i, line); });
 
         if (element) {
@@ -105,21 +105,15 @@ public:
     }
 
     /**
-     * @brief Unary predicate for find_if() function in find() method
-     * @details Just a simple function that must return true if element name or key equals to line
-     * @param i const l-value reference to current "iterator"
-     * @param line the line being checked for compliance
-     * @return
+     * @brief Finds and returns const l-value reference or std::nullopt
+     * @param line key, name etc. of the searched value
+     * @return l-value reference to found object or std::nullopt if not found
+     * @see comparator()
+     * @see find()
      */
-    bool comparator(const T& i, std::string line);
-
-    // TODO: Fill in
-    /**
-     * @brief construct
-     * @param line
-     * @return
-     */
-    T& construct(std::string line);
+    virtual std::optional<const T&> operator[](std::string line) const noexcept {
+        return std::optional<const T&>(find([this, line](const T& i) { comparator(i, line); }));
+    }
 
     /**
      * @brief Remove empty entries
@@ -135,29 +129,37 @@ public:
         }
     }
 
-    /**
-     * @brief Clear container
-     */
+    /// @brief Clear container
     virtual void clear() noexcept { m_elements->clear(); }
 
-    /**
-     * @brief Check on emptyness
-     */
+    /// @brief Check if container is empty
     virtual bool empty() const noexcept { return m_elements->empty(); }
 
-    /**
-     * @brief Operator << for std::ostream
-     * @details Same as dumpToStream() but nice
-     * @param os std::ostream l-value reference
-     * @param container container container const reference
-     * @return Nice formatted stream for output
-     */
-    // friend std::ostream& operator<<(std::ostream& os, const Container& container);
-
-    /// Empty destructor
+    /// @brief Empty destructor
     virtual ~Container() = default;
 
 protected:
+    /**
+     * @brief Unary predicate for find_if() function in find() method
+     * @details Just a simple function that must return true if element name or key equals to line
+     * @param i const l-value reference to current "iterator"
+     * @param line the line being checked for compliance
+     * @return
+     */
+    virtual bool comparator(const T& i, std::string line) noexcept;
+
+    /**
+     * @brief Construct a new object and return reference on it
+     * @param line key, name etc.
+     * @return l-value reference on created object
+     */
+    virtual T& construct(std::string line);
+
+    /**
+     * @brief Finds element by comparator
+     * @details Uses find_if() to find object by comparator
+     * @return std::nullopt if not found or l-value reference on object
+     */
     virtual std::optional<T&> find(bool (*comp)(const T&)) const {
         if (!m_elements.empty()) {
             auto temp = std::find_if(m_elements->begin(), m_elements->end(), comp);
@@ -172,7 +174,15 @@ protected:
         return std::nullopt;
     }
 
-    virtual T& insert(T& temp) { m_elements->push_back(temp); }
+    /**
+     * @brief Inserts temporary object in m_elements
+     * @param temp temporary object made by construct
+     * @return l-value reference on this object
+     */
+    virtual T& insert(T& temp) {
+        m_elements->push_back(*temp);
+        return temp;
+    }
 };
 
 
