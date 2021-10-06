@@ -54,26 +54,26 @@ public:
 
     /**
      * @brief Copy constructor
-     * @param kv const l-value reference to another struct
+     * @param kv const l-value reference to another instance
      */
     KV(const KV& kv);
 
     /**
      * @brief Move constructor
-     * @param kv r-value reference to another struct
+     * @param kv r-value reference to another instance
      */
     KV(KV&& kv) noexcept;
 
     /**
      * @brief Copy assignment operator
-     * @param kv const l-value reference to another struct
+     * @param kv const l-value reference to another instance
      * @return *this
      */
     KV& operator=(const KV& kv);
 
     /**
      * @brief Move assignment operator
-     * @param kv r-value reference to another struct
+     * @param kv r-value reference to another instance
      * @return *this
      */
     KV& operator=(KV&& kv) noexcept;

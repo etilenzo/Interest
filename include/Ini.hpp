@@ -58,26 +58,26 @@ public:
 
     /**
      * @brief Copy constructor
-     * @param ini const l-value reference to another class
+     * @param ini const l-value reference to another instance
      */
     Ini(const Ini& ini);
 
     /**
      * @brief Move constructor
-     * @param ini r-value reference to another class
+     * @param ini r-value reference to another instance
      */
     Ini(Ini&& ini) noexcept;
 
     /**
      * @brief Copy assignment operator
-     * @param ini const l-value reference to another class
+     * @param ini const l-value reference to another instance
      * @return *this
      */
     Ini& operator=(const Ini& ini);
 
     /**
      * @brief Move assignment operator
-     * @param ini r-value reference to another class
+     * @param ini r-value reference to another instance
      * @return *this
      */
     Ini& operator=(Ini&& ini) noexcept;

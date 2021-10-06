@@ -1,6 +1,6 @@
 ﻿/**
  * @file
- * @brief This file contains definition of Ini class and Error struct
+ * @brief This file contains definitions of Ini class and Error struct
  * @author Evilenzo
  * @version 0.1
  */

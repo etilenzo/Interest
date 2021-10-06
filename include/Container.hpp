@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief This file contains declaration of basic Container class
+ * @brief This file contains declaration of abstract template Container class
  * @author Evilenzo
  * @version 0.1
  */
@@ -37,14 +37,14 @@ public:
      * @param container const l-value reference to another instance
      * @return *this
      */
-    // container& operator=(const container& container);
+    // Container& operator=(const Container& container);
 
     /**
      * @brief Move assignment operator
      * @param container r-value reference to another instance
      * @return *this
      */
-    // container& operator=(container&& container) noexcept;
+    // Container& operator=(Container&& container) noexcept;
 
     /**
      * @brief Operator [] for the class
@@ -72,7 +72,12 @@ public:
     /**
      * @brief Clear container
      */
-    // void clear();
+    virtual void clear();
+
+    /**
+     * @brief Check on emptyness
+     */
+    virtual void empty();
 
     /**
      * @brief Operator << for std::ostream
@@ -81,8 +86,8 @@ public:
      * @param container container container const reference
      * @return std::ostream l-value reference
      */
-    // friend std::ostream& operator<<(std::ostream& os, const container& container);
+    // friend std::ostream& operator<<(std::ostream& os, const Container& container);
 
     /// Empty destructor
-    ~Container() = default;
+    virtual ~Container() = default;
 };
