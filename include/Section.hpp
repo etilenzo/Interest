@@ -9,22 +9,21 @@
 
 #include <algorithm>
 #include <numeric>
+// TODO: Delete
 #include <memory>
 #include <vector>
 
+#include "Container.hpp"
 #include "KV.hpp"
 
 namespace ES {
 
 
-/// @brief Ini section struct
-class Section {
+/// @brief Section struct
+class Section : public Container<KV> {
 public:
     /// @brief Name
     std::string m_name;
-
-    /// @brief KV structs vector
-    std::vector<KV> m_options;
 
     /// @brief Default constructor
     Section() = default;
