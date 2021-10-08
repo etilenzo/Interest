@@ -12,22 +12,22 @@ namespace ES {
 
 boost::optional<Error> Ini::parseFromStream(std::istream& is) {
     if (is) {
-        clear();
+        if (m_settings.m_parse_type == ParseType::NEW) {
+            clear();
+        }
 
         std::string line;
         std::size_t num = 0;
-        std::string name;
+        bool skip;
         Section* section = nullptr;
-        std::vector<const std::string&> names;
-        std::vector<const std::string&> keys;
+        std::vector<std::string> names;
+        std::vector<std::string> keys;
 
         while (getline(is, line)) {
             ++num;
 
             delComment(line);
-            if (m_settings.m_spaces == Spaces::REMOVE) {
-                prefixDelSpaces(line);
-            }
+            prefixDelSpaces(line);
             suffixDelBreakers(line);
 
             if (!line.empty()) {
@@ -35,25 +35,44 @@ boost::optional<Error> Ini::parseFromStream(std::istream& is) {
                 trimBrackets(temp);
 
                 if (!temp.empty()) {
-                    if (names.empty() ||
-                        std::find(names.begin(), names.end(), temp) == names.end()) {
-                        name = std::move(temp);
-                        section = &insert(std::move(name));
-                        names.push_back(section->m_name);
-                        keys.clear();
+                    switch (m_settings.m_section_duplicate) {
+                        case SectionDuplicate::FIRST: {
+                            if (names.empty() ||
+                                std::find(names.begin(), names.end(), temp) == names.end()) {
+                                section = &insert(construct(std::move(temp)));
+                                names.push_back(section->m_name);
+                                keys.clear();
+                                skip = false;
 
-                        continue;
+                                continue;
+                            } else {
+                                skip = true;
+                            }
+
+                            break;
+                        }
                     }
-                } else if (num == 1) {
-                    return Error(Code::MISSING_FIRST_SECTION, num);
-                } else {
+                } else if (!skip) {
                     KV kv(std::move(line));
 
                     if (!kv.empty()) {
-                        if (keys.empty() ||
-                            std::find(keys.begin(), keys.end(), kv.m_key) == keys.end()) {
-                            keys.push_back(kv.m_key);
-                            section->m_elements->push_back(std::move(kv));
+                        if (section != nullptr) {
+                            switch (m_settings.m_option_duplicate) {
+                                case OptionDuplicate::FIRST: {
+                                    if (keys.empty() || std::find(keys.begin(), keys.end(),
+                                                                  kv.m_key) == keys.end()) {
+                                        keys.push_back(kv.m_key);
+                                        section->m_elements->push_back(std::move(kv));
+                                    }
+
+                                    break;
+                                }
+                                case OptionDuplicate::LAST: {
+                                    (*section)[kv.m_key] = std::move(kv);
+                                }
+                            }
+                        } else {
+                            return Error(Code::MISSING_FIRST_SECTION, num);
                         }
                     } else {
                         return Error(Code::WRONG_STRING, num);
