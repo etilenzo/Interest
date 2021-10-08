@@ -47,10 +47,10 @@ public:
 private:
     /**
      * @brief Overrided construct function
-     * @param line
-     * @return
+     * @param key key of new KV
+     * @return created KV class
      */
-    KV construct(std::string line) override;
+    KV construct(std::string key) override;
 };
 
 
