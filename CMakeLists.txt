@@ -42,19 +42,10 @@ set(SRC_LIST
     )
 
 ###
-### Additional libraries
-###
-### TODO: To be changed on COMPONENTS but I can't get how...
-find_package(Boost REQUIRED)
-INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
-
-###
 ### Build the project
 ###
 add_library(${PROJECT_NAME} "${SRC_LIST}")
 target_include_directories(${PROJECT_NAME} PUBLIC "include")
-
-target_link_libraries(${PROJECT_NAME} LINK_PUBLIC ${Boost_LIBRARIES})
 
 if (${ENABLE_TESTS})
     find_package(doctest REQUIRED)
