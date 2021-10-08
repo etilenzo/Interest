@@ -19,8 +19,8 @@ option(BUILD_SHARED_LIBS "Build as shared/static library." OFF)
 ###
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-#set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
-#set(CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
+set(CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 
 set(HEADER_LIST
     include/Beautifiers.hpp
@@ -29,7 +29,10 @@ set(HEADER_LIST
 
     include/Container.hpp
     include/Section.hpp
-    #include/Ini.hpp
+    include/Ini.hpp
+
+    include/Error.hpp
+    include/Options.hpp
     )
 
 set(SRC_LIST
@@ -38,7 +41,7 @@ set(SRC_LIST
     src/KV.cpp
 
     src/Section.cpp
-    #src/Ini.cpp
+    src/Ini.cpp
     )
 
 ###

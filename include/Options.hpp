@@ -58,6 +58,12 @@ struct Options {
           m_spaces(std::move(spaces)) {}
 
     /**
+     * @brief Copy constructor
+     * @param options const l-value reference to another instance
+     */
+    Options(const Options& options) = default;
+
+    /**
      * @brief Move constructor
      * @param options r-value reference to another instance
      */

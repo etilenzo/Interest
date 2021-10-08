@@ -32,6 +32,12 @@ struct Error {
         : code(std::move(_code)), line(std::move(_line)) {}
 
     /**
+     * @brief Copy constructor
+     * @param error const l-value reference to another instance
+     */
+    Error(const Error& error) = default;
+
+    /**
      * @brief Move constructor
      * @param error r-value reference to another instance
      */
