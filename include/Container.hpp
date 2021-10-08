@@ -34,7 +34,8 @@ public:
      * @param elements m_elements
      */
     Container(std::string name = "", std::vector<T> elements = std::vector<T>())
-        : m_name(name), m_elements(std::make_shared<std::vector<T>>(elements)) {}
+        : m_name(std::move(name)),
+          m_elements(std::make_shared<std::vector<T>>(std::move(elements))) {}
 
     /**
      * @brief Copy constructor
