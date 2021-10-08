@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief This file contains declaration Section class
+ * @brief This file contains declaration of Section class
  * @author Evilenzo
  * @version 0.1
  */
@@ -27,26 +27,29 @@ public:
      * @param name m_name
      * @param options m_options
      */
-    Section(std::string name, std::vector<KV> options) noexcept;
+    Section(std::string name, std::vector<KV> options) : Container(name, options) {}
 
     /**
      * @brief Copy constructor
      * @param section const l-value reference to another instance
      */
-    Section(const Section& section) noexcept;
+    Section(const Section& section) : Container(section) {}
 
     /**
      * @brief Move constructor
      * @param section r-value reference to another instance
      */
-    Section(Section&& section) noexcept;
+    Section(Section&& section) noexcept : Container(section) {}
 
     /// Empty destructor
     ~Section() = default;
 
 private:
-    bool comparator(const KV& i, std::string line) const noexcept override;
-
+    /**
+     * @brief Overrided construct function
+     * @param line
+     * @return
+     */
     KV construct(std::string line) override;
 };
 

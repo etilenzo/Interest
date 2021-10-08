@@ -10,16 +10,7 @@
 namespace ES {
 
 
-Section::Section(std::string name, std::vector<KV> options) noexcept : Container(name, options) {}
-
-Section::Section(const Section& section) noexcept : Container(section) {}
-
-Section::Section(Section&& section) noexcept : Container(section) {}
-
-bool Section::comparator(const KV& i, std::string line) const noexcept { return i.m_key == line; }
-
 KV Section::construct(std::string line) { return KV(std::move(line), EMPTY_STRING); }
-
 
 /*std::ostream& operator<<(std::ostream& os, const Section& section) {
     os << std::accumulate(section.m_options.begin(), section.m_options.end(),
