@@ -38,14 +38,14 @@ public:
      * @param name m_name
      * @param elements m_elements
      */
-    Container(std::string name, std::vector<T> elements) noexcept
+    Container(std::string name, std::vector<T> elements)
         : m_name(name), m_elements(std::make_shared<std::vector<T>>(elements)) {}
 
     /**
      * @brief Copy constructor
      * @param container const l-value reference to another instance
      */
-    Container(const Container& container) noexcept
+    Container(const Container& container)
         : m_name(container.m_name), m_elements(container.m_elements) {}
 
     /**
@@ -63,7 +63,7 @@ public:
      * @param container const l-value reference to another instance
      * @return *this
      */
-    virtual Container& operator=(const Container& container) noexcept {
+    virtual Container& operator=(const Container& container) {
         if (this == &container) {
             return *this;
         }
