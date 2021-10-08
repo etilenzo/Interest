@@ -10,7 +10,7 @@
 namespace ES {
 
 
-void removeComment(std::string& line) {
+void delComment(std::string& line) {
     std::size_t comment_pos = line.find_first_of(COMMENT_SYMBOLS);
 
     if (comment_pos != std::string::npos) {
@@ -18,7 +18,7 @@ void removeComment(std::string& line) {
     }
 }
 
-void beautifyPrefix(std::string& line) {
+void prefixDelSpaces(std::string& line) {
     std::string::iterator iter = line.begin();
     bool cycled = false;
 
@@ -36,7 +36,7 @@ void beautifyPrefix(std::string& line) {
     }
 }
 
-void beautifySuffix(std::string& line) {
+void suffixDelSpaces(std::string& line) {
     std::string::reverse_iterator iter = line.rbegin();
     bool cycled = false;
 
@@ -54,7 +54,7 @@ void beautifySuffix(std::string& line) {
     }
 }
 
-void removeBreakers(std::string& line) {
+void suffixDelBreakers(std::string& line) {
     std::string::reverse_iterator iter = line.rbegin();
     bool cycled = false;
 

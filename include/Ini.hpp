@@ -73,6 +73,8 @@ private:
     /// @brief Settings of parsing
     Settings m_settings;
 
+
+
     /**
      * @brief Overrided construct function
      * @param name of new Section

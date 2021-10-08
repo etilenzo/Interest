@@ -38,22 +38,22 @@ KV& KV::operator=(KV&& kv) noexcept {
 bool KV::operator==(const std::string& key) const noexcept { return m_key == key; }
 
 void KV::fromString(std::string line) {
-    removeComment(line);
+    delComment(line);
 
     if (!line.empty()) {
         std::size_t equal_pos = line.find(EQUAL_SYMBOL);
 
         if (equal_pos != std::string::npos) {
             std::string&& key = line.substr(0, equal_pos);
-            beautifyPrefix(key);
-            beautifySuffix(key);
+            prefixDelSpaces(key);
+            suffixDelSpaces(key);
 
             if (!key.empty()) {
                 m_key = std::move(key);
 
                 line.erase(0, equal_pos + 1);
-                beautifyPrefix(line);
-                removeBreakers(line);
+                prefixDelSpaces(line);
+                suffixDelBreakers(line);
 
                 m_value = std::move(line);
 

@@ -24,11 +24,11 @@ boost::optional<Error> Ini::parseFromStream(std::istream& is) {
         while (getline(is, line)) {
             ++num;
 
-            removeComment(line);
+            delComment(line);
             if (m_settings.m_spaces == Spaces::REMOVE) {
-                beautifyPrefix(line);
+                prefixDelSpaces(line);
             }
-            removeBreakers(line);
+            suffixDelBreakers(line);
 
             if (!line.empty()) {
                 std::string temp = line;
