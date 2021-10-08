@@ -12,9 +12,6 @@
 #include <string>
 #include <vector>
 
-#include <boost/function.hpp>
-#include <boost/optional.hpp>
-
 namespace ES {
 // TODO: Check all noexcept methods
 
@@ -106,10 +103,6 @@ public:
      * @see construct()
      */
     virtual T& operator[](std::string line) {
-        boost::function<bool(const T& i)> cmp = [&, line](const T& i) {
-            return comparator(i, line);
-        };
-
         boost::optional<T> element = find(cmp);
 
         if (element) {
@@ -159,15 +152,6 @@ public:
 
 protected:
     /**
-     * @brief Unary predicate for find_if() function in find() method
-     * @details Just a simple function that must return true if element name or key equals to line
-     * @param i const l-value reference to current "iterator"
-     * @param line the line being checked for compliance
-     * @return
-     */
-    virtual bool comparator(const T& i, std::string line) const noexcept;
-
-    /**
      * @brief Construct a new object and return reference on it
      * @param line key, name etc.
      * @return l-value reference on created object
@@ -179,18 +163,19 @@ protected:
      * @details Uses find_if() to find object by comparator
      * @return std::nullopt if not found or l-value reference on object
      */
-    virtual boost::optional<T> find(boost::function<bool(const T&)> cmp) const {
+    virtual std::optional<T> find(std::string line) const {
         if (!m_elements->empty()) {
-            auto temp = std::find_if(m_elements->begin(), m_elements->end(), cmp);
+            auto temp = std::find_if(m_elements->begin(), m_elements->end(),
+                                     [line](const T& i) { return i == line; });
 
             if (temp != m_elements->end()) {
                 return *temp;
             }
 
-            return boost::none;
+            return std::nullopt;
         }
 
-        return boost::none;
+        return std::nullopt;
     }
 
     /**
