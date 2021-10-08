@@ -23,15 +23,13 @@ struct Error {
     /// @brief Line number
     std::size_t line;
 
-    /// @brief Empty constructor
-    Error() = default;
-
     /**
      * @brief Constructor with param initialization
      * @param _code error code
      * @param _line line number
      */
-    Error(Code _code, std::size_t _line) : code(std::move(_code)), line(std::move(_line)) {}
+    Error(Code _code = Code(), std::size_t _line = 0)
+        : code(std::move(_code)), line(std::move(_line)) {}
 
     /**
      * @brief Move constructor
