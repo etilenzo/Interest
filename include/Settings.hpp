@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief This file contains declaration of Options struct
+ * @brief This file contains declaration of Settings struct
  * @author Evilenzo
  * @version 0.1
  */
@@ -16,8 +16,8 @@ namespace ES {
  * @brief The Section Duplicate enum
  * @details FIRST - process only first entry
  * LAST - process only last entry
- * UNITE - Unite options of both sections
- * @see OptionsDuplicate
+ * UNITE - Unite settings of both sections
+ * @see OptionDuplicate
  */
 enum class SectionDuplicate { FIRST, LAST, UNITE };
 
@@ -34,71 +34,81 @@ enum class QuotationMarks { REMOVE, KEEP };
 /// @brief The Spaces enum
 enum class Spaces { REMOVE, KEEP };
 
+/// @brief The Breakers enum
+enum class Breakers { REMOVE, KEEP };
+
 /**
  * @brief The Parse Type enum
  * @details NEW - do clear() before parse
  * APPEND - process as continuation of contained ini (you must set right SecitonDuplicate and
- * OptionDuplicate values for that. For ex. if you have both options set to FIRST, nothing is gonna
+ * OptionDuplicate values for that. For ex. if you have both settings set to FIRST, nothing is gonna
  * happen)
  */
 enum class ParseType { NEW, APPEND };
 
-/// @brief Options struct for Ini parser
-struct Options {
+/// @brief Settings struct for Ini parser
+struct Settings {
     /// @brief Decide what to do when there is a section duplicate
-    SectionDuplicate m_sections_duplicates;
+    SectionDuplicate m_section_duplicate;
 
     /// @brief Decide what to do when there is a option duplicate
-    OptionDuplicate m_options_duplicates;
-
-    /// @brief Decide what to do when there are a quotation marks
-    QuotationMarks m_quotation_marks;
-
-    /// @brief Decide what to do with spaces before and after = symbol (not in a value)
-    Spaces m_spaces;
+    OptionDuplicate m_option_duplicate;
 
     /// @brief Decide how to do parseFromStream()
     ParseType m_parse_type;
 
+
+    /// @brief Decide what to do with spaces before and after = symbol, before and after all
+    /// statement (not in a value)
+    Spaces m_spaces;
+
+    /// @brief Decide what to do with breakers after statement
+    Breakers m_breakers;
+
+    /// @brief Decide what to do when there are quotation marks
+    QuotationMarks m_quotation_marks;
+
     /// @brief Constructor with param initialization (or empty)
-    Options(SectionDuplicate sections_duplicate = SectionDuplicate::FIRST,
-            OptionDuplicate options_duplicate = OptionDuplicate::FIRST,
-            QuotationMarks quotation_marks = QuotationMarks::REMOVE, Spaces spaces = Spaces::REMOVE,
-            ParseType parse_type = ParseType::NEW)
-        : m_sections_duplicates(std::move(sections_duplicate)),
-          m_options_duplicates(std::move(options_duplicate)),
-          m_quotation_marks(std::move(quotation_marks)),
+    Settings(SectionDuplicate section_duplicate = SectionDuplicate::FIRST,
+             OptionDuplicate option_duplicate = OptionDuplicate::FIRST,
+             ParseType parse_type = ParseType::NEW, Spaces spaces = Spaces::KEEP,
+             Breakers breakers = Breakers::KEEP,
+             QuotationMarks quotation_marks = QuotationMarks::KEEP)
+        : m_section_duplicate(std::move(section_duplicate)),
+          m_option_duplicate(std::move(option_duplicate)),
+          m_parse_type(std::move(parse_type)),
           m_spaces(std::move(spaces)),
-          m_parse_type(std::move(parse_type)) {}
+          m_breakers(std::move(breakers)),
+          m_quotation_marks(std::move(quotation_marks)) {}
 
     /**
      * @brief Copy constructor
-     * @param options const l-value reference to another instance
+     * @param settings const l-value reference to another instance
      */
-    Options(const Options& options) = default;
+    Settings(const Settings& settings) = default;
 
     /**
      * @brief Move constructor
-     * @param options r-value reference to another instance
+     * @param settings r-value reference to another instance
      */
-    Options(Options&& options) noexcept = default;
+    Settings(Settings&& settings) noexcept = default;
 
     /**
      * @brief Copy assignment operator
-     * @param options const l-value reference to another instance
+     * @param settings const l-value reference to another instance
      * @return *this
      */
-    Options& operator=(const Options& options) = default;
+    Settings& operator=(const Settings& settings) = default;
 
     /**
      * @brief Move assignment operator
-     * @param options r-value reference to another instance
+     * @param settings r-value reference to another instance
      * @return *this
      */
-    Options& operator=(Options&& options) noexcept = default;
+    Settings& operator=(Settings&& settings) noexcept = default;
 
     /// @brief Empty destructor
-    ~Options() = default;
+    ~Settings() = default;
 };
 
 
