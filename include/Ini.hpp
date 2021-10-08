@@ -17,7 +17,7 @@ namespace ES {
 
 
 /// @brief Ini container class
-class Ini : Container<Section> {
+class Ini : public Container<Section> {
 public:
     /// @brief Constructor with param initialization
     Ini(Settings settings = Settings(), std::string name = "",
@@ -72,8 +72,6 @@ public:
 private:
     /// @brief Settings of parsing
     Settings m_settings;
-
-
 
     /**
      * @brief Overrided construct function

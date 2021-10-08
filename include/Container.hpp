@@ -19,7 +19,7 @@ namespace ES {
 template <typename T>
 using Elements = std::shared_ptr<std::vector<T>>;
 
-template <typename T>
+template <typename T, typename R = T>
 class Container {
 public:
     /// @brief Name of container (optional for final containers)
@@ -97,19 +97,19 @@ public:
      * returns l-value reference to it. If not, calls insert() with construct() to construct and
      * insert object in m_elements
      * @param line key, name etc. of the searched value
-     * @return l-value reference to found or created object
+     * @return reference on returnal value of object
      * @see find()
      * @see insert()
      * @see construct()
      */
-    virtual T& operator[](std::string line) {
+    virtual R& operator[](std::string line) {
         boost::optional<T&> element = find(line);
 
         if (element) {
-            return *element;
+            return bracketsReturn(*element);
         }
 
-        return insert(construct(line));
+        return bracketsReturn(insert(construct(line)));
     }
 
     /**
@@ -177,6 +177,8 @@ protected:
         m_elements->push_back(temp);
         return m_elements->back();
     }
+
+    virtual R& bracketsReturn(T& element) { return element; }
 };
 
 

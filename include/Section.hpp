@@ -17,7 +17,7 @@ namespace ES {
 
 
 /// @brief Section container class
-class Section : public Container<KV> {
+class Section : public Container<KV, std::string> {
 public:
     /**
      * @brief Container with param initialization
@@ -39,6 +39,20 @@ public:
      */
     Section(Section&& section) noexcept : Container(section) {}
 
+    /**
+     * @brief Copy assignment operator
+     * @param container const l-value reference to another instance
+     * @return *this
+     */
+    Section& operator=(const Section& section) = default;
+
+    /**
+     * @brief Move assignment operator
+     * @param container r-value reference to another instance
+     * @return *this
+     */
+    Section& operator=(Section&& section) = default;
+
     /// Empty destructor
     ~Section() = default;
 
@@ -49,6 +63,7 @@ private:
      * @return created KV class
      */
     KV construct(std::string key) override;
+    std::string& bracketsReturn(KV& kv) override;
 };
 
 

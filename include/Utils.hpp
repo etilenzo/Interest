@@ -21,7 +21,7 @@ inline constexpr char LINE_BREAKER = '\n';
 inline constexpr char CARRIAGE_RETURN = '\r';
 inline constexpr char SPACE_SYMBOL = ' ';
 inline constexpr char COMMENT_SYMBOLS[3] = "#;";
-inline constexpr char QUOTATION_MARKS[3] = "\'\"";
+inline constexpr char QUOTATION_MARKS[2] = {'\'', '"'};
 inline constexpr char EMPTY_STRING[1] = "";
 
 

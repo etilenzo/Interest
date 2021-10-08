@@ -11,6 +11,7 @@
 
 namespace ES {
 
+class Section;
 
 /// @brief Key-Value struct
 class KV {

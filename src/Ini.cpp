@@ -18,7 +18,7 @@ boost::optional<Error> Ini::parseFromStream(std::istream& is) {
 
         std::string line;
         std::size_t num = 0;
-        bool skip;
+        bool skip = true;
         Section* section = nullptr;
         std::vector<std::string> names;
         std::vector<std::string> keys;
@@ -27,6 +27,11 @@ boost::optional<Error> Ini::parseFromStream(std::istream& is) {
             ++num;
 
             delComment(line);
+
+            if (m_settings.m_quotation_marks == QuotationMarks::REMOVE) {
+                delQuotationMarks(line);
+            }
+
             prefixDelSpaces(line);
             suffixDelBreakers(line);
 
@@ -35,48 +40,42 @@ boost::optional<Error> Ini::parseFromStream(std::istream& is) {
                 trimBrackets(temp);
 
                 if (!temp.empty()) {
-                    switch (m_settings.m_section_duplicate) {
-                        case SectionDuplicate::FIRST: {
-                            if (names.empty() ||
-                                std::find(names.begin(), names.end(), temp) == names.end()) {
-                                section = &insert(construct(std::move(temp)));
-                                names.push_back(section->m_name);
-                                keys.clear();
-                                skip = false;
-
-                                continue;
-                            } else {
-                                skip = true;
-                            }
-
-                            break;
+                    if (m_settings.m_section_duplicate == SectionDuplicate::FIRST) {
+                        if (names.empty() ||
+                            std::find(names.begin(), names.end(), temp) == names.end()) {
+                            section = &insert(construct(std::move(temp)));
+                            names.push_back(section->m_name);
+                            keys.clear();
+                            skip = false;
+                        } else {
+                            skip = true;
                         }
+                    } else if (m_settings.m_section_duplicate == SectionDuplicate::LAST) {
+                        section = &operator[](temp);
+                        section->clear();
+                    } else if (m_settings.m_section_duplicate == SectionDuplicate::UNITE) {
+                        section = &operator[](temp);
                     }
                 } else if (!skip) {
                     KV kv(std::move(line));
 
                     if (!kv.empty()) {
                         if (section != nullptr) {
-                            switch (m_settings.m_option_duplicate) {
-                                case OptionDuplicate::FIRST: {
-                                    if (keys.empty() || std::find(keys.begin(), keys.end(),
-                                                                  kv.m_key) == keys.end()) {
-                                        keys.push_back(kv.m_key);
-                                        section->m_elements->push_back(std::move(kv));
-                                    }
-
-                                    break;
+                            if (m_settings.m_option_duplicate == OptionDuplicate::FIRST) {
+                                if (keys.empty() ||
+                                    std::find(keys.begin(), keys.end(), kv.m_key) == keys.end()) {
+                                    keys.push_back(kv.m_key);
+                                    section->m_elements->push_back(std::move(kv));
                                 }
-                                case OptionDuplicate::LAST: {
-                                    (*section)[kv.m_key] = std::move(kv);
-                                }
+                            } else if (m_settings.m_option_duplicate == OptionDuplicate::LAST) {
+                                (*section)[kv.m_key] = std::move(kv);
                             }
-                        } else {
-                            return Error(Code::MISSING_FIRST_SECTION, num);
                         }
                     } else {
-                        return Error(Code::WRONG_STRING, num);
+                        return Error(Code::MISSING_FIRST_SECTION, num);
                     }
+                } else {
+                    return Error(Code::WRONG_STRING, num);
                 }
             }
         }

@@ -18,6 +18,14 @@ void delComment(std::string& line) {
     }
 }
 
+void delQuotationMarks(std::string& line) {
+    line.erase(std::remove_if(line.begin(), line.end(),
+                              [](const char& i) {
+                                  return i == QUOTATION_MARKS[0] || i == QUOTATION_MARKS[1];
+                              }),
+               line.end());
+}
+
 void prefixDelSpaces(std::string& line) {
     std::string::iterator iter = line.begin();
     bool cycled = false;
