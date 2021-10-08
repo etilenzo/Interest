@@ -49,10 +49,7 @@ public:
      * @param container r-value reference to another instance
      */
     Container(Container&& container) noexcept
-        : m_name(std::move(container.m_name)), m_elements(std::move(container.m_elements)) {
-        container.m_name.clear();
-        container.m_elements.reset();
-    }
+        : m_name(std::move(container.m_name)), m_elements(std::move(container.m_elements)) {}
 
     /**
      * @brief Copy assignment operator
