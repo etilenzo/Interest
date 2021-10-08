@@ -25,7 +25,7 @@ public:
      * @param options m_options
      */
     Section(std::string name = "", std::vector<KV> options = std::vector<KV>())
-        : Container(name, options) {}
+        : Container(std::move(name), std::move(options)) {}
 
     /**
      * @brief Copy constructor
