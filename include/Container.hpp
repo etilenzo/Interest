@@ -97,7 +97,7 @@ public:
      * @return m_name == name
      * @see find()
      */
-    virtual bool operator==(std::string name) noexcept { return m_name == name; }
+    virtual bool operator==(std::string name) const noexcept { return m_name == name; }
 
     /**
      * @brief Finds and returns or inserts

@@ -29,28 +29,14 @@ public:
      *  @param key m_key
      *  @param value m_value
      */
-    KV(const std::string& key, const std::string& value);
-
-    /**
-     *  @brief Create struct with param initialization
-     *  @param key m_key
-     *  @param value m_value
-     */
-    KV(std::string&& key, std::string&& value);
+    KV(std::string key, std::string value);
 
     /**
      *  @brief Create struct from string
      *  @param line line to parse
      *  @see fromString()
      */
-    KV(const std::string& line);
-
-    /**
-     *  @brief Create struct from string
-     *  @param line line to parse
-     *  @see fromString()
-     */
-    KV(std::string&& line);
+    KV(std::string line);
 
     /**
      * @brief Copy constructor
@@ -79,6 +65,13 @@ public:
     KV& operator=(KV&& kv) noexcept;
 
     /**
+     * @brief Equality operator for find algorithm
+     * @param key key to check
+     * @return m_key == key
+     */
+    bool operator==(const std::string& key) const noexcept;
+
+    /**
      * @brief Parse key and value from string
      * @details Beautifies string and parses it. Throws exceptions if string is incorrect
      * @param line string to parse
@@ -86,14 +79,13 @@ public:
      * @see beautifyPrefix()
      * @see beautifySuffix()
      */
-    template <typename T>
-    void fromString(T line);
+    void fromString(std::string line);
 
     /**
      * @brief Determine if class is empty
      * @return true if key is empty
      */
-    bool empty() const;
+    bool empty() const noexcept;
 
     /// @brief Default destructor
     ~KV() = default;

@@ -10,13 +10,9 @@
 namespace ES {
 
 
-KV::KV(const std::string& key, const std::string& value) : m_key(key), m_value(value) {}
+KV::KV(std::string key, std::string value) : m_key(std::move(key)), m_value(std::move(value)) {}
 
-KV::KV(std::string&& key, std::string&& value) : m_key(std::move(key)), m_value(std::move(value)) {}
-
-KV::KV(const std::string& line) { fromString<std::string>(line); }
-
-KV::KV(std::string&& line) { fromString<std::string&&>(std::move(line)); }
+KV::KV(std::string line) { fromString(std::move(line)); }
 
 KV::KV(const KV& kv) : m_key(kv.m_key), m_value(kv.m_value) {}
 
@@ -50,8 +46,9 @@ KV& KV::operator=(KV&& kv) noexcept {
     return *this;
 }
 
-template <typename T>
-void KV::fromString(T line) {
+bool KV::operator==(const std::string& key) const noexcept { return m_key == key; }
+
+void KV::fromString(std::string line) {
     removeComment(line);
 
     if (!line.empty()) {
@@ -77,7 +74,7 @@ void KV::fromString(T line) {
     }
 }
 
-bool KV::empty() const { return m_key.empty() && m_value.empty(); }
+bool KV::empty() const noexcept { return m_key.empty() && m_value.empty(); }
 
 
 }  // namespace ES
