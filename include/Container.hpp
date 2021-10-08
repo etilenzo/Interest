@@ -68,8 +68,8 @@ public:
             return *this;
         }
 
-        m_name = std::move(container.m_name);
-        m_elements = std::move(container.m_elements);
+        m_name = container.m_name;
+        m_elements = container.m_elements;
 
         return *this;
     }
