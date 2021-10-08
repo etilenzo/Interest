@@ -11,6 +11,4 @@
 
 using namespace ES;
 
-TEST_CASE("Section") {
-    SUBCASE("Initialization") { Section a() }
-}
+TEST_CASE("Section") {}

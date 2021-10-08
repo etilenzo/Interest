@@ -10,44 +10,7 @@
 namespace ES {
 
 
-Error::Error(Code _code, std::size_t _line) : code(_code), line(_line) {}
-
-
-/////////////////////////////////////////////////////////////////////
-
-
-Ini::Ini(std::istream& is) { parseFromStream(is); }
-
-Ini::Ini(const Ini& ini) : m_sections(ini.m_sections) {}
-
-Ini::Ini(Ini&& ini) noexcept : m_sections(std::move(ini.m_sections)) { ini.m_sections.clear(); }
-
-Ini& Ini::operator=(const Ini& ini) {
-    if (this == &ini) {
-        return *this;
-    }
-
-    m_sections = ini.m_sections;
-
-    return *this;
-}
-
-Ini& Ini::operator=(Ini&& ini) noexcept {
-    if (this == &ini) {
-        return *this;
-    }
-
-    m_sections = std::move(ini.m_sections);
-    ini.m_sections.erase(ini.m_sections.begin(), ini.m_sections.end());
-
-    return *this;
-}
-
-Section& Ini::operator[](const std::string& name) { return find(name); }
-
-Section& Ini::operator[](std::string&& name) { return find(name); }
-
-std::optional<Error> Ini::parseFromStream(std::istream& is) {
+boost::optional<Error> Ini::parseFromStream(std::istream& is) {
     if (is) {
         clear();
 
@@ -55,14 +18,16 @@ std::optional<Error> Ini::parseFromStream(std::istream& is) {
         std::size_t num = 0;
         std::string name;
         Section* section = nullptr;
-        std::vector<std::string> names;
-        std::vector<std::string> keys;
+        std::vector<const std::string&> names;
+        std::vector<const std::string&> keys;
 
         while (getline(is, line)) {
             ++num;
 
             removeComment(line);
-            beautifyPrefix(line);
+            if (m_settings.m_spaces == Spaces::REMOVE) {
+                beautifyPrefix(line);
+            }
             removeBreakers(line);
 
             if (!line.empty()) {
@@ -73,8 +38,8 @@ std::optional<Error> Ini::parseFromStream(std::istream& is) {
                     if (names.empty() ||
                         std::find(names.begin(), names.end(), temp) == names.end()) {
                         name = std::move(temp);
-                        names.push_back(name);
                         section = &insert(std::move(name));
+                        names.push_back(section->m_name);
                         keys.clear();
 
                         continue;
@@ -83,11 +48,12 @@ std::optional<Error> Ini::parseFromStream(std::istream& is) {
                     return Error(Code::MISSING_FIRST_SECTION, num);
                 } else {
                     KV kv(std::move(line));
+
                     if (!kv.empty()) {
                         if (keys.empty() ||
                             std::find(keys.begin(), keys.end(), kv.m_key) == keys.end()) {
                             keys.push_back(kv.m_key);
-                            section->m_options.push_back(std::move(kv));
+                            section->m_elements->push_back(std::move(kv));
                         }
                     } else {
                         return Error(Code::WRONG_STRING, num);
@@ -96,54 +62,23 @@ std::optional<Error> Ini::parseFromStream(std::istream& is) {
             }
         }
 
-        return std::nullopt;
+        return boost::none;
     }
 
     return Error(Code::BROKEN_INPUT_STREAM, 0);
 }
 
-
 void Ini::dumpToStream(std::ostream& os) const {
-    for (const Section& temp : m_sections) {
+    for (const Section& temp : *m_elements) {
         os << OPENING_BRACKET << temp.m_name << CLOSING_BRACKET << std::endl;
 
-        for (const auto& line : temp.m_options) {
+        for (const auto& line : *temp.m_elements) {
             os << line.m_key << EQUAL_SYMBOL << line.m_value << std::endl;
         }
     }
 }
 
-void Ini::removeEmpty() {
-    m_sections.erase(std::remove_if(m_sections.begin(), m_sections.end(),
-                                    [](const Section& i) { return i.m_options.empty(); }),
-                     m_sections.end());
-}
-
-void Ini::clear() { m_sections.clear(); }
-
-template <typename T>
-Section& Ini::find(T name) {
-    if (!m_sections.empty()) {
-        auto temp = std::find_if(m_sections.begin(), m_sections.end(),
-                                 [name](const Section& i) { return i.m_name == name; });
-
-        if (temp != m_sections.end()) {
-            return *temp;
-        }
-
-        return insert(name);
-    }
-
-    return insert(name);
-}
-
-template <typename T>
-Section& Ini::insert(T name) {
-    Section temp(name, std::vector<KV>());
-    m_sections.push_back(temp);
-    return m_sections.back();
-}
-
+Section Ini::construct(std::string name) { return Section(name, std::vector<KV>()); }
 
 std::ostream& operator<<(std::ostream& os, const ES::Ini& container) {
     container.dumpToStream(os);

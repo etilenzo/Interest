@@ -32,7 +32,7 @@ set(HEADER_LIST
     include/Ini.hpp
 
     include/Error.hpp
-    include/Options.hpp
+    include/Settings.hpp
     )
 
 set(SRC_LIST
