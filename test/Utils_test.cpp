@@ -7,12 +7,12 @@
 
 #include "doctest/doctest.h"
 
-#include "Beautifiers.hpp"
+#include "Utils.hpp"
 
 using namespace ES;
 
-TEST_CASE("Beautifiers") {
-    SUBCASE("removeComment") {
+TEST_CASE("Utils") {
+    SUBCASE("delComment") {
         SUBCASE("Empty string") {
             std::string s;
             REQUIRE_NOTHROW(delComment(s));
@@ -45,7 +45,7 @@ TEST_CASE("Beautifiers") {
         }
     }
 
-    SUBCASE("beautifyPrefix") {
+    SUBCASE("prefixDelSpaces") {
         SUBCASE("Empty string") {
             std::string s;
             REQUIRE_NOTHROW(prefixDelSpaces(s));
@@ -68,7 +68,7 @@ TEST_CASE("Beautifiers") {
         }
     }
 
-    SUBCASE("beautifySuffix") {
+    SUBCASE("suffixDelSpaces") {
         SUBCASE("Empty string") {
             std::string s;
             REQUIRE_NOTHROW(suffixDelSpaces(s));
@@ -91,7 +91,7 @@ TEST_CASE("Beautifiers") {
         }
     }
 
-    SUBCASE("removeBreakers") {
+    SUBCASE("suffixDelBreakers") {
         SUBCASE("Empty string") {
             std::string s;
             REQUIRE_NOTHROW(suffixDelBreakers(s));

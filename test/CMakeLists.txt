@@ -1,7 +1,7 @@
 set(TEST_SRC_LIST
     main.cpp
 
-    Beautifiers_test.cpp
+    Utils_test.cpp
 
     KV_test.cpp
 

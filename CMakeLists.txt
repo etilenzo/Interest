@@ -23,7 +23,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsa
 set(CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 
 set(HEADER_LIST
-    include/Beautifiers.hpp
+    include/Utils.hpp
 
     include/KV.hpp
 
@@ -36,7 +36,7 @@ set(HEADER_LIST
     )
 
 set(SRC_LIST
-    src/Beautifiers.cpp
+    src/Utils.cpp
 
     src/KV.cpp
 
