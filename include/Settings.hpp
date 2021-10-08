@@ -28,15 +28,6 @@ enum class SectionDuplicate { FIRST, LAST, UNITE };
  */
 enum class OptionDuplicate { FIRST, LAST };
 
-/// @brief The Quotation Marks enum
-enum class QuotationMarks { REMOVE, KEEP };
-
-/// @brief The Spaces enum
-enum class Spaces { REMOVE, KEEP };
-
-/// @brief The Breakers enum
-enum class Breakers { REMOVE, KEEP };
-
 /**
  * @brief The Parse Type enum
  * @details NEW - do clear() before parse
@@ -45,6 +36,15 @@ enum class Breakers { REMOVE, KEEP };
  * happen)
  */
 enum class ParseType { NEW, APPEND };
+
+/// @brief The Spaces enum
+enum class Spaces { REMOVE, KEEP };
+
+/// @brief The Breakers enum
+enum class Breakers { REMOVE, KEEP };
+
+/// @brief The Quotation Marks enum
+enum class QuotationMarks { REMOVE, KEEP };
 
 /// @brief Settings struct for Ini parser
 struct Settings {
