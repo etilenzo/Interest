@@ -80,9 +80,6 @@ public:
         m_name = std::move(container.m_name);
         m_elements = std::move(container.m_elements);
 
-        container.m_name.clear();
-        container.m_elements.reset();
-
         return *this;
     }
 

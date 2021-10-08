@@ -46,10 +46,7 @@ public:
      * @brief Move constructor
      * @param kv r-value reference to another instance
      */
-    KV(KV&& kv) noexcept : m_key(std::move(kv.m_key)), m_value(std::move(kv.m_value)) {
-        kv.m_key.clear();
-        kv.m_value.clear();
-    }
+    KV(KV&& kv) noexcept : m_key(std::move(kv.m_key)), m_value(std::move(kv.m_value)) {}
 
     /**
      * @brief Copy assignment operator
