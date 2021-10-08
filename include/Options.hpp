@@ -34,6 +34,15 @@ enum class QuotationMarks { REMOVE, KEEP };
 /// @brief The Spaces enum
 enum class Spaces { REMOVE, KEEP };
 
+/**
+ * @brief The Parse Type enum
+ * @details NEW - do clear() before parse
+ * APPEND - process as continuation of contained ini (you must set right SecitonDuplicate and
+ * OptionDuplicate values for that. For ex. if you have both options set to FIRST, nothing is gonna
+ * happen)
+ */
+enum class ParseType { NEW, APPEND };
+
 /// @brief Options struct for Ini parser
 struct Options {
     /// @brief Decide what to do when there is a section duplicate
@@ -48,14 +57,19 @@ struct Options {
     /// @brief Decide what to do with spaces before and after = symbol (not in a value)
     Spaces m_spaces;
 
+    /// @brief Decide how to do parseFromStream()
+    ParseType m_parse_type;
+
     /// @brief Constructor with param initialization (or empty)
     Options(SectionDuplicate sections_duplicate = SectionDuplicate::FIRST,
             OptionDuplicate options_duplicate = OptionDuplicate::FIRST,
-            QuotationMarks quotation_marks = QuotationMarks::REMOVE, Spaces spaces = Spaces::REMOVE)
+            QuotationMarks quotation_marks = QuotationMarks::REMOVE, Spaces spaces = Spaces::REMOVE,
+            ParseType parse_type = ParseType::NEW)
         : m_sections_duplicates(std::move(sections_duplicate)),
           m_options_duplicates(std::move(options_duplicate)),
           m_quotation_marks(std::move(quotation_marks)),
-          m_spaces(std::move(spaces)) {}
+          m_spaces(std::move(spaces)),
+          m_parse_type(std::move(parse_type)) {}
 
     /**
      * @brief Copy constructor
