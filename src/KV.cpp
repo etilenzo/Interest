@@ -10,17 +10,6 @@
 namespace ES {
 
 
-KV::KV(std::string key, std::string value) : m_key(std::move(key)), m_value(std::move(value)) {}
-
-KV::KV(std::string line) { fromString(std::move(line)); }
-
-KV::KV(const KV& kv) : m_key(kv.m_key), m_value(kv.m_value) {}
-
-KV::KV(KV&& kv) noexcept : m_key(std::move(kv.m_key)), m_value(std::move(kv.m_value)) {
-    kv.m_key.clear();
-    kv.m_value.clear();
-}
-
 KV& KV::operator=(const KV& kv) {
     if (this == &kv) {
         return *this;
