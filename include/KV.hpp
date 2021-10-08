@@ -21,13 +21,15 @@ public:
     /// @brief Value
     std::string m_value;
 
+    /// @brief Empty constructor
+    KV() = default;
+
     /**
      *  @brief Create struct with param initialization
      *  @param key m_key
      *  @param value m_value
      */
-    KV(std::string key = "", std::string value = "")
-        : m_key(std::move(key)), m_value(std::move(value)) {}
+    KV(std::string key, std::string value) : m_key(std::move(key)), m_value(std::move(value)) {}
 
     /**
      *  @brief Create struct from string
