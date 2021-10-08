@@ -10,7 +10,7 @@
 namespace ES {
 
 
-KV Section::construct(std::string line) { return KV(std::move(line), EMPTY_STRING); }
+KV Section::construct(std::string key) { return KV(std::move(key), EMPTY_STRING); }
 
 /*std::ostream& operator<<(std::ostream& os, const Section& section) {
     os << std::accumulate(section.m_options.begin(), section.m_options.end(),
