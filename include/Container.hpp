@@ -8,12 +8,13 @@
 #pragma once
 
 #include <memory>
-#include <optional>
 #include <string>
 #include <vector>
 
+#include <boost/optional.hpp>
+
 namespace ES {
-// TODO: Check all noexcept methods
+
 
 template <typename T>
 using Elements = std::shared_ptr<std::vector<T>>;
@@ -91,19 +92,26 @@ public:
     }
 
     /**
+     * @brief Equality operator for find algorithm
+     * @param name name of container
+     * @return m_name == name
+     * @see find()
+     */
+    virtual bool operator==(std::string name) noexcept { return m_name == name; }
+
+    /**
      * @brief Finds and returns or inserts
      * @details Tries to find element with the comparator in the m_elements vector. If found,
      * returns l-value reference to it. If not, calls insert() with construct() to construct and
      * insert object in m_elements
      * @param line key, name etc. of the searched value
      * @return l-value reference to found or created object
-     * @see comparator()
      * @see find()
      * @see insert()
      * @see construct()
      */
     virtual T& operator[](std::string line) {
-        boost::optional<T> element = find(cmp);
+        boost::optional<T&> element = find(line);
 
         if (element) {
             return *element;
@@ -116,15 +124,10 @@ public:
      * @brief Finds and returns const l-value reference or std::nullopt
      * @param line key, name etc. of the searched value
      * @return l-value reference to found object or std::nullopt if not found
-     * @see comparator()
      * @see find()
      */
-    virtual boost::optional<const T&> operator[](std::string line) const noexcept {
-        boost::function<bool(const T& i)> cmp = [&, line](const T& i) {
-            return comparator(i, line);
-        };
-
-        return boost::optional<T&>(find(cmp));
+    virtual boost::optional<const T&> operator[](std::string line) const {
+        return boost::optional<const T&>(find(line));
     }
 
     /**
@@ -152,30 +155,29 @@ public:
 
 protected:
     /**
-     * @brief Construct a new object and return reference on it
+     * @brief Construct a new object and return it
      * @param line key, name etc.
-     * @return l-value reference on created object
+     * @return created object
      */
-    virtual T construct(std::string line);
+    virtual T construct(std::string line) = 0;
 
     /**
-     * @brief Finds element by comparator
-     * @details Uses find_if() to find object by comparator
-     * @return std::nullopt if not found or l-value reference on object
+     * @brief Finds element (T must have operator== implementation)
+     * @details Uses find() to find object
+     * @return boost::none if not found or l-value reference on object
      */
-    virtual std::optional<T> find(std::string line) const {
+    virtual boost::optional<T&> find(std::string line) const {
         if (!m_elements->empty()) {
-            auto temp = std::find_if(m_elements->begin(), m_elements->end(),
-                                     [line](const T& i) { return i == line; });
+            auto temp = std::find(m_elements->begin(), m_elements->end(), line);
 
             if (temp != m_elements->end()) {
                 return *temp;
             }
 
-            return std::nullopt;
+            return boost::none;
         }
 
-        return std::nullopt;
+        return boost::none;
     }
 
     /**
