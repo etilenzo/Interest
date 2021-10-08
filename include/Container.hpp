@@ -28,15 +28,12 @@ public:
     /// @brief Vector of contained elements
     Elements<T> m_elements;
 
-    /// @brief Empty constructor
-    Container() = default;
-
     /**
-     * @brief Constructor with param initialization
+     * @brief Constructor with param initialization (or empty)
      * @param name m_name
      * @param elements m_elements
      */
-    Container(std::string name, std::vector<T> elements)
+    Container(std::string name = "", std::vector<T> elements = std::vector<T>())
         : m_name(name), m_elements(std::make_shared<std::vector<T>>(elements)) {}
 
     /**
