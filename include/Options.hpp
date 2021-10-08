@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <memory>
+
 namespace ES {
 
 
@@ -50,10 +52,10 @@ struct Options {
     Options(SectionDuplicate sections_duplicate = SectionDuplicate::FIRST,
             OptionDuplicate options_duplicate = OptionDuplicate::FIRST,
             QuotationMarks quotation_marks = QuotationMarks::REMOVE, Spaces spaces = Spaces::REMOVE)
-        : m_sections_duplicates(sections_duplicate),
-          m_options_duplicates(options_duplicate),
-          m_quotation_marks(quotation_marks),
-          m_spaces(spaces) {}
+        : m_sections_duplicates(std::move(sections_duplicate)),
+          m_options_duplicates(std::move(options_duplicate)),
+          m_quotation_marks(std::move(quotation_marks)),
+          m_spaces(std::move(spaces)) {}
 
     /**
      * @brief Move constructor
