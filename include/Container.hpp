@@ -135,9 +135,9 @@ public:
      * @details Works only for types having empty() function. Must be overrided for others!
      */
     virtual void removeEmpty() noexcept {
-        m_elements.erase(std::remove_if(m_elements->begin(), m_elements->end(),
-                                        [](const T& i) { return i.empty(); }),
-                         m_elements->end());
+        m_elements->erase(std::remove_if(m_elements->begin(), m_elements->end(),
+                                         [](const T& i) { return i.empty(); }),
+                          m_elements->end());
     }
 
     /// @brief Clear container
