@@ -19,15 +19,13 @@ namespace ES {
 /// @brief Section container class
 class Section : public Container<KV> {
 public:
-    /// @brief Empty constructor
-    Section() = default;
-
     /**
      * @brief Container with param initialization
      * @param name m_name
      * @param options m_options
      */
-    Section(std::string name, std::vector<KV> options) : Container(name, options) {}
+    Section(std::string name = "", std::vector<KV> options = std::vector<KV>())
+        : Container(name, options) {}
 
     /**
      * @brief Copy constructor
