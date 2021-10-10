@@ -27,8 +27,8 @@ public:
 
     /**
      *  @brief Create struct with param initialization
-     *  @param key m_key
-     *  @param value m_value
+     *  @param key
+     *  @param value
      */
     KV(std::string key, std::string value) : m_key(std::move(key)), m_value(std::move(value)) {}
 
@@ -39,31 +39,17 @@ public:
      */
     KV(std::string line) { fromString(std::move(line)); }
 
-    /**
-     * @brief Copy constructor
-     * @param kv const l-value reference to another instance
-     */
-    KV(const KV& kv) : m_key(kv.m_key), m_value(kv.m_value) {}
+    /// @brief Copy constructor
+    KV(const KV& kv) = default;
 
-    /**
-     * @brief Move constructor
-     * @param kv r-value reference to another instance
-     */
-    KV(KV&& kv) noexcept : m_key(std::move(kv.m_key)), m_value(std::move(kv.m_value)) {}
+    /// @brief Move constructor
+    KV(KV&& kv) noexcept = default;
 
-    /**
-     * @brief Copy assignment operator
-     * @param kv const l-value reference to another instance
-     * @return *this
-     */
-    KV& operator=(const KV& kv);
+    /// @brief Copy assignment operator
+    KV& operator=(const KV& kv) = default;
 
-    /**
-     * @brief Move assignment operator
-     * @param kv r-value reference to another instance
-     * @return *this
-     */
-    KV& operator=(KV&& kv) noexcept;
+    /// @brief Move assignment operator
+    KV& operator=(KV&& kv) noexcept = default;
 
     /**
      * @brief Equality operator for find algorithm
@@ -84,11 +70,9 @@ public:
 
     /**
      * @brief Determine if class is empty
-     * @return true if key is empty
+     * @return true if key and value are empty
      */
     bool empty() const noexcept;
-
-    std::string& bracketsReturn() { return m_value; }
 
     /// @brief Default destructor
     ~KV() = default;

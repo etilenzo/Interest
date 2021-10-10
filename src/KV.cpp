@@ -10,31 +10,6 @@
 namespace ES {
 
 
-KV& KV::operator=(const KV& kv) {
-    if (this == &kv) {
-        return *this;
-    }
-
-    m_key = kv.m_key;
-    m_value = kv.m_value;
-
-    return *this;
-}
-
-KV& KV::operator=(KV&& kv) noexcept {
-    if (this == &kv) {
-        return *this;
-    }
-
-    m_key = std::move(kv.m_key);
-    m_value = std::move(kv.m_value);
-
-    kv.m_key.clear();
-    kv.m_value.clear();
-
-    return *this;
-}
-
 bool KV::operator==(const std::string& key) const noexcept { return m_key == key; }
 
 void KV::fromString(std::string line) {
@@ -56,8 +31,6 @@ void KV::fromString(std::string line) {
                 suffixDelBreakers(line);
 
                 m_value = std::move(line);
-
-                return;
             }
         }
     }
