@@ -31,30 +31,16 @@ struct Error {
     Error(Code _code = Code(), std::size_t _line = 0)
         : code(std::move(_code)), line(std::move(_line)) {}
 
-    /**
-     * @brief Copy constructor
-     * @param error const l-value reference to another instance
-     */
+    /// @brief Copy constructor
     Error(const Error& error) = default;
 
-    /**
-     * @brief Move constructor
-     * @param error r-value reference to another instance
-     */
+    /// @brief Move constructor
     Error(Error&& error) noexcept = default;
 
-    /**
-     * @brief Copy assignment operator
-     * @param error const l-value reference to another instance
-     * @return *this
-     */
+    /// @brief Copy assignment operator
     Error& operator=(const Error& error) = default;
 
-    /**
-     * @brief Move assignment operator
-     * @param error r-value reference to another instance
-     * @return *this
-     */
+    /// @brief Move assignment operator
     Error& operator=(Error&& error) noexcept = default;
 
     /// @brief Empty destructor
