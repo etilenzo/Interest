@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief This file contains declarations of string beautify functions and symbol constants
+ * @brief This file contains declarations of string util functions and symbol constants
  * @author Evilenzo
  * @version 0.1
  */

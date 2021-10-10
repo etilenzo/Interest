@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief This file contains definitions of string beautify functions
+ * @brief This file contains definitions of string util functions
  * @author Evilenzo
  * @version 0.1
  */
