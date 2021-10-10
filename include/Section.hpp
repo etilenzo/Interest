@@ -24,45 +24,45 @@ public:
      * @param name m_name
      * @param options m_options
      */
-    Section(std::string name = "", std::vector<KV> options = std::vector<KV>())
+    Section(std::string name = std::string(), std::vector<KV> options = std::vector<KV>())
         : Container(std::move(name), std::move(options)) {}
 
-    /**
-     * @brief Copy constructor
-     * @param section const l-value reference to another instance
-     */
+    /// @brief Copy constructor
     Section(const Section& section) : Container(section) {}
 
-    /**
-     * @brief Move constructor
-     * @param section r-value reference to another instance
-     */
+    /// @brief Move constructor
     Section(Section&& section) noexcept : Container(section) {}
 
-    /**
-     * @brief Copy assignment operator
-     * @param container const l-value reference to another instance
-     * @return *this
-     */
+    /// @brief Copy assignment operator
     Section& operator=(const Section& section) = default;
 
-    /**
-     * @brief Move assignment operator
-     * @param container r-value reference to another instance
-     * @return *this
-     */
+    /// @brief Move assignment operator
     Section& operator=(Section&& section) = default;
+
+    /**
+     * @brief Finds and returns or inserts
+     * @details Tries to find element with the comparator in the m_elements vector. If found,
+     * returns l-value reference to it. If not, calls insert() with construct() to construct and
+     * insert object in m_elements
+     * @param line key, name etc. of the searched value
+     * @return reference on returnal value of object
+     * @see find()
+     * @see insert()
+     * @see construct()
+     */
+    std::string& operator[](std::string line);
+
+    /**
+     * @brief Finds and returns const l-value reference or std::nullopt
+     * @param line key, name etc. of the searched value
+     * @return l-value reference to found object or std::nullopt if not found
+     * @see find()
+     */
+    boost::optional<const std::string&> operator[](std::string line) const;
+
 
     /// Empty destructor
     ~Section() = default;
-
-private:
-    /**
-     * @brief Overrided construct function
-     * @param key key of new KV
-     * @return created KV class
-     */
-    KV construct(std::string key) override;
 };
 
 
