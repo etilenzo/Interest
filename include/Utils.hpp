@@ -9,7 +9,6 @@
 
 #include <iostream>
 #include <string>
-#include <variant>
 
 namespace ES {
 
