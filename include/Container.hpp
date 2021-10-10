@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief This file contains declaration of template Container class
+ * @brief This file contains declaration of abstract template Container class
  * @author Evilenzo
  * @version 0.1
  */
@@ -132,6 +132,14 @@ protected:
         return m_elements->back();
     }
 
+    /**
+     * @brief Find element or insert new one
+     * @param line line to search
+     * @return reference on found of created element
+     * @see find()
+     * @see construct()
+     * @see insert()
+     */
     T& findOrInsert(std::string line) {
         boost::optional<T&> temp = find(line);
 
