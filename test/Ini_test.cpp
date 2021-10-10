@@ -17,7 +17,6 @@ TEST_CASE("Ini") {
         Ini ini;
         ini.parseFromStream(is);
         bool result = ini["SessionKey.UsePotionMP"]["Key1.Offset"] == "72";
-        std::cout << ini["SessionKey.UsePotionMP"]["Key1.Offset"].m_value;
         REQUIRE(result);
     }
 }

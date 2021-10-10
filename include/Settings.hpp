@@ -64,30 +64,16 @@ struct Settings {
           m_parse_type(std::move(parse_type)),
           m_quotation_marks(std::move(quotation_marks)) {}
 
-    /**
-     * @brief Copy constructor
-     * @param settings const l-value reference to another instance
-     */
+    /// @brief Copy constructor
     Settings(const Settings& settings) = default;
 
-    /**
-     * @brief Move constructor
-     * @param settings r-value reference to another instance
-     */
+    /// @brief Move constructor
     Settings(Settings&& settings) noexcept = default;
 
-    /**
-     * @brief Copy assignment operator
-     * @param settings const l-value reference to another instance
-     * @return *this
-     */
+    /// @brief Copy assignment operator
     Settings& operator=(const Settings& settings) = default;
 
-    /**
-     * @brief Move assignment operator
-     * @param settings r-value reference to another instance
-     * @return *this
-     */
+    /// @brief Move assignment operator
     Settings& operator=(Settings&& settings) noexcept = default;
 
     /// @brief Empty destructor

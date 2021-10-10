@@ -19,8 +19,16 @@ namespace ES {
 /// @brief Ini container class
 class Ini : public Container<Section> {
 public:
-    /// @brief Constructor with param initialization
-    Ini(Settings settings = Settings(), std::string name = "",
+    /// @brief Settings of parsing
+    Settings m_settings;
+
+    /**
+     * @brief Constructor with param initialization
+     * @param settings settings of ini parsing
+     * @param name name of this container
+     * @param sections vector of Sections
+     */
+    Ini(Settings settings = Settings(), std::string name = std::string(),
         std::vector<Section> sections = std::vector<Section>())
         : m_settings(std::move(settings)), Container(std::move(name), std::move(sections)) {}
 
@@ -30,17 +38,36 @@ public:
      */
     Ini(std::istream& is) { parseFromStream(is); }
 
-    /**
-     * @brief Copy constructor
-     * @param ini const l-value reference to another instance
-     */
+    /// @brief Copy constructor
     Ini(const Ini& ini) : m_settings(ini.m_settings), Container(ini) {}
 
+    /// @brief Move constructor
+    Ini(Ini&& ini) noexcept : m_settings(std::move(ini.m_settings)), Container(std::move(ini)) {}
+
+    /// @brief Copy assignment operator
+    Ini& operator=(const Ini& ini) = default;
+
+    /// @brief Move assignment operator
+    Ini& operator=(Ini&& ini) = default;
+
     /**
-     * @brief Move constructor
-     * @param ini r-value reference to another instance
+     * @brief Finds and returns l-value reference on Section or inserts new
+     * @details Tries to find element in the m_elements vector. If found, returns l-value reference
+     * to it. If not, calls insert() and returns new one
+     * @param name name of searched Section
+     * @return reference on Section
+     * @see find()
+     * @see insert()
      */
-    Ini(Ini&& ini) noexcept : m_settings(std::move(ini.m_settings)), Container(ini) {}
+    Section& operator[](std::string name);
+
+    /**
+     * @brief Finds and returns const l-value reference or std::nullopt
+     * @param name name of searched Section
+     * @return l-value reference to found Section or std::nullopt if not found
+     * @see find()
+     */
+    boost::optional<const Section&> operator[](std::string name) const;
 
     /**
      * @brief Parse Ini from input stream
@@ -70,15 +97,8 @@ public:
     ~Ini() = default;
 
 private:
-    /// @brief Settings of parsing
-    Settings m_settings;
-
-    /**
-     * @brief Overrided construct function
-     * @param name of new Section
-     * @return created Section class
-     */
-    Section construct(std::string name) override;
+    /// @brief Construct a new Section
+    Section construct(std::string name);
 };
 
 

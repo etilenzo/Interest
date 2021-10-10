@@ -55,34 +55,14 @@ public:
      * @return m_name == name
      * @see find()
      */
-    virtual bool operator==(std::string name) const noexcept { return m_name == name; }
+    bool operator==(std::string name) const noexcept { return m_name == name; }
 
-    /**
-     * @brief Remove empty entries
-     * @details Works only for types having empty() function. Must be overrided for others!
-     */
-    virtual void removeEmpty() noexcept {
-        m_elements->erase(std::remove_if(m_elements->begin(), m_elements->end(),
-                                         [](const T& i) { return i.empty(); }),
-                          m_elements->end());
-    }
-
-    /// @brief Clear container
-    virtual void clear() noexcept { m_elements->clear(); }
-
-    /// @brief Check if container is empty
-    virtual bool empty() const noexcept { return m_elements->empty(); }
-
-    /// @brief Empty destructor
-    virtual ~Container() = default;
-
-protected:
     /**
      * @brief Finds element (T must have operator== implementation)
      * @details Uses find() to find object
      * @return boost::none if not found or l-value reference on object
      */
-    virtual boost::optional<T&> find(std::string line) const {
+    boost::optional<T&> find(std::string line) {
         if (!m_elements->empty()) {
             auto temp = std::find(m_elements->begin(), m_elements->end(), line);
 
@@ -97,13 +77,69 @@ protected:
     }
 
     /**
+     * @brief Finds element (T must have operator== implementation)
+     * @details Uses find() to find object
+     * @return boost::none if not found or const l-value reference on object
+     */
+    boost::optional<const T&> find(std::string line) const {
+        if (!m_elements->empty()) {
+            auto temp = std::find(m_elements->begin(), m_elements->end(), line);
+
+            if (temp != m_elements->end()) {
+                return *temp;
+            }
+
+            return boost::none;
+        }
+
+        return boost::none;
+    }
+
+    /**
+     * @brief Remove empty entries
+     * @details Works only for types having empty() function. Must be overrided for others!
+     */
+    virtual void removeEmpty() noexcept {
+        m_elements->erase(std::remove_if(m_elements->begin(), m_elements->end(),
+                                         [](const T& i) { return i.empty(); }),
+                          m_elements->end());
+    }
+
+    /// @brief Clear container
+    void clear() noexcept { m_elements->clear(); }
+
+    /// @brief Check if container is empty
+    bool empty() const noexcept { return m_elements->empty(); }
+
+    /// @brief Empty destructor
+    virtual ~Container() = default;
+
+protected:
+    /**
+     * @brief Construct new element
+     * @param line line that used to construct
+     * @return new constructed element
+     */
+    virtual T construct(std::string line) = 0;
+
+    /**
      * @brief Inserts temporary object in m_elements
      * @param temp temporary object
      * @return l-value reference on this object
      */
-    virtual T& insert(T temp) {
+    T& insert(T temp) {
         m_elements->push_back(temp);
         return m_elements->back();
+    }
+
+    T& findOrInsert(std::string line) {
+        boost::optional<T&> temp = find(line);
+
+        if (temp) {
+            return *temp;
+        }
+
+        return insert(std::move(construct(line)));
     }
 };
 

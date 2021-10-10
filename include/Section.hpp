@@ -16,13 +16,17 @@
 namespace ES {
 
 
+class Ini;
+
 /// @brief Section container class
 class Section : public Container<KV> {
 public:
+    friend Ini;
+
     /**
      * @brief Container with param initialization
-     * @param name m_name
-     * @param options m_options
+     * @param name name of container
+     * @param options vector of KV
      */
     Section(std::string name = std::string(), std::vector<KV> options = std::vector<KV>())
         : Container(std::move(name), std::move(options)) {}
@@ -40,29 +44,30 @@ public:
     Section& operator=(Section&& section) = default;
 
     /**
-     * @brief Finds and returns or inserts
-     * @details Tries to find element with the comparator in the m_elements vector. If found,
-     * returns l-value reference to it. If not, calls insert() with construct() to construct and
-     * insert object in m_elements
-     * @param line key, name etc. of the searched value
-     * @return reference on returnal value of object
+     * @brief Finds and returns l-value reference on KV's m_value or inserts KV and returns same
+     * @details Tries to find element in the m_elements vector. If found, returns l-value reference
+     * to it's m_value. If not, calls insert() and returns new KV's m_value
+     * @param key key of searched KV
+     * @return reference on value of KV
      * @see find()
      * @see insert()
-     * @see construct()
      */
-    std::string& operator[](std::string line);
+    std::string& operator[](std::string key);
 
     /**
      * @brief Finds and returns const l-value reference or std::nullopt
-     * @param line key, name etc. of the searched value
-     * @return l-value reference to found object or std::nullopt if not found
+     * @param key key of searched KV
+     * @return l-value reference to found KV's value or std::nullopt if not found
      * @see find()
      */
-    boost::optional<const std::string&> operator[](std::string line) const;
-
+    boost::optional<const std::string&> operator[](std::string key) const;
 
     /// Empty destructor
     ~Section() = default;
+
+private:
+    /// @brief Construct new KV
+    KV construct(std::string key) override;
 };
 
 

@@ -10,6 +10,20 @@
 namespace ES {
 
 
+Section& Ini::operator[](std::string name) {
+    boost::optional<Section&> element = find(name);
+
+    if (element) {
+        return *element;
+    }
+
+    return insert(Section(std::move(name)));
+}
+
+boost::optional<const Section&> Ini::operator[](std::string name) const {
+    return boost::optional<const Section&>(find(std::move(name)));
+}
+
 boost::optional<Error> Ini::parseFromStream(std::istream& is) {
     if (is) {
         if (m_settings.m_parse_type == ParseType::NEW) {
@@ -43,7 +57,7 @@ boost::optional<Error> Ini::parseFromStream(std::istream& is) {
                     if (m_settings.m_section_duplicate == SectionDuplicate::FIRST) {
                         if (names.empty() ||
                             std::find(names.begin(), names.end(), temp) == names.end()) {
-                            section = &insert(construct(std::move(temp)));
+                            section = &insert(Section(std::move(temp)));
                             names.push_back(section->m_name);
                             keys.clear();
                             skip = false;
@@ -68,7 +82,7 @@ boost::optional<Error> Ini::parseFromStream(std::istream& is) {
                                     section->m_elements->push_back(std::move(kv));
                                 }
                             } else if (m_settings.m_option_duplicate == OptionDuplicate::LAST) {
-                                (*section)[kv.m_key] = std::move(kv);
+                                section->findOrInsert(kv.m_key) = std::move(kv);
                             }
                         }
                     } else {
@@ -96,13 +110,13 @@ void Ini::dumpToStream(std::ostream& os) const {
     }
 }
 
-Section Ini::construct(std::string name) { return Section(name, std::vector<KV>()); }
+Section Ini::construct(std::string name) { return Section(std::move(name)); }
 
-std::ostream& operator<<(std::ostream& os, const ES::Ini& container) {
+/*std::ostream& operator<<(std::ostream& os, const ES::Ini& container) {
     container.dumpToStream(os);
 
     return os;
-}
+}*/
 
 
 }  // namespace ES

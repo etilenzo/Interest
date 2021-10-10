@@ -9,19 +9,13 @@
 
 namespace ES {
 
-std::string& Section::operator[](std::string line) {
-    boost::optional<KV&> element = find(line);
+std::string& Section::operator[](std::string key) { return findOrInsert(std::move(key)).m_value; }
 
-    if (element) {
-        return element->m_value;
-    }
-
-    return insert(KV(std::move(line), EMPTY_STRING)).m_value;
+boost::optional<const std::string&> Section::operator[](std::string key) const {
+    return boost::optional<const std::string&>(find(std::move(key))->m_value);
 }
 
-boost::optional<const std::string&> Section::operator[](std::string line) const {
-    return boost::optional<const std::string&>(find(line));
-}
+KV Section::construct(std::string key) { return KV(std::move(key), EMPTY_STRING); }
 
 /*std::ostream& operator<<(std::ostream& os, const Section& section) {
     os << std::accumulate(section.m_options.begin(), section.m_options.end(),
