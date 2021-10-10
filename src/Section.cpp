@@ -11,8 +11,6 @@ namespace ES {
 
 KV Section::construct(std::string key) { return KV(std::move(key), EMPTY_STRING); }
 
-std::string& Section::bracketsReturn(KV& kv) { return kv.m_value; }
-
 /*std::ostream& operator<<(std::ostream& os, const Section& section) {
     os << std::accumulate(section.m_options.begin(), section.m_options.end(),
                           OPENING_BRACKET + section.m_name + CLOSING_BRACKET,

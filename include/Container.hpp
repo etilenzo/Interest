@@ -1,6 +1,6 @@
 /**
  * @file
- * @brief This file contains declaration of abstract template Container class
+ * @brief This file contains declaration of template Container class
  * @author Evilenzo
  * @version 0.1
  */
@@ -19,7 +19,7 @@ namespace ES {
 template <typename T>
 using Elements = std::shared_ptr<std::vector<T>>;
 
-template <typename T, typename R = T>
+template <typename T>
 class Container {
 public:
     /// @brief Name of container (optional for final containers)
@@ -30,58 +30,24 @@ public:
 
     /**
      * @brief Constructor with param initialization (or empty)
-     * @param name m_name
-     * @param elements m_elements
+     * @param name name of container
+     * @param elements vector of contained elements
      */
-    Container(std::string name = "", std::vector<T> elements = std::vector<T>())
+    Container(std::string name = std::string(), std::vector<T> elements = std::vector<T>())
         : m_name(std::move(name)),
           m_elements(std::make_shared<std::vector<T>>(std::move(elements))) {}
 
-    /**
-     * @brief Copy constructor
-     * @param container const l-value reference to another instance
-     */
-    Container(const Container& container)
-        : m_name(container.m_name), m_elements(container.m_elements) {}
+    /// @brief Copy constructor
+    Container(const Container& container) = default;
 
-    /**
-     * @brief Move constructor
-     * @param container r-value reference to another instance
-     */
-    Container(Container&& container) noexcept
-        : m_name(std::move(container.m_name)), m_elements(std::move(container.m_elements)) {}
+    /// @brief Move constructor
+    Container(Container&& container) noexcept = default;
 
-    /**
-     * @brief Copy assignment operator
-     * @param container const l-value reference to another instance
-     * @return *this
-     */
-    virtual Container& operator=(const Container& container) {
-        if (this == &container) {
-            return *this;
-        }
+    /// @brief Copy assignment operator
+    Container& operator=(const Container& container) = default;
 
-        m_name = container.m_name;
-        m_elements = container.m_elements;
-
-        return *this;
-    }
-
-    /**
-     * @brief Move assignment operator
-     * @param container r-value reference to another instance
-     * @return *this
-     */
-    virtual Container& operator=(Container&& container) noexcept {
-        if (this == &container) {
-            return *this;
-        }
-
-        m_name = std::move(container.m_name);
-        m_elements = std::move(container.m_elements);
-
-        return *this;
-    }
+    /// @brief Move assignment operator
+    Container& operator=(Container&& container) noexcept = default;
 
     /**
      * @brief Equality operator for find algorithm
@@ -90,37 +56,6 @@ public:
      * @see find()
      */
     virtual bool operator==(std::string name) const noexcept { return m_name == name; }
-
-    /**
-     * @brief Finds and returns or inserts
-     * @details Tries to find element with the comparator in the m_elements vector. If found,
-     * returns l-value reference to it. If not, calls insert() with construct() to construct and
-     * insert object in m_elements
-     * @param line key, name etc. of the searched value
-     * @return reference on returnal value of object
-     * @see find()
-     * @see insert()
-     * @see construct()
-     */
-    virtual R& operator[](std::string line) {
-        boost::optional<T&> element = find(line);
-
-        if (element) {
-            return bracketsReturn(*element);
-        }
-
-        return bracketsReturn(insert(construct(line)));
-    }
-
-    /**
-     * @brief Finds and returns const l-value reference or std::nullopt
-     * @param line key, name etc. of the searched value
-     * @return l-value reference to found object or std::nullopt if not found
-     * @see find()
-     */
-    virtual boost::optional<const T&> operator[](std::string line) const {
-        return boost::optional<const T&>(find(line));
-    }
 
     /**
      * @brief Remove empty entries
@@ -143,13 +78,6 @@ public:
 
 protected:
     /**
-     * @brief Construct a new object and return it
-     * @param line key, name etc.
-     * @return created object
-     */
-    virtual T construct(std::string line) = 0;
-
-    /**
      * @brief Finds element (T must have operator== implementation)
      * @details Uses find() to find object
      * @return boost::none if not found or l-value reference on object
@@ -170,15 +98,13 @@ protected:
 
     /**
      * @brief Inserts temporary object in m_elements
-     * @param temp temporary object made by construct
+     * @param temp temporary object
      * @return l-value reference on this object
      */
     virtual T& insert(T temp) {
         m_elements->push_back(temp);
         return m_elements->back();
     }
-
-    virtual R& bracketsReturn(T& element) { return element; }
 };
 
 

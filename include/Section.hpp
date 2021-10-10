@@ -17,7 +17,7 @@ namespace ES {
 
 
 /// @brief Section container class
-class Section : public Container<KV, std::string> {
+class Section : public Container<KV> {
 public:
     /**
      * @brief Container with param initialization
@@ -63,7 +63,6 @@ private:
      * @return created KV class
      */
     KV construct(std::string key) override;
-    std::string& bracketsReturn(KV& kv) override;
 };
 
 

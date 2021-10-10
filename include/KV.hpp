@@ -88,6 +88,8 @@ public:
      */
     bool empty() const noexcept;
 
+    std::string& bracketsReturn() { return m_value; }
+
     /// @brief Default destructor
     ~KV() = default;
 };
