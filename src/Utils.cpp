@@ -11,10 +11,23 @@ namespace ES {
 
 
 void delComment(std::string& line) {
-    std::size_t comment_pos = line.find_first_of(COMMENT_SYMBOLS);
+    if (!line.empty()) {
+        std::size_t comment_pos = std::string::npos;
 
-    if (comment_pos != std::string::npos) {
-        line.erase(comment_pos);
+        for (std::size_t i = 0, j = line.size() - 1; i <= j; ++i, --j) {
+            if (line[i] == COMMENT_SYMBOLS[0] || line[i] == COMMENT_SYMBOLS[1]) {
+                comment_pos = i;
+                break;
+            }
+
+            if (line[j] == COMMENT_SYMBOLS[0] || line[j] == COMMENT_SYMBOLS[1]) {
+                comment_pos = j;
+            }
+        }
+
+        if (comment_pos != std::string::npos) {
+            line.erase(comment_pos);
+        }
     }
 }
 
@@ -27,20 +40,12 @@ void delQuotationMarks(std::string& line) {
 }
 
 void prefixDelSpaces(std::string& line) {
-    std::string::iterator iter = line.begin();
-    bool cycled = false;
+    std::size_t not_space = line.find_first_not_of(SPACE_SYMBOL);
 
-    while (iter != line.end()) {
-        if (*iter == SPACE_SYMBOL) {
-            ++iter;
-            cycled = true;
-        } else {
-            break;
-        }
-    }
-
-    if (cycled) {
-        line.erase(line.begin(), iter);
+    if (not_space == std::string::npos) {
+        line.clear();
+    } else if (not_space != 0) {
+        line.erase(0, not_space);
     }
 }
 
@@ -84,6 +89,7 @@ void trimBrackets(std::string& line) {
     if (line.starts_with(OPENING_BRACKET)) {
         if (line.ends_with(CLOSING_BRACKET)) {
             line = line.substr(1, line.size() - 2);
+
             return;
         }
     }

@@ -43,6 +43,11 @@ TEST_CASE("Utils") {
             REQUIRE_NOTHROW(delComment(s));
             REQUIRE(s == "text");
         }
+        SUBCASE("Comment in the middle") {
+            std::string s = "text;txet";
+            REQUIRE_NOTHROW(delComment(s));
+            REQUIRE(s == "text");
+        }
     }
 
     SUBCASE("prefixDelSpaces") {
