@@ -90,8 +90,6 @@ if (${ENABLE_TESTS})
     message(STATUS "Building of tests is enabled")
     enable_testing()
     add_subdirectory(test)
-    configure_file("test/test_stream.ini"
-        "${CMAKE_CURRENT_BINARY_DIR}/test/")
     file(COPY "test/ini" DESTINATION
         "${CMAKE_CURRENT_BINARY_DIR}/test/")
 endif()
