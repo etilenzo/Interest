@@ -47,7 +47,7 @@ set(SRC_LIST
 ###
 ### Build the project
 ###
-add_library(${PROJECT_NAME} "${SRC_LIST}")
+add_library(${PROJECT_NAME} "${SRC_LIST}" "${HEADER_LIST}")
 target_include_directories(${PROJECT_NAME} PUBLIC "include")
 
 if (${ENABLE_TESTS})
@@ -56,7 +56,6 @@ if (${ENABLE_TESTS})
 endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${HEADER_LIST}")
-set_property(TARGET ${PROJECT_NAME} PROPERTY VERSION "${INTEREST_VERSION}")
 
 ###
 ### Install the project
