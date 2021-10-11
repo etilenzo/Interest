@@ -12,6 +12,9 @@
 namespace ES {
 
 
+inline constexpr bool COMPLETED = true;
+inline constexpr bool ERROR = false;
+
 /// @brief Error codes enum
 enum class Code { BROKEN_INPUT_STREAM, MISSING_FIRST_SECTION, WRONG_STRING };
 
