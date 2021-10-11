@@ -92,4 +92,6 @@ if (${ENABLE_TESTS})
     add_subdirectory(test)
     configure_file("test/test_stream.ini"
         "${CMAKE_CURRENT_BINARY_DIR}/test/")
+    file(COPY "test/ini" DESTINATION
+        "${CMAKE_CURRENT_BINARY_DIR}/test/")
 endif()
