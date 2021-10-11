@@ -60,8 +60,8 @@ boost::optional<Error> Ini::parseFromStream(std::istream& is) {
                 } else if (!skip) {
                     boost::optional<Error> result = createKV(*section, line, keys);
 
-                    if (result == ERROR) {
-                        return Error(Code::MISSING_FIRST_SECTION, num);
+                    if (result) {
+                        return result;
                     }
                 }
             }
@@ -129,22 +129,26 @@ boost::optional<Error> Ini::createKV(Section& section, std::string& line,
                     auto entry = std::find(keys.begin(), keys.end(), kv.m_key);
 
                     if (entry != keys.end()) {
-                        return COMPLETED;
+                        return boost::none;
                     }
                 }
 
                 keys.push_back(kv.m_key);
                 section.m_elements->push_back(std::move(kv));
 
+                return boost::none;
+
             } else if (m_settings.m_option_duplicate == OptionDuplicate::LAST) {
                 section.findOrInsert(kv.m_key) = std::move(kv);
+
+                return boost::none;
             }
         } else {
             return Error(Code::MISSING_FIRST_SECTION);
         }
     }
 
-    return Error(Code::WRONG_STRING);
+    return Error(Code::WRONG_LINE);
 }
 
 /*std::ostream& operator<<(std::ostream& os, const ES::Ini& container) {
