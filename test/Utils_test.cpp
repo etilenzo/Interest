@@ -50,6 +50,29 @@ TEST_CASE("Utils") {
         }
     }
 
+    SUBCASE("delQuotationMarks") {
+        SUBCASE("Empty string") {
+            std::string s;
+            REQUIRE_NOTHROW(delQuotationMarks(s));
+            REQUIRE(s.empty());
+        }
+        SUBCASE("No need in deleting") {
+            std::string s = "Hi! I am pretty string!";
+            REQUIRE_NOTHROW(delQuotationMarks(s));
+            REQUIRE(s == "Hi! I am pretty string!");
+        }
+        SUBCASE("Delete 's") {
+            std::string s = "'text'text";
+            REQUIRE_NOTHROW(delQuotationMarks(s));
+            REQUIRE(s == "texttext");
+        }
+        SUBCASE("Delete \"s") {
+            std::string s = "\"text\"text";
+            REQUIRE_NOTHROW(delQuotationMarks(s));
+            REQUIRE(s == "texttext");
+        }
+    }
+
     SUBCASE("prefixDelSpaces") {
         SUBCASE("Empty string") {
             std::string s;
