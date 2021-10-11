@@ -32,7 +32,7 @@ boost::optional<Error> Ini::parseFromStream(std::istream& is) {
 
         std::size_t num{0};
         std::string line;
-        bool skip = true;
+        bool skip = false;
 
         std::vector<std::string> names;
         std::vector<std::string> keys;
@@ -57,14 +57,12 @@ boost::optional<Error> Ini::parseFromStream(std::istream& is) {
 
                 if (!copy.empty()) {
                     createSection(&section, copy, skip, names, keys);
-                } else if (!skip && section != nullptr) {
-                    bool result = createKV(*section, line, keys);
+                } else if (!skip) {
+                    boost::optional<Error> result = createKV(*section, line, keys);
 
                     if (result == ERROR) {
                         return Error(Code::MISSING_FIRST_SECTION, num);
                     }
-                } else {
-                    return Error(Code::WRONG_STRING, num);
                 }
             }
         }
@@ -120,7 +118,8 @@ void Ini::createSection(Section** section, std::string& line, bool& skip,
     skip = false;
 }
 
-bool Ini::createKV(Section& section, std::string& line, std::vector<std::string>& keys) {
+boost::optional<Error> Ini::createKV(Section& section, std::string& line,
+                                     std::vector<std::string>& keys) {
     KV kv(std::move(line));
 
     if (!kv.empty()) {
@@ -141,11 +140,11 @@ bool Ini::createKV(Section& section, std::string& line, std::vector<std::string>
                 section.findOrInsert(kv.m_key) = std::move(kv);
             }
         } else {
-            return ERROR;
+            return Error(Code::MISSING_FIRST_SECTION);
         }
     }
 
-    return COMPLETED;
+    return Error(Code::WRONG_STRING);
 }
 
 /*std::ostream& operator<<(std::ostream& os, const ES::Ini& container) {

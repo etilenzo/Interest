@@ -103,7 +103,8 @@ private:
     void createSection(Section** section, std::string& line, bool& skip,
                        std::vector<std::string>& names, std::vector<std::string>& keys);
 
-    bool createKV(Section& section, std::string& line, std::vector<std::string>& keys);
+    boost::optional<Error> createKV(Section& section, std::string& line,
+                                    std::vector<std::string>& keys);
 };
 
 
