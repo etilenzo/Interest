@@ -91,7 +91,7 @@ public:
      * @param container Ini container const reference
      * @return std::ostream l-value reference
      */
-    // friend std::ostream& operator<<(std::ostream& os, const Ini& container);
+    friend std::ostream& operator<<(std::ostream& os, const Ini& container);
 
     /// Empty destructor
     ~Ini() = default;

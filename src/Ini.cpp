@@ -74,12 +74,8 @@ boost::optional<Error> Ini::parseFromStream(std::istream& is) {
 }
 
 void Ini::dumpToStream(std::ostream& os) const {
-    for (const Section& temp : *m_elements) {
-        os << OPENING_BRACKET << temp.m_name << CLOSING_BRACKET << std::endl;
-
-        for (const auto& line : *temp.m_elements) {
-            os << line.m_key << EQUAL_SYMBOL << line.m_value << std::endl;
-        }
+    for (const auto& i : *m_elements) {
+        os << i;
     }
 }
 
@@ -151,11 +147,11 @@ boost::optional<Error> Ini::createKV(Section& section, std::string& line,
     return Error(Code::WRONG_LINE);
 }
 
-/*std::ostream& operator<<(std::ostream& os, const ES::Ini& container) {
+std::ostream& operator<<(std::ostream& os, const ES::Ini& container) {
     container.dumpToStream(os);
 
     return os;
-}*/
+}
 
 
 }  // namespace ES
