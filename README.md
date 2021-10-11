@@ -34,7 +34,7 @@ target_link_libraries(MyProject Interest)
 
 int main() {
   std::stringstream ini_stream;
-  ini_stream << "[Greeting.1]" << std::endl
+  ini_stream << "[Greeting.1]"   << std::endl
              << "name   = World" << std::endl
              << "phrase = Hello" << std::endl;
 
