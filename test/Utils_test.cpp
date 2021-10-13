@@ -79,12 +79,12 @@ TEST_CASE("Utils") {
             REQUIRE_NOTHROW(prefixDelSpaces(s));
             REQUIRE(s.empty());
         }
-        SUBCASE("Empty string after beautifiing") {
+        SUBCASE("Empty string after beautifying") {
             std::string s = "    ";
             REQUIRE_NOTHROW(prefixDelSpaces(s));
             REQUIRE(s.empty());
         }
-        SUBCASE("No need in beautifiing") {
+        SUBCASE("No need in beautifying") {
             std::string s = "text";
             REQUIRE_NOTHROW(prefixDelSpaces(s));
             REQUIRE(s == "text");
@@ -102,12 +102,12 @@ TEST_CASE("Utils") {
             REQUIRE_NOTHROW(suffixDelSpaces(s));
             REQUIRE(s.empty());
         }
-        SUBCASE("Empty string after beautifiing") {
+        SUBCASE("Empty string after beautifying") {
             std::string s = "   ";
             REQUIRE_NOTHROW(suffixDelSpaces(s));
             REQUIRE(s.empty());
         }
-        SUBCASE("No need in beautifiing") {
+        SUBCASE("No need in beautifying") {
             std::string s = "text";
             REQUIRE_NOTHROW(suffixDelSpaces(s));
             REQUIRE(s == "text");
@@ -125,12 +125,12 @@ TEST_CASE("Utils") {
             REQUIRE_NOTHROW(suffixDelBreakers(s));
             REQUIRE(s.empty());
         }
-        SUBCASE("Empty string after beautifiing") {
+        SUBCASE("Empty string after beautifying") {
             std::string s = "   ";
             REQUIRE_NOTHROW(suffixDelBreakers(s));
             REQUIRE(s.empty());
         }
-        SUBCASE("No need in beautifiing") {
+        SUBCASE("No need in beautifying") {
             std::string s = "text";
             REQUIRE_NOTHROW(suffixDelBreakers(s));
             REQUIRE(s == "text");
