@@ -87,7 +87,7 @@ install(FILES
 if (${BUILD_TESTS})
     message(STATUS "Tests are enabled")
     enable_testing()
-    add_subdirectory(tests)
-    file(COPY "tests/ini" DESTINATION
+    add_subdirectory(test)
+    file(COPY "test/ini" DESTINATION
         "${CMAKE_CURRENT_BINARY_DIR}/test/")
 endif()
