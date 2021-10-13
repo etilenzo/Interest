@@ -17,15 +17,14 @@ boost::optional<const std::string&> Section::operator[](std::string key) const {
 
 KV Section::construct(std::string key) { return KV(std::move(key), EMPTY_STRING); }
 
-std::ostream& operator<<(std::ostream& os, const Section& section) {
-    os << OPENING_BRACKET << section.m_name << CLOSING_BRACKET << std::endl;
-
-    for (const auto& i : *section.m_elements) {
-        os << i;
-    }
-
+/*std::ostream& operator<<(std::ostream& os, const Section& section) {
+    os << std::accumulate(section.m_options.begin(), section.m_options.end(),
+                          OPENING_BRACKET + section.m_name + CLOSING_BRACKET,
+                          [](const std::string& a, const KV& b) {
+                              return a + LINE_BREAKER + b.m_key + EQUAL_SYMBOL + b.m_value;
+                          });
     return os;
-}
+}*/
 
 
 }  // namespace ES

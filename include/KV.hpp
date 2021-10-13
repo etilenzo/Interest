@@ -7,8 +7,6 @@
 
 #pragma once
 
-#include <iostream>
-
 #include "Utils.hpp"
 
 namespace ES {
@@ -75,8 +73,6 @@ public:
      * @return true if key and value are empty
      */
     bool empty() const noexcept;
-
-    friend std::ostream& operator<<(std::ostream& os, const KV& kv);
 
     /// @brief Default destructor
     ~KV() = default;

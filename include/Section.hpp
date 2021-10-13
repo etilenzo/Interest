@@ -62,14 +62,6 @@ public:
      */
     boost::optional<const std::string&> operator[](std::string key) const;
 
-    /**
-     * @brief Overloaded operator << to output section content in std::ostream
-     * @param os std::ostream l-value reference
-     * @param section section const l-value reference
-     * @return std::ostream l-value reference
-     */
-    friend std::ostream& operator<<(std::ostream& os, const Section& section);
-
     /// Empty destructor
     ~Section() = default;
 
@@ -77,6 +69,15 @@ private:
     /// @brief Construct new KV
     KV construct(std::string key) override;
 };
+
+
+/**
+ * @brief Overloaded operator << to output section content in std::ostream
+ * @param os std::ostream l-value reference
+ * @param section section const l-value reference
+ * @return std::ostream l-value reference
+ */
+// std::ostream& operator<<(std::ostream& os, const Section& section);
 
 
 }  // namespace ES
