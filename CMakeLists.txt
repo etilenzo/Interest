@@ -11,7 +11,7 @@ project(Interest VERSION ${INTEREST_VERSION} LANGUAGES CXX)
 ###
 ### Options
 ###
-option(ENABLE_TESTS OFF)
+option(BUILD_TESTS OFF)
 option(BUILD_SHARED_LIBS "Build as shared/static library." OFF)
 
 ###
@@ -50,11 +50,10 @@ set(SRC_LIST
 add_library(${PROJECT_NAME} "${SRC_LIST}" "${HEADER_LIST}")
 target_include_directories(${PROJECT_NAME} PUBLIC "include")
 
-if(${ENABLE_TESTS})
+if (${BUILT_TESTS})
     find_package(doctest REQUIRED)
     target_link_libraries(${PROJECT_NAME} PRIVATE doctest::doctest)
 endif()
-
 
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${HEADER_LIST}")
 
@@ -85,18 +84,10 @@ install(FILES
 ###
 ### Tests
 ###
-set(TEST_SRC_LIST
-        test/main.cpp
-
-        test/Utils_test.cpp
-
-        test/KV_test.cpp
-
-        test/Section_test.cpp
-        test/Ini_test.cpp
-
-        )
-
-add_executable(doctest_main  "${TEST_SRC_LIST}")
-target_include_directories(doctest_main PUBLIC "include")
-target_link_libraries(doctest_main Interest)
+if (${BUILD_TESTS})
+    message(STATUS "Tests are enabled")
+    enable_testing()
+    add_subdirectory(tests)
+    file(COPY "tests/ini" DESTINATION
+        "${CMAKE_CURRENT_BINARY_DIR}/test/")
+endif()
