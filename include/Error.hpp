@@ -13,7 +13,7 @@ namespace ES {
 
 
 /// @brief Error codes enum
-enum class Code { BROKEN_INPUT_STREAM, MISSING_FIRST_SECTION, WRONG_STRING };
+enum class Code { BROKEN_INPUT_STREAM, MISSING_FIRST_SECTION, WRONG_LINE };
 
 /// @brief Error struct containing code and line number
 struct Error {
