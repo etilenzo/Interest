@@ -28,8 +28,7 @@ struct Error {
      * @param _code error code
      * @param _line line number
      */
-    Error(Code _code = Code(), std::size_t _line = std::size_t())
-        : code(std::move(_code)), line(std::move(_line)) {}
+    Error(Code _code = Code(), std::size_t _line = std::size_t()) : code(_code), line(_line) {}
 
     /// @brief Copy constructor
     Error(const Error& error) = default;

@@ -31,7 +31,7 @@ enum class OptionDuplicate { FIRST, LAST };
 /**
  * @brief The Parse Type enum
  * @details NEW - do clear() before parse
- * APPEND - process as continuation of contained ini (you must set right SecitonDuplicate and
+ * APPEND - process as continuation of contained ini (you must set right SectionDuplicate and
  * OptionDuplicate values for that. For ex. if you have both settings set to FIRST, nothing is gonna
  * happen)
  */
@@ -59,10 +59,10 @@ struct Settings {
              OptionDuplicate option_duplicate = OptionDuplicate::FIRST,
              ParseType parse_type = ParseType::NEW,
              QuotationMarks quotation_marks = QuotationMarks::REMOVE)
-        : m_section_duplicate(std::move(section_duplicate)),
-          m_option_duplicate(std::move(option_duplicate)),
-          m_parse_type(std::move(parse_type)),
-          m_quotation_marks(std::move(quotation_marks)) {}
+        : m_section_duplicate(section_duplicate),
+          m_option_duplicate(option_duplicate),
+          m_parse_type(parse_type),
+          m_quotation_marks(quotation_marks) {}
 
     /// @brief Copy constructor
     Settings(const Settings& settings) = default;
