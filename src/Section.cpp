@@ -12,10 +12,10 @@ namespace ES {
 std::string& Section::operator[](std::string key) { return findOrInsert(std::move(key)).m_value; }
 
 boost::optional<const std::string&> Section::operator[](std::string key) const {
-    return boost::optional<const std::string&>(find(std::move(key))->m_value);
+    return {find(std::move(key))->m_value};
 }
 
-KV Section::construct(std::string key) { return KV(std::move(key), EMPTY_STRING); }
+KV Section::construct(std::string key) { return {std::move(key), EMPTY_STRING}; }
 
 std::ostream& operator<<(std::ostream& os, const Section& section) {
     os << OPENING_BRACKET << section.m_name << CLOSING_BRACKET << std::endl;
