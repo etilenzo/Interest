@@ -2,7 +2,7 @@
  * @file
  * @brief This file contains declarations of string util functions and symbol constants
  * @author Evilenzo
- * @version 0.2
+ * @version 0.1
  */
 
 #pragma once

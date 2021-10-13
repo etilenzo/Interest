@@ -2,7 +2,7 @@
  * @file
  * @brief This file contains definitions of KV class
  * @author Evilenzo
- * @version 0.2
+ * @version 0.1
  */
 
 #include "KV.hpp"
