@@ -2,7 +2,7 @@
  * @file
  * @brief This file contains definitions of Ini class and Error struct
  * @author Evilenzo
- * @version 0.2
+ * @version 0.1
  */
 
 #include "Ini.hpp"
