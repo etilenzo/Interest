@@ -32,10 +32,10 @@ public:
         : Container(std::move(name), std::move(options)) {}
 
     /// @brief Copy constructor
-    Section(const Section& section) : Container(section) {}
+    Section(const Section& section) = default;
 
     /// @brief Move constructor
-    Section(Section&& section) noexcept : Container(section) {}
+    Section(Section&& section) noexcept = default;
 
     /// @brief Copy assignment operator
     Section& operator=(const Section& section) = default;
@@ -55,9 +55,9 @@ public:
     std::string& operator[](std::string key);
 
     /**
-     * @brief Finds and returns const l-value reference or std::nullopt
+     * @brief Finds and returns const l-value reference or boost::none
      * @param key key of searched KV
-     * @return l-value reference to found KV's value or std::nullopt if not found
+     * @return l-value reference to found KV's value or boost::none if not found
      * @see find()
      */
     boost::optional<const std::string&> operator[](std::string key) const;
@@ -71,7 +71,7 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Section& section);
 
     /// Empty destructor
-    ~Section() = default;
+    ~Section() override = default;
 
 private:
     /// @brief Construct new KV
