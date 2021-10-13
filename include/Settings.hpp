@@ -58,7 +58,7 @@ struct Settings {
     Settings(SectionDuplicate section_duplicate = SectionDuplicate::FIRST,
              OptionDuplicate option_duplicate = OptionDuplicate::FIRST,
              ParseType parse_type = ParseType::NEW,
-             QuotationMarks quotation_marks = QuotationMarks::REMOVE)
+             QuotationMarks quotation_marks = QuotationMarks::KEEP)
         : m_section_duplicate(std::move(section_duplicate)),
           m_option_duplicate(std::move(option_duplicate)),
           m_parse_type(std::move(parse_type)),

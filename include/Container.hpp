@@ -33,7 +33,7 @@ public:
      * @param name name of container
      * @param elements vector of contained elements
      */
-    explicit Container(std::string name = std::string(), std::vector<T> elements = std::vector<T>())
+    Container(std::string name = std::string(), std::vector<T> elements = std::vector<T>())
         : m_name(std::move(name)),
           m_elements(std::make_shared<std::vector<T>>(std::move(elements))) {}
 
