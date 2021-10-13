@@ -55,7 +55,7 @@ TEST_CASE("Ini") {
     }
 
     SUBCASE("Common test") {
-        std::ifstream is("test_stream.ini");
+        std::ifstream is("./ini/test_stream.ini");
         Ini ini;
         boost::optional<Error> error = ini.parseFromStream(is);
         REQUIRE(!error);
