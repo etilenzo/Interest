@@ -79,7 +79,7 @@ void Ini::dumpToStream(std::ostream& os) const {
     }
 }
 
-Section Ini::construct(std::string name) { return Section(std::move(name)); }
+Section Ini::construct(std::string name) { return {std::move(name)}; }
 
 void Ini::createSection(Section** section, std::string& line, bool& skip,
                         std::vector<std::string>& names, std::vector<std::string>& keys) {
