@@ -30,7 +30,7 @@ public:
      */
     Ini(Settings settings = Settings(), std::string name = std::string(),
         std::vector<Section> sections = std::vector<Section>())
-        : m_settings(std::move(settings)), Container(std::move(name), std::move(sections)) {}
+        : m_settings(settings), Container(std::move(name), std::move(sections)) {}
 
     /**
      * @brief Create Ini container from input stream
@@ -39,10 +39,10 @@ public:
     Ini(std::istream& is) { parseFromStream(is); }
 
     /// @brief Copy constructor
-    Ini(const Ini& ini) : m_settings(ini.m_settings), Container(ini) {}
+    Ini(const Ini& ini) = default;
 
     /// @brief Move constructor
-    Ini(Ini&& ini) noexcept : m_settings(std::move(ini.m_settings)), Container(std::move(ini)) {}
+    Ini(Ini&& ini) noexcept = default;
 
     /// @brief Copy assignment operator
     Ini& operator=(const Ini& ini) = default;
@@ -62,16 +62,16 @@ public:
     Section& operator[](std::string name);
 
     /**
-     * @brief Finds and returns const l-value reference or std::nullopt
+     * @brief Finds and returns const l-value reference or boost::none
      * @param name name of searched Section
-     * @return l-value reference to found Section or std::nullopt if not found
+     * @return l-value reference to found Section or boost::none if not found
      * @see find()
      */
     boost::optional<const Section&> operator[](std::string name) const;
 
     /**
      * @brief Parse Ini from input stream
-     * @details Parse std::istream line by line beautifiing every string. Throws exceptions if
+     * @details Parse std::istream line by line beautifying every string. Throws exceptions if
      * stream contains wrong ini formatting
      * @param is std::istream l-value reference
      */
@@ -94,11 +94,11 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Ini& container);
 
     /// Empty destructor
-    ~Ini() = default;
+    ~Ini() override = default;
 
 private:
     /// @brief Construct a new Section
-    Section construct(std::string name);
+    Section construct(std::string name) override;
 
     void createSection(Section** section, std::string& line, bool& skip,
                        std::vector<std::string>& names, std::vector<std::string>& keys);
