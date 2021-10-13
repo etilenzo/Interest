@@ -10,6 +10,6 @@ set(TEST_SRC_LIST
 
     )
 
-add_executable(${PROJECT_NAME}_test ${TEST_SRC_LIST})
-target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME})
-add_test(${PROJECT_NAME} ${PROJECT_NAME}_test)
+add_library(doctest_main ${TEST_SRC_LIST})
+target_link_libraries(doctest_main ${PROJECT_NAME})
+add_test(${PROJECT_NAME} doctest_main)
