@@ -30,12 +30,14 @@ boost::optional<Error> Ini::parseFromStream(std::istream& is) {
             clear();
         }
 
+        std::size_t num{0};
         std::string line;
-        std::size_t num = 0;
-        bool skip = true;
-        Section* section = nullptr;
+        bool skip = false;
+
         std::vector<std::string> names;
         std::vector<std::string> keys;
+
+        Section* section = nullptr;
 
         while (getline(is, line)) {
             ++num;
@@ -50,46 +52,17 @@ boost::optional<Error> Ini::parseFromStream(std::istream& is) {
             suffixDelBreakers(line);
 
             if (!line.empty()) {
-                std::string temp = line;
-                trimBrackets(temp);
+                std::string copy = line;
+                trimBrackets(copy);
 
-                if (!temp.empty()) {
-                    if (m_settings.m_section_duplicate == SectionDuplicate::FIRST) {
-                        if (names.empty() ||
-                            std::find(names.begin(), names.end(), temp) == names.end()) {
-                            section = &insert(Section(std::move(temp)));
-                            names.push_back(section->m_name);
-                            keys.clear();
-                            skip = false;
-                        } else {
-                            skip = true;
-                        }
-                    } else if (m_settings.m_section_duplicate == SectionDuplicate::LAST) {
-                        section = &operator[](temp);
-                        section->clear();
-                    } else if (m_settings.m_section_duplicate == SectionDuplicate::UNITE) {
-                        section = &operator[](temp);
-                    }
+                if (!copy.empty()) {
+                    createSection(&section, copy, skip, names, keys);
                 } else if (!skip) {
-                    KV kv(std::move(line));
+                    boost::optional<Error> result = createKV(*section, line, keys);
 
-                    if (!kv.empty()) {
-                        if (section != nullptr) {
-                            if (m_settings.m_option_duplicate == OptionDuplicate::FIRST) {
-                                if (keys.empty() ||
-                                    std::find(keys.begin(), keys.end(), kv.m_key) == keys.end()) {
-                                    keys.push_back(kv.m_key);
-                                    section->m_elements->push_back(std::move(kv));
-                                }
-                            } else if (m_settings.m_option_duplicate == OptionDuplicate::LAST) {
-                                section->findOrInsert(kv.m_key) = std::move(kv);
-                            }
-                        }
-                    } else {
-                        return Error(Code::MISSING_FIRST_SECTION, num);
+                    if (result) {
+                        return result;
                     }
-                } else {
-                    return Error(Code::WRONG_STRING, num);
                 }
             }
         }
@@ -101,22 +74,84 @@ boost::optional<Error> Ini::parseFromStream(std::istream& is) {
 }
 
 void Ini::dumpToStream(std::ostream& os) const {
-    for (const Section& temp : *m_elements) {
-        os << OPENING_BRACKET << temp.m_name << CLOSING_BRACKET << std::endl;
-
-        for (const auto& line : *temp.m_elements) {
-            os << line.m_key << EQUAL_SYMBOL << line.m_value << std::endl;
-        }
+    for (const auto& i : *m_elements) {
+        os << i;
     }
 }
 
 Section Ini::construct(std::string name) { return Section(std::move(name)); }
 
-/*std::ostream& operator<<(std::ostream& os, const ES::Ini& container) {
+void Ini::createSection(Section** section, std::string& line, bool& skip,
+                        std::vector<std::string>& names, std::vector<std::string>& keys) {
+    if (m_settings.m_section_duplicate == SectionDuplicate::FIRST) {
+        if (!names.empty()) {
+            auto entry = std::find(names.begin(), names.end(), line);
+
+            if (entry != names.end()) {
+                skip = true;
+                return;
+            }
+        }
+
+        *section = &insert(Section(std::move(line)));
+        Section* tmp = *section;
+
+        names.push_back(tmp->m_name);
+        keys.clear();
+
+    } else if (m_settings.m_section_duplicate == SectionDuplicate::LAST) {
+        *section = &operator[](line);
+        Section* tmp = *section;
+
+        if (!tmp->empty()) {
+            tmp->clear();
+        }
+
+    } else if (m_settings.m_section_duplicate == SectionDuplicate::UNITE) {
+        *section = &operator[](line);
+    }
+
+    skip = false;
+}
+
+boost::optional<Error> Ini::createKV(Section& section, std::string& line,
+                                     std::vector<std::string>& keys) {
+    KV kv(std::move(line));
+
+    if (!kv.empty()) {
+        if (!empty()) {
+            if (m_settings.m_option_duplicate == OptionDuplicate::FIRST) {
+                if (!keys.empty()) {
+                    auto entry = std::find(keys.begin(), keys.end(), kv.m_key);
+
+                    if (entry != keys.end()) {
+                        return boost::none;
+                    }
+                }
+
+                keys.push_back(kv.m_key);
+                section.m_elements->push_back(std::move(kv));
+
+                return boost::none;
+
+            } else if (m_settings.m_option_duplicate == OptionDuplicate::LAST) {
+                section.findOrInsert(kv.m_key) = std::move(kv);
+
+                return boost::none;
+            }
+        } else {
+            return Error(Code::MISSING_FIRST_SECTION);
+        }
+    }
+
+    return Error(Code::WRONG_LINE);
+}
+
+std::ostream& operator<<(std::ostream& os, const ES::Ini& container) {
     container.dumpToStream(os);
 
     return os;
-}*/
+}
 
 
 }  // namespace ES

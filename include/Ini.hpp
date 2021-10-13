@@ -91,7 +91,7 @@ public:
      * @param container Ini container const reference
      * @return std::ostream l-value reference
      */
-    // friend std::ostream& operator<<(std::ostream& os, const Ini& container);
+    friend std::ostream& operator<<(std::ostream& os, const Ini& container);
 
     /// Empty destructor
     ~Ini() = default;
@@ -99,6 +99,12 @@ public:
 private:
     /// @brief Construct a new Section
     Section construct(std::string name);
+
+    void createSection(Section** section, std::string& line, bool& skip,
+                       std::vector<std::string>& names, std::vector<std::string>& keys);
+
+    boost::optional<Error> createKV(Section& section, std::string& line,
+                                    std::vector<std::string>& keys);
 };
 
 

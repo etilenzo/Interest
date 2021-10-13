@@ -11,7 +11,7 @@ project(Interest VERSION ${INTEREST_VERSION} LANGUAGES CXX)
 ###
 ### Options
 ###
-option(ENABLE_TESTS OFF)
+option(BUILD_TESTS OFF)
 option(BUILD_SHARED_LIBS "Build as shared/static library." OFF)
 
 ###
@@ -19,8 +19,8 @@ option(BUILD_SHARED_LIBS "Build as shared/static library." OFF)
 ###
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-#set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
-#set(CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
+set(CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 
 set(HEADER_LIST
     include/Utils.hpp
@@ -47,16 +47,15 @@ set(SRC_LIST
 ###
 ### Build the project
 ###
-add_library(${PROJECT_NAME} "${SRC_LIST}")
+add_library(${PROJECT_NAME} "${SRC_LIST}" "${HEADER_LIST}")
 target_include_directories(${PROJECT_NAME} PUBLIC "include")
 
-if (${ENABLE_TESTS})
+if (${BUILT_TESTS})
     find_package(doctest REQUIRED)
     target_link_libraries(${PROJECT_NAME} PRIVATE doctest::doctest)
 endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${HEADER_LIST}")
-set_property(TARGET ${PROJECT_NAME} PROPERTY VERSION "${INTEREST_VERSION}")
 
 ###
 ### Install the project
@@ -85,11 +84,10 @@ install(FILES
 ###
 ### Tests
 ###
-
-if (${ENABLE_TESTS})
-    message(STATUS "Building of tests is enabled")
+if (${BUILD_TESTS})
+    message(STATUS "Tests are enabled")
     enable_testing()
-    add_subdirectory(test)
-    configure_file("test/test_stream.ini"
+    add_subdirectory(tests)
+    file(COPY "tests/ini" DESTINATION
         "${CMAKE_CURRENT_BINARY_DIR}/test/")
 endif()
