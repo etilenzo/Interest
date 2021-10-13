@@ -2,7 +2,7 @@
  * @file
  * @brief This file contains declaration of KV class
  * @author Evilenzo
- * @version 0.1
+ * @version 0.2
  */
 
 #pragma once
