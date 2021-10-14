@@ -85,18 +85,31 @@ TEST_CASE("Section") {
         REQUIRE(!section2.empty());
     }
 
-    SUBCASE("Construct check") {
+    SUBCASE("Add in wrong check") {
         Section section;
         section["Key"] = "Value";
-        REQUIRE(!section.empty());
         REQUIRE(section.m_elements->size() == 1);
         REQUIRE(section["Key"] == "Value");
+    }
+
+    SUBCASE("Add in non wrong check") {
+        Section section("Name", {KV("Key1=Value1")});
+        section["Key2"] = "Value2";
+        REQUIRE(section.m_elements->size() == 2);
+        REQUIRE(section["Key1"] == "Value1");
+        REQUIRE(section["Key2"] == "Value2");
     }
 
     SUBCASE("Const find check") {
         const Section section("Name", {KV("Key1=Value1"), KV("Key2=Value2")});
         REQUIRE(*section["Key2"] == "Value2");
         REQUIRE(!section["Blah"]);
+    }
+
+    SUBCASE("Const find wrong check") {
+        const Section section;
+        REQUIRE(section.empty());
+        REQUIRE(!section["Key"]);
     }
 
     SUBCASE("Ostream operator overload") {
@@ -108,5 +121,12 @@ TEST_CASE("Section") {
         REQUIRE(line == "[Name]");
         getline(os, line);
         REQUIRE(line == "Key=Value");
+    }
+
+    SUBCASE("RemoveEmpty for Container class") {
+        Section section("Name", {KV(), KV("2=1"), KV("1=2"), KV()});
+        REQUIRE(section.m_elements->size() == 4);
+        section.removeEmpty();
+        REQUIRE(section.m_elements->size() == 2);
     }
 }
