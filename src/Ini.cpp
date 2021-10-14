@@ -10,15 +10,7 @@
 namespace ES {
 
 
-Section& Ini::operator[](std::string name) {
-    boost::optional<Section&> element = find(name);
-
-    if (element) {
-        return *element;
-    }
-
-    return insert(Section(std::move(name)));
-}
+Section& Ini::operator[](std::string name) { return findOrInsert(std::move(name)); }
 
 const Section& Ini::operator[](std::string name) const {
     boost::optional<const Section&> temp = (find(std::move(name)));
@@ -81,7 +73,7 @@ boost::optional<Error> Ini::parseFromStream(std::istream& is) {
 
 void Ini::dumpToStream(std::ostream& os) const {
     for (const auto& i : *m_elements) {
-        os << i;
+        os << i << std::endl;
     }
 }
 
@@ -99,7 +91,7 @@ void Ini::createSection(Section** section, std::string& line, bool& skip,
             }
         }
 
-        *section = &insert(Section(std::move(line)));
+        *section = &insert(construct(std::move(line)));
         Section* tmp = *section;
 
         names.push_back(tmp->m_name);
