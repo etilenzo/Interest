@@ -2,7 +2,7 @@
  * @file
  * @brief This file contains declaration of Ini class
  * @author Evilenzo
- * @version 0.2
+ * @version 0.3
  */
 
 #pragma once
