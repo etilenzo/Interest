@@ -124,7 +124,7 @@ boost::optional<Error> Ini::createKV(Section& section, std::string& line,
                                      std::vector<std::string>& keys) {
     KV kv(std::move(line));
 
-    if (!kv.empty()) {
+    if (!kv.wrong()) {
         if (!empty()) {
             if (m_settings.m_option_duplicate == OptionDuplicate::FIRST) {
                 if (!keys.empty()) {

@@ -72,9 +72,15 @@ public:
 
     /**
      * @brief Determine if class is empty
-     * @return true if key and value are empty
+     * @return true if value is empty
      */
     bool empty() const noexcept;
+
+    /**
+     * @brief Determine if class is wrong
+     * @return true if key and value are empty
+     */
+    bool wrong() const noexcept;
 
     friend std::ostream& operator<<(std::ostream& os, const KV& kv);
 

@@ -19,7 +19,11 @@ void checkValues(KV& kv) {
 }
 
 TEST_CASE("KV") {
-    SUBCASE("Empty constructor") { REQUIRE_NOTHROW(KV kv); }
+    SUBCASE("Empty constructor") {
+        REQUIRE_NOTHROW(KV kv);
+        KV kv;
+        REQUIRE(kv.wrong());
+    }
 
     SUBCASE("Key-Value constructor") {
         REQUIRE_NOTHROW(KV kv("Key", "Value"));
@@ -54,7 +58,7 @@ TEST_CASE("KV") {
         REQUIRE_NOTHROW(KV kv2(std::move(kv1)));
         KV kv2("Key=Value");
         KV kv3(std::move(kv2));
-        REQUIRE(kv2.empty());
+        REQUIRE(kv2.wrong());
         checkValues(kv3);
     }
 
@@ -73,7 +77,7 @@ TEST_CASE("KV") {
         KV kv3("Key=Value");
         KV kv4;
         kv4 = std::move(kv3);
-        REQUIRE(kv3.empty());
+        REQUIRE(kv3.wrong());
         checkValues(kv4);
     }
 
