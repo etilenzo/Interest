@@ -1,93 +1,108 @@
 cmake_minimum_required(VERSION 3.5)
 
 ###
-### Project
+### PROJECT
+### name and version
 ###
-set(INTEREST_VERSION_MAJOR 0)
-set(INTEREST_VERSION_MINOR 2)
-set(INTEREST_VERSION ${INTEREST_VERSION_MAJOR}.${INTEREST_VERSION_MINOR})
-project(Interest VERSION ${INTEREST_VERSION} LANGUAGES CXX)
+project(Interest VERSION 0.3 LANGUAGES CXX)
 
 ###
-### Options
+### CHECK IF MAIN PROJECT
+### determine if build as a subproject (using add_subdirectory) or if it is the main project
 ###
-option(BUILD_TESTS OFF)
-option(BUILD_SHARED_LIBS "Build as shared/static library." OFF)
-
-###
-### Sources
-###
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
-set(CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
-
-set(HEADER_LIST
-    include/Utils.hpp
-
-    include/KV.hpp
-
-    include/Container.hpp
-    include/Section.hpp
-    include/Ini.hpp
-
-    include/Error.hpp
-    include/Settings.hpp
-    )
-
-set(SRC_LIST
-    src/Utils.cpp
-
-    src/KV.cpp
-
-    src/Section.cpp
-    src/Ini.cpp
-    )
-
-###
-### Build the project
-###
-add_library(${PROJECT_NAME} "${SRC_LIST}" "${HEADER_LIST}")
-target_include_directories(${PROJECT_NAME} PUBLIC "include")
-
-if (${BUILT_TESTS})
-    find_package(doctest REQUIRED)
-    target_link_libraries(${PROJECT_NAME} PRIVATE doctest::doctest)
+set(MAIN_PROJECT OFF)
+if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+        set(MAIN_PROJECT ON)
 endif()
 
-set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${HEADER_LIST}")
+###
+### OPTIONS
+###
+option(BUILD_TESTS        "Build unit tests"          ${MAIN_PROJECT})
+option(BUILD_SHARED_LIBS  "Build as shared library."  OFF)
 
 ###
-### Install the project
+### CONFIGURATION
 ###
 include(GNUInstallDirs)
-install(TARGETS "${PROJECT_NAME}"
-    EXPORT "${PROJECT_NAME}Targets"
-    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-    PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}")
+
+set(CMAKE_CXX_STANDARD                 20)
+set(CMAKE_CXX_STANDARD_REQUIRED        ON)
+set(CMAKE_CXX_FLAGS_DEBUG              "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
+set(CMAKE_LINKER_FLAGS_DEBUG           "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
+
+set(INTEREST_TARGET_NAME               ${PROJECT_NAME})
+set(INTEREST_TARGETS_EXPORT_NAME       "${PROJECT_NAME}Targets")
+set(INTEREST_INCLUDE_DIR               "include")
+set(INTEREST_CONFIG_INSTALL_DIR        "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+set(INTEREST_INCLUDE_INSTALL_DIR       "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}")
+set(INTEREST_LIBRARY_INSTALL_DIR       "${CMAKE_INSTALL_LIBDIR}")
+set(INTEREST_PROJECT_CONFIG_TEMPLATE   "cmake/${PROJECT_NAME}Config.cmake")
+set(INTEREST_CMAKE_CONFIG_DIR          "${CMAKE_CURRENT_BINARY_DIR}/cmake")
+set(INTEREST_PROJECT_CONFIG_FILE       "${INTEREST_CMAKE_CONFIG_DIR}/${PROJECT_NAME}Config.cmake")
+set(INTEREST_PROJECT_TARGETS_FILE      "${INTEREST_CMAKE_CONFIG_DIR}/${PROJECT_NAME}Targets.cmake")
 
 ###
-### Configs for find_package()
+### SOURCES
 ###
-include(CMakePackageConfigHelpers)
-export(EXPORT "${PROJECT_NAME}Targets"
-    FILE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}Targets.cmake")
-configure_file("cmake/${PROJECT_NAME}Config.cmake"
-         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}Config.cmake"
-    COPYONLY)
-install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}Config.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}Targets.cmake"
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+set(INTEREST_HEADER_LIST
+        include/Utils.hpp
+
+        include/KV.hpp
+
+        include/Container.hpp
+        include/Section.hpp
+        include/Ini.hpp
+
+        include/Error.hpp
+        include/Settings.hpp
+    )
+
+set(INTEREST_SRC_LIST
+        src/Utils.cpp
+
+        src/KV.cpp
+
+        src/Section.cpp
+        src/Ini.cpp
+    )
 
 ###
-### Tests
+### BUILD
 ###
+add_library(${INTEREST_TARGET_NAME} ${INTEREST_SRC_LIST})
+target_include_directories(${INTEREST_TARGET_NAME} PUBLIC ${INTEREST_INCLUDE_DIR})
+
 if (${BUILD_TESTS})
-    message(STATUS "Tests are enabled")
-    enable_testing()
-    add_subdirectory(test)
-    file(COPY "test/ini" DESTINATION
-        "${CMAKE_CURRENT_BINARY_DIR}/test/")
+        message(STATUS "Tests are enabled")
+        enable_testing()
+        add_subdirectory(test)
 endif()
+
+###
+### CONFIGURE AND INSTALL
+###
+set_target_properties(
+        ${INTEREST_TARGET_NAME} PROPERTIES
+        PUBLIC_HEADER "${INTEREST_HEADER_LIST}")
+
+include(CMakePackageConfigHelpers)
+
+configure_file(
+        ${INTEREST_PROJECT_CONFIG_TEMPLATE}
+        ${INTEREST_PROJECT_CONFIG_FILE}
+        COPYONLY)
+
+install(
+        TARGETS ${INTEREST_TARGET_NAME}
+        EXPORT ${INTEREST_TARGETS_EXPORT_NAME}
+        LIBRARY DESTINATION ${INTEREST_LIBRARY_INSTALL_DIR}
+        PUBLIC_HEADER DESTINATION ${INTEREST_INCLUDE_INSTALL_DIR})
+
+install(
+        FILES ${INTEREST_PROJECT_CONFIG_FILE} ${INTEREST_PROJECT_TARGETS_FILE}
+        DESTINATION "${INTEREST_CONFIG_INSTALL_DIR}")
+
+export(
+        EXPORT ${INTEREST_TARGETS_EXPORT_NAME}
+        FILE ${INTEREST_PROJECT_TARGETS_FILE})
