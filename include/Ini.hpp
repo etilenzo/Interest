@@ -32,12 +32,6 @@ public:
         std::vector<Section> sections = std::vector<Section>())
         : m_settings(settings), Container(std::move(name), std::move(sections)) {}
 
-    /**
-     * @brief Create Ini container from input stream
-     * @param is input stream l-value reference
-     */
-    Ini(std::istream& is) { parseFromStream(is); }
-
     /// @brief Copy constructor
     Ini(const Ini& ini) = default;
 
