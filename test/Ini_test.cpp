@@ -100,6 +100,41 @@ TEST_CASE("Ini") {
         REQUIRE(ini["Test"]["key"] == EMPTY_STRING);
     }
 
+    SUBCASE("Test Last Section") {
+        std::ifstream is("./ini/test_last_section.ini");
+        Settings settings;
+        settings.m_section_duplicate = SectionDuplicate::LAST;
+        Ini ini(settings);
+        boost::optional<Error> error = ini.parseFromStream(is);
+        REQUIRE(!error);
+        REQUIRE(ini["Test"]["a"] == "c");
+        REQUIRE(ini["Test"]["b"] == "a");
+        REQUIRE(ini["Test"]["c"] == "b");
+    }
+
+    SUBCASE("Test Unite Sections") {
+        std::ifstream is("./ini/test_unite_sections.ini");
+        Settings settings;
+        settings.m_section_duplicate = SectionDuplicate::UNITE;
+        Ini ini(settings);
+        boost::optional<Error> error = ini.parseFromStream(is);
+        REQUIRE(!error);
+        REQUIRE(ini["Test"]["a"] == "1");
+        REQUIRE(ini["Test"]["b"] == "2");
+        REQUIRE(ini["Test"]["c"] == "3");
+    }
+
+    SUBCASE("Test Last Option") {
+        std::ifstream is("./ini/test_last_option.ini");
+        Settings settings;
+        settings.m_option_duplicate = OptionDuplicate::LAST;
+        Ini ini(settings);
+        boost::optional<Error> error = ini.parseFromStream(is);
+        REQUIRE(!error);
+        REQUIRE(ini["Test"]["a"] == "3");
+        REQUIRE(ini["Test"]["b"] == "2");
+    }
+
     SUBCASE("Common test") {
         std::ifstream is("./ini/test_stream.ini");
         Ini ini;
