@@ -91,6 +91,7 @@ public:
     ~Ini() override = default;
 
 private:
+    /// @brief Placeholder for const []
     static inline Section m_empty = Section();
 
     /// @brief Construct a new Section
