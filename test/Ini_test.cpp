@@ -5,6 +5,8 @@
  * @version 0.2
  */
 
+#include <sstream>
+
 #include "doctest/doctest.h"
 
 #include "Ini.hpp"
@@ -12,6 +14,50 @@
 using namespace ES;
 
 TEST_CASE("Ini") {
+    SUBCASE("Const operator[] for empty") {
+        const Ini ini;
+        REQUIRE(ini["Name"].m_name == "");
+        REQUIRE(ini["Name"].empty());
+    }
+
+    SUBCASE("Const operator[]") {
+        const Ini ini({}, {}, {Section("Name", {KV()})});
+        REQUIRE(ini["Name"].m_name == "Name");
+        REQUIRE(!ini["Name"].empty());
+    }
+
+    SUBCASE("Broken input stream") {
+        std::ifstream is("/hello_world");
+        Ini ini;
+        boost::optional<Error> error = ini.parseFromStream(is);
+        REQUIRE(error->code == Code::BROKEN_INPUT_STREAM);
+    }
+
+    SUBCASE("Dump to stream") {
+        Ini ini({}, {},
+                {Section("Name", {KV("Key=Value")}), Section("Name2", {KV("Key2=Value2")})});
+        std::stringstream os;
+        os << ini;
+        std::string line;
+        getline(os, line);
+        REQUIRE(line == "[Name]");
+        getline(os, line);
+        REQUIRE(line == "Key=Value");
+        getline(os, line);
+        REQUIRE(line == "");
+        getline(os, line);
+        REQUIRE(line == "[Name2]");
+        getline(os, line);
+        REQUIRE(line == "Key2=Value2");
+    }
+
+    SUBCASE("Construct Section") {
+        Ini ini;
+        ini["Name"]["Key"] = "Value";
+        REQUIRE(ini.m_elements->size() == 1);
+        REQUIRE(ini["Name"]["Key"] == "Value");
+    }
+
     SUBCASE("Test standard") {
         std::ifstream is("./ini/test_standard.ini");
         Ini ini;
