@@ -103,6 +103,7 @@ void Ini::createSection(Section** section, std::string& line, bool& skip,
 
         if (!tmp->empty()) {
             tmp->clear();
+            keys.clear();
         }
 
     } else if (m_settings.m_section_duplicate == SectionDuplicate::UNITE) {
