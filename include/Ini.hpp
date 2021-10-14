@@ -67,7 +67,7 @@ public:
      * @return l-value reference to found Section or boost::none if not found
      * @see find()
      */
-    boost::optional<const Section&> operator[](std::string name) const;
+    const Section& operator[](std::string name) const;
 
     /**
      * @brief Parse Ini from input stream
@@ -97,6 +97,8 @@ public:
     ~Ini() override = default;
 
 private:
+    static inline Section m_empty = Section();
+
     /// @brief Construct a new Section
     Section construct(std::string name) override;
 

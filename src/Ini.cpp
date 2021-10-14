@@ -20,8 +20,14 @@ Section& Ini::operator[](std::string name) {
     return insert(Section(std::move(name)));
 }
 
-boost::optional<const Section&> Ini::operator[](std::string name) const {
-    return boost::optional<const Section&>(find(std::move(name)));
+const Section& Ini::operator[](std::string name) const {
+    boost::optional<const Section&> temp = (find(std::move(name)));
+
+    if (temp) {
+        return *temp;
+    }
+
+    return m_empty;
 }
 
 boost::optional<Error> Ini::parseFromStream(std::istream& is) {
