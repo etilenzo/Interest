@@ -36,7 +36,9 @@ void KV::fromString(std::string line) {
     }
 }
 
-bool KV::empty() const noexcept { return m_key.empty() && m_value.empty(); }
+bool KV::empty() const noexcept { return m_value.empty(); }
+
+bool KV::wrong() const noexcept { return m_key.empty() && m_value.empty(); }
 
 std::ostream& operator<<(std::ostream& os, const KV& kv) {
     os << kv.m_key << EQUAL_SYMBOL << kv.m_value << std::endl;
