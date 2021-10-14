@@ -12,7 +12,13 @@ namespace ES {
 std::string& Section::operator[](std::string key) { return findOrInsert(std::move(key)).m_value; }
 
 boost::optional<const std::string&> Section::operator[](std::string key) const {
-    return {find(std::move(key))->m_value};
+    boost::optional<const KV&> temp = find(std::move(key));
+
+    if (temp) {
+        return temp->m_value;
+    }
+
+    return boost::none;
 }
 
 KV Section::construct(std::string key) { return {std::move(key), EMPTY_STRING}; }
