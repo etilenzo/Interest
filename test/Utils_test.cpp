@@ -28,13 +28,13 @@ TEST_CASE("Utils") {
             REQUIRE_NOTHROW(delComment(s));
             REQUIRE(s.empty());
         }
-        SUBCASE("Uncomment #") {
+        SUBCASE("Uncomment # in first half") {
             std::string s = "text#comment";
             REQUIRE_NOTHROW(delComment(s));
             REQUIRE(s == "text");
         }
-        SUBCASE("Uncomment ;") {
-            std::string s = "text;comment";
+        SUBCASE("Uncomment ; in last part") {
+            std::string s = "text;com";
             REQUIRE_NOTHROW(delComment(s));
             REQUIRE(s == "text");
         }
