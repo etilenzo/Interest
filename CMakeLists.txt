@@ -76,15 +76,9 @@ target_include_directories(${INTEREST_TARGET_NAME} PUBLIC ${INTEREST_INCLUDE_DIR
 ###
 ### BOOST
 ###
-find_package(Boost)
+find_package(Boost REQUIRED)
 
-if (${Boost_FOUND})
-        target_link_libraries(${INTEREST_TARGET_NAME} Boost::headers)
-else()
-        message(FATAL_ERROR "Interest could not find Boost libraries. "
-                "You must install it from your package manager or you may want "
-                "to use conan install with conanfile.txt in the root directory of the project.")
-endif()
+target_link_libraries(${INTEREST_TARGET_NAME} Boost::headers)
 
 ###
 ### TESTS

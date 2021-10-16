@@ -17,32 +17,8 @@ set(INTEREST_TESTS_LIST
 
 add_library(doctest_main OBJECT unit.cpp)
 
-find_package(doctest QUIET)
-
-if(${DOCTEST_FOUND})
-    get_property(doctest SOURCE_DIR)
-    set(DOCTEST_INCLUDE_DIR ${SOURCE_DIR}/doctest)
-else()
-    include(ExternalProject)
-    find_package(Git REQUIRED)
-
-    ExternalProject_Add(
-            doctest
-            PREFIX ${CMAKE_BINARY_DIR}/doctest
-            GIT_REPOSITORY https://github.com/onqtam/doctest.git
-            TIMEOUT 10
-            UPDATE_COMMAND ${GIT_EXECUTABLE} pull
-            CONFIGURE_COMMAND ""
-            BUILD_COMMAND ""
-            INSTALL_COMMAND ""
-            LOG_DOWNLOAD ON
-    )
-
-    ExternalProject_Get_Property(doctest SOURCE_DIR)
-    set(DOCTEST_INCLUDE_DIR ${SOURCE_DIR}/doctest)
-endif()
-
-target_include_directories(doctest_main PUBLIC ${DOCTEST_INCLUDE_DIR})
+find_package(doctest REQUIRED)
+target_link_libraries(doctest_main PRIVATE doctest::doctest)
 
 foreach(filename ${INTEREST_TESTS_LIST})
     string(REGEX REPLACE "unit-([^_]+).cpp" "test-\\1" testcase ${filename})
@@ -53,6 +29,5 @@ foreach(filename ${INTEREST_TESTS_LIST})
             NAME "${testcase}"
             COMMAND ${testcase} ${DOCTEST_TEST_FILTER} --no-skip)
 
-    target_link_libraries(${testcase} PRIVATE ${INTEREST_TARGET_NAME})
-    target_include_directories(${testcase} PUBLIC ${DOCTEST_INCLUDE_DIR})
+    target_link_libraries(${testcase} PRIVATE ${INTEREST_TARGET_NAME} doctest::doctest)
 endforeach()

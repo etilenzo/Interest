@@ -7,7 +7,7 @@
 
 #include <sstream>
 
-#include "doctest.h"
+#include "doctest/doctest.h"
 
 #include "KV.hpp"
 

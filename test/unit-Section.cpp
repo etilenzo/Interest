@@ -8,7 +8,7 @@
 #include <sstream>
 
 #include <boost/optional/optional_io.hpp>
-#include "doctest.h"
+#include "doctest/doctest.h"
 
 #include "Section.hpp"
 
