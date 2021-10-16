@@ -20,5 +20,6 @@ test:
   stage: test
   before_script:
     - cd ./build/test
+    - cp -r ./test/ini ./build/test
   script:
     - for n in $(ls test*); do ./$n; done
