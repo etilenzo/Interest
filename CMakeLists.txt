@@ -76,33 +76,14 @@ target_include_directories(${INTEREST_TARGET_NAME} PUBLIC ${INTEREST_INCLUDE_DIR
 ###
 ### BOOST
 ###
-### TODO: Find and link ONLY boost::optional
-set(Boost_USE_STATIC_RUNTIME OFF)
-#find_package(Boost COMPONENTS container)
-
+find_package(Boost)
 
 if (${Boost_FOUND})
-        target_link_libraries(${INTEREST_TARGET_NAME} Boost)
+        target_link_libraries(${INTEREST_TARGET_NAME} Boost::headers)
 else()
-        include(ExternalProject)
-        find_package(Git REQUIRED)
-
-        ExternalProject_Add(
-                boost_container
-                PREFIX ${CMAKE_BINARY_DIR}/boost_container
-                GIT_REPOSITORY https://github.com/boostorg/container.git
-                TIMEOUT 10
-                UPDATE_COMMAND ${GIT_EXECUTABLE} pull
-                CONFIGURE_COMMAND ""
-                BUILD_COMMAND ""
-                INSTALL_COMMAND ""
-                LOG_DOWNLOAD ON
-        )
-
-        ExternalProject_Get_Property(boost_container SOURCE_DIR)
-        set(BOOST_CONTAINER_INCLUDE_DIR ${SOURCE_DIR}/include CACHE INTERNAL "Path to include folder for Boost::container")
-
-        target_include_directories(${INTEREST_TARGET_NAME} PUBLIC ${BOOST_CONTAINER_INCLUDE_DIR})
+        message(FATAL_ERROR "Interest could not find Boost libraries. "
+                "You must install it from your package manager or you may want "
+                "to use conan install with conanfile.txt in the root directory of the project.")
 endif()
 
 ###
