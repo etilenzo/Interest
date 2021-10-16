@@ -5,7 +5,7 @@
  * @version 0.3
  */
 
-#include "doctest.h"
+#include "doctest/doctest.h"
 
 #include "Utils.hpp"
 
