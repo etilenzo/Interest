@@ -73,6 +73,41 @@ set(INTEREST_SRC_LIST
 add_library(${INTEREST_TARGET_NAME} ${INTEREST_SRC_LIST})
 target_include_directories(${INTEREST_TARGET_NAME} PUBLIC ${INTEREST_INCLUDE_DIR})
 
+###
+### BOOST
+###
+### TODO: Find and link ONLY boost::optional
+set(Boost_USE_STATIC_RUNTIME OFF)
+find_package(Boost)
+
+if (${Boost_FOUND})
+        target_link_libraries(${INTEREST_TARGET_NAME} Boost)
+else()
+        include(ExternalProject)
+        find_package(Git REQUIRED)
+
+        ExternalProject_Add(
+                Optional
+                PREFIX ${CMAKE_BINARY_DIR}/Optional
+                GIT_REPOSITORY https://github.com/boostorg/optional.git
+                TIMEOUT 10
+                UPDATE_COMMAND ${GIT_EXECUTABLE} pull
+                CONFIGURE_COMMAND ""
+                BUILD_COMMAND ""
+                INSTALL_COMMAND ""
+                LOG_DOWNLOAD ON
+        )
+
+        ExternalProject_Get_Property(Optional source_dir)
+        set(OPTIONAL_INCLUDE_DIR ${source_dir}/include CACHE INTERNAL "Path to include folder for Boost::optional")
+
+        target_include_directories(${INTEREST_TARGET_NAME} PUBLIC ${OPTIONAL_INCLUDE_DIR})
+endif()
+
+###
+### TEST
+###
+
 if (${BUILD_TESTS})
         message(STATUS "Tests are enabled")
         enable_testing()
