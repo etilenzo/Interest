@@ -6,6 +6,8 @@ stages:
 
 cmake:
   stage: cmake
+  before_script:
+    - apt update; apt -y install make autoconf cmake
   script:
     - cmake -G "Unix Makefiles" -S ./ -B build
 
