@@ -7,7 +7,7 @@
 
 #include <sstream>
 
-#include "doctest/doctest.h"
+#include "doctest.h"
 
 #include "Ini.hpp"
 

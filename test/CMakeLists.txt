@@ -1,6 +1,6 @@
 set(INTEREST_INI_EXAMPLES_DIR   "ini")
 set(INTEREST_TEST_DIR           "${CMAKE_CURRENT_BINARY_DIR}")
-set(DOCTEST_INCLUDE_DIR         "third_party/doctest")
+set(DOCTEST_INCLUDE_DIR         "thirdparty/doctest")
 
 file(
     COPY ${INTEREST_INI_EXAMPLES_DIR}
@@ -29,4 +29,5 @@ foreach(filename ${INTEREST_TESTS_LIST})
             COMMAND ${testcase} ${DOCTEST_TEST_FILTER} --no-skip)
 
     target_link_libraries(${testcase} PRIVATE ${INTEREST_TARGET_NAME})
+    target_include_directories(${testcase} PUBLIC ${DOCTEST_INCLUDE_DIR})
 endforeach()
