@@ -87,9 +87,8 @@ else()
 endif()
 
 ###
-### TEST
+### TESTS
 ###
-
 if (${BUILD_TESTS})
         message(STATUS "Tests are enabled")
         enable_testing()
