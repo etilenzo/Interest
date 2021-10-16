@@ -1,6 +1,5 @@
 set(INTEREST_INI_EXAMPLES_DIR   "ini")
 set(INTEREST_TEST_DIR           "${CMAKE_CURRENT_BINARY_DIR}")
-set(DOCTEST_INCLUDE_DIR         "thirdparty/doctest")
 
 file(
     COPY ${INTEREST_INI_EXAMPLES_DIR}
@@ -17,6 +16,32 @@ set(INTEREST_TESTS_LIST
     )
 
 add_library(doctest_main OBJECT unit.cpp)
+
+find_package(doctest QUIET)
+
+if(${DOCTEST_FOUND})
+    get_property(doctest source_dir)
+else()
+    include(ExternalProject)
+    find_package(Git REQUIRED)
+
+    ExternalProject_Add(
+            doctest
+            PREFIX ${CMAKE_BINARY_DIR}/doctest
+            GIT_REPOSITORY https://github.com/onqtam/doctest.git
+            TIMEOUT 10
+            UPDATE_COMMAND ${GIT_EXECUTABLE} pull
+            CONFIGURE_COMMAND ""
+            BUILD_COMMAND ""
+            INSTALL_COMMAND ""
+            LOG_DOWNLOAD ON
+    )
+
+    ExternalProject_Get_Property(doctest source_dir)
+endif()
+
+set(DOCTEST_INCLUDE_DIR ${source_dir}/doctest CACHE INTERNAL "Path to doctest include dir")
+
 target_include_directories(doctest_main PUBLIC ${DOCTEST_INCLUDE_DIR})
 
 foreach(filename ${INTEREST_TESTS_LIST})
