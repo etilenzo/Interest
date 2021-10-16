@@ -1,0 +1,16 @@
+image: gcc
+
+build:
+  stage: cmake
+  script:
+    - cmake -G "Unix Makefiles" -S ./ -B build
+  
+  stage: build
+  before-script: cd build
+  script:
+    - make
+
+  artifacts:
+    paths:
+      - build/libInterest.a
+      - build/test/test-Ini
