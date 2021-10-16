@@ -1,23 +1,22 @@
 image: gcc
 
 stages:
-  - cmake
   - build
+  - test
 
-cmake:
-  stage: cmake
+build:
+  stage: build
   before_script:
     - apt update; apt -y install make autoconf cmake
   script:
     - cmake -G "Unix Makefiles" -S ./ -B build
-
-build:
-  stage: build
-  before_script: 
     - cd build
-  script:
     - make
   artifacts:
     paths:
-      - build/libInterest.a
       - build/test/test-Ini
+
+test:
+  stage: test
+  script:
+    - ./test-Ini
