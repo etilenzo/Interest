@@ -78,7 +78,8 @@ target_include_directories(${INTEREST_TARGET_NAME} PUBLIC ${INTEREST_INCLUDE_DIR
 ###
 ### TODO: Find and link ONLY boost::optional
 set(Boost_USE_STATIC_RUNTIME OFF)
-find_package(Boost)
+#find_package(Boost COMPONENTS container)
+
 
 if (${Boost_FOUND})
         target_link_libraries(${INTEREST_TARGET_NAME} Boost)
@@ -87,9 +88,9 @@ else()
         find_package(Git REQUIRED)
 
         ExternalProject_Add(
-                Optional
-                PREFIX ${CMAKE_BINARY_DIR}/Optional
-                GIT_REPOSITORY https://github.com/boostorg/optional.git
+                boost_container
+                PREFIX ${CMAKE_BINARY_DIR}/boost_container
+                GIT_REPOSITORY https://github.com/boostorg/container.git
                 TIMEOUT 10
                 UPDATE_COMMAND ${GIT_EXECUTABLE} pull
                 CONFIGURE_COMMAND ""
@@ -98,10 +99,10 @@ else()
                 LOG_DOWNLOAD ON
         )
 
-        ExternalProject_Get_Property(Optional source_dir)
-        set(OPTIONAL_INCLUDE_DIR ${source_dir}/include CACHE INTERNAL "Path to include folder for Boost::optional")
+        ExternalProject_Get_Property(boost_container SOURCE_DIR)
+        set(BOOST_CONTAINER_INCLUDE_DIR ${SOURCE_DIR}/include CACHE INTERNAL "Path to include folder for Boost::container")
 
-        target_include_directories(${INTEREST_TARGET_NAME} PUBLIC ${OPTIONAL_INCLUDE_DIR})
+        target_include_directories(${INTEREST_TARGET_NAME} PUBLIC ${BOOST_CONTAINER_INCLUDE_DIR})
 endif()
 
 ###
