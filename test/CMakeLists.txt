@@ -17,7 +17,7 @@ set(INTEREST_TESTS_LIST
 
 add_library(doctest_main OBJECT unit.cpp)
 
-find_package(doctest REQUIRED)
+find_package(doctest)
 
 if (${DOCTEST_FOUND})
     target_link_libraries(doctest_main doctest)
