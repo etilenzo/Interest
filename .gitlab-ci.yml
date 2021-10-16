@@ -7,7 +7,7 @@ stages:
 build:
   stage: build
   before_script:
-    - apt update; apt -y install make autoconf cmake
+    - apt update && apt -y install make autoconf cmake libboost-dev
   script:
     - cmake -G "Unix Makefiles" -S ./ -B build
     - cd build
