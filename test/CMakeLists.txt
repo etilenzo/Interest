@@ -21,7 +21,7 @@ add_library(doctest_main OBJECT unit.cpp)
 target_link_libraries(doctest_main doctest::doctest)
 
 foreach(filename ${INTEREST_TESTS_LIST})
-    string(REGEX REPLACE "unit-(^[^_]+).cpp" "test-\\1" testcase ${filename})
+    string(REGEX REPLACE "unit-([^_]+).cpp" "test-\\1" testcase ${filename})
 
     add_executable(${testcase} $<TARGET_OBJECTS:doctest_main> ${filename})
 
