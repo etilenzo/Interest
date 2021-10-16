@@ -6,7 +6,8 @@ build:
     - cmake -G "Unix Makefiles" -S ./ -B build
   
   stage: build
-  before_script: cd build
+  before_script: 
+    - cd build
   script:
     - make
 
