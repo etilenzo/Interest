@@ -1,5 +1,8 @@
 # Interest
 
+
+[![pipeline status](https://gitlab.com/Evilenzo/interest/badges/master/pipeline.svg)](https://gitlab.com/Evilenzo/interest/-/commits/master)
+
 #### Example library written in C++ using last standards features for parsing ini formatted streams
 
 > Requires C++ 20 standard

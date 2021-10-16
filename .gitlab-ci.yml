@@ -14,10 +14,11 @@ build:
     - make
   artifacts:
     paths:
-      - build/test/test-Ini
+      - build/test/test-*
 
 test:
   stage: test
+  before_script:
+    - cd ./build/test
   script:
-    - find ./
-    - ./test-Ini
+    - for n in $(ls test*); do ./$n; done
