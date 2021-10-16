@@ -20,7 +20,8 @@ add_library(doctest_main OBJECT unit.cpp)
 find_package(doctest QUIET)
 
 if(${DOCTEST_FOUND})
-    get_property(doctest source_dir)
+    get_property(doctest SOURCE_DIR)
+    set(DOCTEST_INCLUDE_DIR ${SOURCE_DIR}/doctest)
 else()
     include(ExternalProject)
     find_package(Git REQUIRED)
@@ -37,10 +38,9 @@ else()
             LOG_DOWNLOAD ON
     )
 
-    ExternalProject_Get_Property(doctest source_dir)
+    ExternalProject_Get_Property(doctest SOURCE_DIR)
+    set(DOCTEST_INCLUDE_DIR ${SOURCE_DIR}/doctest)
 endif()
-
-set(DOCTEST_INCLUDE_DIR ${source_dir}/doctest CACHE INTERNAL "Path to doctest include dir")
 
 target_include_directories(doctest_main PUBLIC ${DOCTEST_INCLUDE_DIR})
 
