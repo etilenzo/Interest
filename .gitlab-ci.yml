@@ -1,0 +1,28 @@
+image: gcc
+
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
+stages:
+  - build
+  - test
+
+build:
+  stage: build
+  before_script:
+    - apt update && apt -y install make autoconf cmake libboost-dev doctest-dev
+  script:
+    - cmake -G "Unix Makefiles" -S ./ -B build
+    - cd build
+    - make
+  artifacts:
+    paths:
+      - build/test/test-*
+
+test:
+  stage: test
+  before_script:
+    - cp -r ./test/ini ./build/test
+    - cd ./build/test
+  script:
+    - for n in $(ls test*); do ./$n; done
