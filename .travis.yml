@@ -1,0 +1,44 @@
+#########################
+# project configuration #
+#########################
+
+
+# C++ project
+language: cpp
+
+dist: bionic
+sudo: required
+
+
+################
+# build matrix #
+################
+
+
+matrix:
+  include:
+    - os: linux
+      compiler:
+        - gcc
+        - clang
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-10
+          packages:
+            - g++-10
+            - clang-11
+            - libboost-dev
+            - doctest
+
+################
+# build script #
+################
+
+script:
+  - CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release"
+
+  - mkdir -p build && cd build
+  - cmake .. ${CMAKE_OPTIONS} -DBUILD_TESTS=ON && cmake --build
+  - ctest -VV -j
