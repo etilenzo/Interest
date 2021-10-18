@@ -1,14 +1,14 @@
 image: gcc
 
-include:
-  - template: Code-Quality.gitlab-ci.yml
-
 stages:
   - build
   - test
 
 build:
   stage: build
+  only:
+    - dev
+    - master
   before_script:
     - apt update && apt -y install make autoconf cmake libboost-dev doctest-dev
   script:
@@ -21,6 +21,9 @@ build:
 
 test:
   stage: test
+  only:
+    - dev
+    - master
   before_script:
     - cp -r ./test/ini ./build/test
     - cd ./build/test
