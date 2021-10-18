@@ -2,7 +2,7 @@
  * @file
  * @brief This file contains tests of string beautify functions
  * @author Evilenzo
- * @version 0.3
+ * @version 1.0
  */
 
 #include "doctest/doctest.h"

@@ -2,7 +2,7 @@
  * @file
  * @brief This file contains declaration of Settings struct
  * @author Evilenzo
- * @version 0.3
+ * @version 1.0
  */
 
 #pragma once

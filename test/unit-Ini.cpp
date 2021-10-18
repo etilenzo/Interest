@@ -2,7 +2,7 @@
  * @file
  * @brief This file contains tests of Ini class
  * @author Evilenzo
- * @version 0.3
+ * @version 1.0
  */
 
 #include <sstream>

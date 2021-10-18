@@ -2,7 +2,7 @@
  * @file
  * @brief This file contains definitions of Section class
  * @author Evilenzo
- * @version 0.3
+ * @version 1.0
  */
 
 #include "Section.hpp"

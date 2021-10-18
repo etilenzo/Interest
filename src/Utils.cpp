@@ -2,7 +2,7 @@
  * @file
  * @brief This file contains definitions of string util functions
  * @author Evilenzo
- * @version 0.3
+ * @version 1.0
  */
 
 #include "Utils.hpp"

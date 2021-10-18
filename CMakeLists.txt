@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.5)
 ### PROJECT
 ### name and version
 ###
-project(Interest VERSION 0.3 LANGUAGES CXX)
+project(Interest VERSION 1.0 LANGUAGES CXX)
 
 ###
 ### CHECK IF MAIN PROJECT
