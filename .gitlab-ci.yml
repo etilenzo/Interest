@@ -21,7 +21,7 @@ build:
     - cmake .. ${CMAKE_OPTIONS} && cmake --build ./
   artifacts:
     paths:
-      - build/test/test-*
+      - build/test/
 
 test:
   stage: test
@@ -31,6 +31,5 @@ test:
   before_script:
     - apt update && apt -y install cmake
   script:
-    - cp -r ./test/ini ./build/test
     - cd ./build/test
     - ctest -VV -j
