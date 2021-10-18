@@ -23,17 +23,17 @@ template <typename T>
 class Container {
 public:
     /// @brief Name of container (optional for final containers)
-    std::string m_name;
+    std::string m_name = {};
 
     /// @brief Vector of contained elements
-    Elements<T> m_elements;
+    Elements<T> m_elements = {};
 
     /**
      * @brief Constructor with param initialization (or empty)
      * @param name name of container
      * @param elements vector of contained elements
      */
-    explicit Container(std::string name = std::string(), std::vector<T> elements = std::vector<T>())
+    Container(std::string name = {}, std::vector<T> elements = {})
         : m_name(std::move(name)),
           m_elements(std::make_shared<std::vector<T>>(std::move(elements))) {}
 

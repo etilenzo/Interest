@@ -19,10 +19,10 @@ class Section;
 class KV {
 public:
     /// @brief Key
-    std::string m_key;
+    std::string m_key = {};
 
     /// @brief Value
-    std::string m_value;
+    std::string m_value = {};
 
     /// @brief Empty constructor
     KV() = default;

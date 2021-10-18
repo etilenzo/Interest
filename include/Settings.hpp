@@ -55,10 +55,8 @@ struct Settings {
     QuotationMarks m_quotation_marks;
 
     /// @brief Constructor with param initialization (or empty)
-    Settings(SectionDuplicate section_duplicate = SectionDuplicate::FIRST,
-             OptionDuplicate option_duplicate = OptionDuplicate::FIRST,
-             ParseType parse_type = ParseType::NEW,
-             QuotationMarks quotation_marks = QuotationMarks::REMOVE)
+    Settings(SectionDuplicate section_duplicate = {}, OptionDuplicate option_duplicate = {},
+             ParseType parse_type = {}, QuotationMarks quotation_marks = {})
         : m_section_duplicate(section_duplicate),
           m_option_duplicate(option_duplicate),
           m_parse_type(parse_type),

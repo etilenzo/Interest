@@ -18,17 +18,17 @@ enum class Code { BROKEN_INPUT_STREAM, MISSING_FIRST_SECTION, WRONG_LINE };
 /// @brief Error struct containing code and line number
 struct Error {
     /// @brief Error code
-    Code code;
+    Code code = {};
 
     /// @brief Line number
-    std::size_t line;
+    std::size_t line = {};
 
     /**
      * @brief Constructor with param initialization
      * @param _code error code
      * @param _line line number
      */
-    Error(Code _code = Code(), std::size_t _line = std::size_t()) : code(_code), line(_line) {}
+    Error(Code _code = {}, std::size_t _line = {}) : code(_code), line(_line) {}
 
     /// @brief Copy constructor
     Error(const Error& error) = default;

@@ -20,7 +20,7 @@ namespace ES {
 class Ini : public Container<Section> {
 public:
     /// @brief Settings of parsing
-    Settings m_settings;
+    Settings m_settings = {};
 
     /**
      * @brief Constructor with param initialization
@@ -28,8 +28,8 @@ public:
      * @param name name of this container
      * @param sections vector of Sections
      */
-    Ini(Settings settings = Settings(), std::string name = std::string(),
-        std::vector<Section> sections = std::vector<Section>())
+    Ini(Settings settings = {}, std::string name = {},
+        std::vector<Section> sections = {})
         : m_settings(settings), Container(std::move(name), std::move(sections)) {}
 
     /// @brief Copy constructor
@@ -92,7 +92,7 @@ public:
 
 private:
     /// @brief Placeholder for const []
-    static inline Section m_empty = Section();
+    static inline Section m_empty = {};
 
     /// @brief Construct a new Section
     Section construct(std::string name) override;
