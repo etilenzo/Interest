@@ -1,5 +1,8 @@
 image: gcc
 
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
 stages:
   - build
   - test
@@ -29,5 +32,4 @@ test:
     - cp -r ./test/ini ./build/test
     - cd ./build/test
   script:
-    - cd build/test
     - ctest -VV -j
