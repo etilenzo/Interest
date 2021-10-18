@@ -29,5 +29,5 @@ test:
     - cp -r ./test/ini ./build/test
     - cd ./build/test
   script:
-    - cd test
+    - cd build/test
     - ctest -VV -j
