@@ -29,7 +29,7 @@ test:
     - dev
     - master
   before_script:
-    - apt -y install ctest
+    - apt update && apt -y install cmake
   script:
     - cp -r ./test/ini ./build/test
     - cd ./build/test
