@@ -10,11 +10,12 @@ build:
     - dev
     - master
   before_script:
-    - apt update && apt -y install make autoconf cmake libboost-dev doctest-dev
+    - apt update && apt -y install cmake libboost-dev doctest-dev
   script:
-    - cmake -G "Unix Makefiles" -S ./ -B build
-    - cd build
-    - make
+    - CMAKE_OPTIONS+="-DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Release"
+
+    - mkdir -p build && cd build
+    - cmake .. ${CMAKE_OPTIONS} && cmake --build ./
   artifacts:
     paths:
       - build/test/test-*
@@ -28,4 +29,5 @@ test:
     - cp -r ./test/ini ./build/test
     - cd ./build/test
   script:
-    - for n in $(ls test*); do ./$n; done
+    - cd test
+    - ctest -VV -j
