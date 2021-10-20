@@ -22,9 +22,11 @@ jobs:
         - clang
       before_install:
         - wget --no-check-certificate -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+        - wget -qO - https://apt.kitware.com/keys/kitware-archive-latest.asc | sudo apt-key add -
         - sudo add-apt-repository 'deb https://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main'
+        - sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
         - sudo apt-get -q update
-        - sudo apt-get -y install clang-11
+        - sudo apt-get -y install clang-11 cmake
       addons:
         apt:
           sources:
