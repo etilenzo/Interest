@@ -31,7 +31,7 @@ jobs:
             - ubuntu-toolchain-r-test
           packages:
             - g++-10
-            - libboost-dev
+            - libboost-all-dev
             - doctest-dev
 
 ################
