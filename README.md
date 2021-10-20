@@ -3,6 +3,12 @@
 
 [![Build Status](https://app.travis-ci.com/Evilenzo/Interest.svg?branch=master)](https://app.travis-ci.com/Evilenzo/Interest)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/30632a4762e14ac8ab376c10d18ee73c)](https://www.codacy.com/gl/Evilenzo/interest/dashboard?utm_source=gitlab.com&amp;utm_medium=referral&amp;utm_content=Evilenzo/interest&amp;utm_campaign=Badge_Grade)
+[![Coverity](https://scan.coverity.com/projects/23920/badge.svg)]()
+[![Issues](https://img.shields.io/github/issues/etilenzo/Interest)](https://github.com/etilenzo/Interest/issues)
+![Last commit](https://img.shields.io/github/last-commit/etilenzo/Interest)
+[![Licence](https://img.shields.io/badge/licence-MIT-blue)](https://gitlab.com/Evilenzo/interest/-/blob/master/LICENSE)
+![Language](https://img.shields.io/github/languages/top/etilenzo/Interest)
+[![Release](https://img.shields.io/github/v/release/etilenzo/Interest)](https://github.com/etilenzo/Interest/releases)
 
 
 #### Example library written in C++ using last standards features for parsing ini formatted streams
