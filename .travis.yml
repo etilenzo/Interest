@@ -41,7 +41,7 @@ jobs:
 ################
 
 script:
-  - CMAKE_OPTIONS+="-DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-fprofile-arcs -ftest-coverage" -DCMAKE_LINKER_FLAGS="-fprofile-arcs -ftest-coverage"
+  - CMAKE_OPTIONS+="-DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS='-fprofile-arcs -ftest-coverage' -DCMAKE_LINKER_FLAGS='-fprofile-arcs -ftest-coverage'"
   - mkdir -p build && cd build
   - cmake .. ${CMAKE_OPTIONS} && cmake --build ./
   - ctest -VV -j
