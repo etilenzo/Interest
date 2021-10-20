@@ -31,7 +31,7 @@ jobs:
           packages:
             - g++-10
             - libboost-dev
-            - doctest
+            - doctest-dev
 
 ################
 # build script #
