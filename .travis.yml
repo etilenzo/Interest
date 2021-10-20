@@ -27,11 +27,12 @@ jobs:
         - wget -qO - https://apt.kitware.com/keys/kitware-archive-latest.asc | sudo apt-key add -
 
         - sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+        - sudo add-apt-repository -y "ppa:mhier/libboost-latests"
         - sudo add-apt-repository 'deb https://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main'
         - sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
 
         - sudo apt-get -q update
-        - sudo apt-get -y install g++-10 clang-11 cmake libboost-all-dev doctest-dev
+        - sudo apt-get -y install g++-10 clang-11 cmake libboost1.74-dev doctest-dev
         - export CXX="/usr/bin/g++-10"
 
 ################
