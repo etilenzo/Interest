@@ -13,7 +13,7 @@ dist: bionic
 ################
 
 
-matrix:
+jobs:
   include:
     - os: linux
       compiler:
@@ -23,7 +23,7 @@ matrix:
         - wget --no-check-certificate -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
         - sudo add-apt-repository 'deb http://apt.llvm.org/bionic/   llvm-toolchain-bionic-11  main'
         - sudo apt-get -q update
-        - sudo apt-get -y intall clang-11
+        - sudo apt-get -y install clang-11
       addons:
         apt:
           sources:
