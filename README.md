@@ -1,7 +1,6 @@
 # Interest
 
 
-[![pipeline status](https://gitlab.com/Evilenzo/interest/badges/master/pipeline.svg)](https://gitlab.com/Evilenzo/interest/-/commits/master)
 [![Build Status](https://app.travis-ci.com/Evilenzo/Interest.svg?branch=master)](https://app.travis-ci.com/Evilenzo/Interest)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/30632a4762e14ac8ab376c10d18ee73c)](https://www.codacy.com/gl/Evilenzo/interest/dashboard?utm_source=gitlab.com&amp;utm_medium=referral&amp;utm_content=Evilenzo/interest&amp;utm_campaign=Badge_Grade)
 
