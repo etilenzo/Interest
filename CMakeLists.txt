@@ -78,7 +78,7 @@ target_include_directories(${INTEREST_TARGET_NAME} PUBLIC ${INTEREST_INCLUDE_DIR
 ###
 find_package(Boost REQUIRED)
 
-target_link_libraries(${INTEREST_TARGET_NAME} Boost::headers)
+target_link_libraries(${INTEREST_TARGET_NAME} Boost::boost)
 
 ###
 ### TESTS
