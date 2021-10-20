@@ -18,7 +18,6 @@ set(INTEREST_TESTS_LIST
 add_library(doctest_main OBJECT unit.cpp)
 
 find_package(doctest REQUIRED)
-target_link_libraries(doctest_main PRIVATE doctest::doctest)
 
 foreach(filename ${INTEREST_TESTS_LIST})
     string(REGEX REPLACE "unit-([^_]+).cpp" "test-\\1" testcase ${filename})
