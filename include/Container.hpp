@@ -50,17 +50,17 @@ public:
     Container& operator=(Container&& container) noexcept = default;
 
     /**
-     * @brief Equality operator for find algorithm
+     * @brief Equality operator for find() algorithm
      * @param name name of container
      * @return m_name == name
      * @see find()
      */
-    bool operator==(std::string name) const noexcept { return m_name == name; }
+    bool operator==(const std::string& name) const noexcept { return m_name == name; }
 
     /**
      * @brief Finds element (T must have operator== implementation)
      * @details Uses find() to find object
-     * @return boost::none if not found or l-value reference on object
+     * @return boost::none if not found or l-value reference to object
      */
     boost::optional<T&> find(std::string line) {
         if (!m_elements->empty()) {

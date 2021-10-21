@@ -129,4 +129,10 @@ TEST_CASE("Section") {
         section.removeEmpty();
         REQUIRE(section.m_elements->size() == 2);
     }
+
+    SUBCASE("Equality Container") {
+        Section section("Name");
+        REQUIRE_NOTHROW(section == "Name");
+        REQUIRE(section == "Name");
+    }
 }
