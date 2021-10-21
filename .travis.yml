@@ -45,7 +45,3 @@ script:
   - mkdir -p build && cd build
   - cmake .. ${CMAKE_OPTIONS} && cmake --build ./
   - ctest -VV -j
-after_success:
-  - cd ../
-  -
-  - coveralls --exclude build/CMakeFiles --gcov-options '\-lp'
