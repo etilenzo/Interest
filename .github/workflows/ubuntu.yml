@@ -27,7 +27,7 @@ jobs:
         run: sudo apt-get install -y libboost-all-dev doctest-dev
 
       - name: CMake configure
-        run: CXX=/usr/bin/${{ matrix.compiler }} cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }}
+        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler }}
 
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config ${{ matrix.BUILD_TYPE }}
