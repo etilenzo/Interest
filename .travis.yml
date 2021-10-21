@@ -23,18 +23,18 @@ jobs:
         # As for now Travis CI contains old build tools.
         # And as we have C++20 here we must install everything ourselves
         - wget --no-check-certificate -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-        - wget -qO - https://apt.kitware.com/keys/kitware-archive-latest.asc | sudo apt-key add -
 
         - sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
         - sudo add-apt-repository 'deb https://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main'
-        # - sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
 
         - sudo apt-get -q update
-        - sudo apt-get -y install g++-10 clang-11 libboost-all-dev doctest-dev
+        - sudo apt-get -y install g++-10 clang-11 libboost-all-dev doctest-dev python3-pip
+
+        - pip3 install --user gcovr cmake
 
         - export CXX="/usr/bin/g++-10"
 
-        - pip install --user gcovr cmake
+
 
 ################
 # build script #
