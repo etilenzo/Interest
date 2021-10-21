@@ -59,7 +59,6 @@ set(INTEREST_HEADER_LIST
     )
 
 set(INTEREST_SRC_LIST
-        src/Utils.cpp
 
         src/Ini.cpp
     )
