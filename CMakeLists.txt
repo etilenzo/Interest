@@ -61,8 +61,6 @@ set(INTEREST_HEADER_LIST
 set(INTEREST_SRC_LIST
         src/Utils.cpp
 
-        src/KV.cpp
-
         src/Section.cpp
         src/Ini.cpp
     )

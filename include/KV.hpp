@@ -24,7 +24,7 @@ public:
     /// @brief Value
     std::string m_value = {};
 
-    /// @brief Empty constructor
+    /// Empty constructor
     KV() = default;
 
     /**
@@ -58,7 +58,7 @@ public:
      * @param key key to check
      * @return m_key == key
      */
-    bool operator==(const std::string& key) const noexcept;
+    bool operator==(const std::string& key) const noexcept { return m_key == key; }
 
     /**
      * @brief Parse key and value from string
@@ -68,21 +68,46 @@ public:
      * @see beautifyPrefix()
      * @see beautifySuffix()
      */
-    void fromString(std::string line);
+    void fromString(std::string line) {
+        delComment(line);
+
+        if (!line.empty()) {
+            std::size_t equal_pos = line.find(EQUAL_SYMBOL);
+
+            if (equal_pos != std::string::npos) {
+                std::string&& key = line.substr(0, equal_pos);
+                prefixDelSpaces(key);
+                suffixDelSpaces(key);
+
+                if (!key.empty()) {
+                    m_key = std::move(key);
+
+                    line.erase(0, equal_pos + 1);
+                    prefixDelSpaces(line);
+                    suffixDelBreakers(line);
+
+                    m_value = std::move(line);
+                }
+            }
+        }
+    }
 
     /**
      * @brief Determine if class is empty
      * @return true if value is empty
      */
-    bool empty() const noexcept;
+    bool empty() const noexcept { return m_value.empty(); }
 
     /**
      * @brief Determine if class is wrong
      * @return true if key and value are empty
      */
-    bool wrong() const noexcept;
+    bool wrong() const noexcept { return m_key.empty() && m_value.empty(); }
 
-    friend std::ostream& operator<<(std::ostream& os, const KV& kv);
+    friend std::ostream& operator<<(std::ostream& os, const KV& kv) {
+        os << kv.m_key << EQUAL_SYMBOL << kv.m_value << std::endl;
+        return os;
+    }
 
     /// @brief Default destructor
     ~KV() = default;
