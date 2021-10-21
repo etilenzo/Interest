@@ -84,7 +84,11 @@ target_link_libraries(${INTEREST_TARGET_NAME} Boost::boost)
 ### TESTS
 ###
 if (${BUILD_TESTS})
-        message(STATUS "Tests are enabled")
+        message(STATUS "Testing enabled")
+
+        set(CMAKE_CXX_FLAGS       "-fprofile-arcs -ftest-coverage")
+        set(CMAKE_LINKER_FLAGS    "-fprofile-arcs -ftest-coverage")
+
         enable_testing()
         add_subdirectory(test)
 endif()
