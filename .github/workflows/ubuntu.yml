@@ -12,15 +12,13 @@ on:
   release:
     types: [ published, created, edited ]
 
-env:
-  BUILD_TYPE: Release
-
 
 jobs:
   Build:
     strategy:
       matrix:
         compiler: [ g++, clang++ ]
+        BUILD_TYPE: [ Release, Debug ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -28,15 +26,15 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get install -y libboost-all-dev doctest-dev
 
-      - name: Choose compile
-        run: export CXX=/usr/bin/${{ matrix.compiler }}
+      - name: Choose compiler
+        run: CXX=/usr/bin/${{ matrix.compiler }}
 
       - name: CMake configure
-        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }}
 
       - name: Build
-        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+        run: cmake --build ${{github.workspace}}/build --config ${{ matrix.BUILD_TYPE }}
 
       - name: Test
         working-directory: ${{github.workspace}}/build
-        run: ctest -C ${{env.BUILD_TYPE}} -VV -j
+        run: ctest -C ${{ matrix.BUILD_TYPE }} -VV -j
