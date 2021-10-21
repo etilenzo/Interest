@@ -35,3 +35,11 @@ jobs:
       - name: Test
         working-directory: ${{github.workspace}}/build
         run: ctest -C ${{ matrix.BUILD_TYPE }} -VV -j
+
+      - name: Install
+        working-directory: ${{github.workspace}}/build
+        run: sudo make install
+
+      - name: Test Installation
+        working-directory: ${{github.workspace}}/build/test/cmake
+        run: cmake ./
