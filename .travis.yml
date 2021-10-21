@@ -30,7 +30,10 @@ jobs:
         - sudo apt-get -q update
         - sudo apt-get -y install g++-10 clang-11 libboost-all-dev doctest-dev python3-pip
 
-        - pip3 install --user gcovr cmake
+        - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10
+        - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-10 10
+
+        - pip3 install --user cpp-coveralls cmake
 
         - export CXX="/usr/bin/g++-10"
 
@@ -46,4 +49,4 @@ script:
   - cmake .. ${CMAKE_OPTIONS} && cmake --build ./
   - ctest -VV -j
 after_success:
-  - cd ../ && gcovr --exclude build/CMakeFiles --exclude test --coveralls-pretty
+  - cd ../ && cpp-coveralls --exclude test --gcov-options '\-lp'
