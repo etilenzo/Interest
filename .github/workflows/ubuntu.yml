@@ -26,11 +26,8 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get install -y libboost-all-dev doctest-dev
 
-      - name: Choose compiler
-        run: CXX=/usr/bin/${{ matrix.compiler }}
-
       - name: CMake configure
-        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }}
+        run: CXX=/usr/bin/${{ matrix.compiler }} cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }}
 
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config ${{ matrix.BUILD_TYPE }}
