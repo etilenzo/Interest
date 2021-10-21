@@ -33,7 +33,7 @@ set(CMAKE_LINKER_FLAGS_DEBUG           "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-fr
 
 set(INTEREST_TARGET_NAME               ${PROJECT_NAME})
 set(INTEREST_TARGETS_EXPORT_NAME       "${PROJECT_NAME}Targets")
-set(INTEREST_INCLUDE_DIR               "include")
+set(INTEREST_INCLUDE_DIR               "include/Interest")
 set(INTEREST_CONFIG_INSTALL_DIR        "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
 set(INTEREST_INCLUDE_INSTALL_DIR       "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}")
 set(INTEREST_LIBRARY_INSTALL_DIR       "${CMAKE_INSTALL_LIBDIR}")
@@ -41,22 +41,6 @@ set(INTEREST_PROJECT_CONFIG_TEMPLATE   "cmake/${PROJECT_NAME}Config.cmake")
 set(INTEREST_CMAKE_CONFIG_DIR          "${CMAKE_CURRENT_BINARY_DIR}/cmake")
 set(INTEREST_PROJECT_CONFIG_FILE       "${INTEREST_CMAKE_CONFIG_DIR}/${PROJECT_NAME}Config.cmake")
 set(INTEREST_PROJECT_TARGETS_FILE      "${INTEREST_CMAKE_CONFIG_DIR}/${PROJECT_NAME}Targets.cmake")
-
-###
-### SOURCES
-###
-set(INTEREST_HEADER_LIST
-        include/Utils.hpp
-
-        include/KV.hpp
-
-        include/Container.hpp
-        include/Section.hpp
-        include/Ini.hpp
-
-        include/Error.hpp
-        include/Settings.hpp
-    )
 
 ###
 ### BUILD
@@ -87,10 +71,6 @@ endif()
 ###
 ### CONFIGURE AND INSTALL
 ###
-set_target_properties(
-        ${INTEREST_TARGET_NAME} PROPERTIES
-        PUBLIC_HEADER "${INTEREST_HEADER_LIST}")
-
 include(CMakePackageConfigHelpers)
 
 configure_file(
@@ -99,11 +79,13 @@ configure_file(
         COPYONLY)
 
 install(
+        DIRECTORY ${INTEREST_INCLUDE_DIR}
+        DESTINATION ${INTEREST_INCLUDE_INSTALL_DIR})
+
+install(
         TARGETS ${INTEREST_TARGET_NAME}
         EXPORT ${INTEREST_TARGETS_EXPORT_NAME}
-        #ARCHIVE DESTINATION ${INTEREST_LIBRARY_INSTALL_DIR}
-        #LIBRARY DESTINATION ${INTEREST_LIBRARY_INSTALL_DIR}
-        PUBLIC_HEADER DESTINATION ${INTEREST_INCLUDE_INSTALL_DIR})
+        INCLUDES DESTINATION ${INTEREST_INCLUDE_INSTALL_DIR})
 
 install(
         FILES ${INTEREST_PROJECT_CONFIG_FILE} ${INTEREST_PROJECT_TARGETS_FILE}
