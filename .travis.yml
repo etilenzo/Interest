@@ -27,14 +27,14 @@ jobs:
 
         - sudo apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
         - sudo add-apt-repository 'deb https://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main'
-        - sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
+        # - sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
 
         - sudo apt-get -q update
-        - sudo apt-get -y install g++-10 clang-11 cmake libboost-all-dev doctest-dev gcovr
+        - sudo apt-get -y install g++-10 clang-11 libboost-all-dev doctest-dev
 
         - export CXX="/usr/bin/g++-10"
 
-        - pip install --user cpp-coveralls
+        - pip install --user gcovr cmake
 
 ################
 # build script #
@@ -45,3 +45,5 @@ script:
   - mkdir -p build && cd build
   - cmake .. ${CMAKE_OPTIONS} && cmake --build ./
   - ctest -VV -j
+after_success:
+  - cd ../ && gcovr --exclude build/CMakeFiles --exclude test --coveralls-pretty
