@@ -28,7 +28,7 @@ jobs:
         - sudo add-apt-repository 'deb https://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main'
 
         - sudo apt-get -q update
-        - sudo apt-get -y install g++-10 clang-11 libboost-all-dev doctest-dev python3-pip
+        - sudo apt-get -y install g++-10 clang-11 libboost-all-dev doctest-dev python3-pip python3-setuptools
 
         - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10
         - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-10 10
@@ -36,6 +36,7 @@ jobs:
         - pip3 install --user cpp-coveralls cmake
 
         - export CXX="/usr/bin/g++-10"
+        - PATH="$PATH:~/.local/bin"
 
 
 
