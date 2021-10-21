@@ -1,19 +1,35 @@
 name: Ubuntu
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
+      - dev
+  pull_request:
+    branches:
+      - master
+      - dev
+  release:
+    types: [ published, created, edited ]
 
 env:
   BUILD_TYPE: Release
 
 
 jobs:
-  build:
+  Build:
+    strategy:
+      matrix:
+        compiler: [ g++, clang++ ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
       - name: Install dependencies
         run: sudo apt-get install -y libboost-all-dev doctest-dev
+
+      - name: Choose compile
+      - run: export CXX=/usr/bin/${{ matrix.compiler }}
 
       - name: CMake configure
         run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
