@@ -30,7 +30,7 @@ jobs:
         - sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
 
         - sudo apt-get -q update
-        - sudo apt-get -y install g++-10 clang-11 cmake libboost-all-dev doctest-dev
+        - sudo apt-get -y install g++-10 clang-11 cmake libboost-all-dev doctest-dev gcovr
 
         - export CXX="/usr/bin/g++-10"
 
@@ -46,4 +46,6 @@ script:
   - cmake .. ${CMAKE_OPTIONS} && cmake --build ./
   - ctest -VV -j
 after_success:
-  - cd ../ && coveralls --exclude build/CMakeFiles --gcov-options '\-lp'
+  - cd ../
+  -
+  - coveralls --exclude build/CMakeFiles --gcov-options '\-lp'
