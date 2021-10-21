@@ -58,23 +58,18 @@ set(INTEREST_HEADER_LIST
         include/Settings.hpp
     )
 
-set(INTEREST_SRC_LIST
-
-        src/Ini.cpp
-    )
-
 ###
 ### BUILD
 ###
-add_library(${INTEREST_TARGET_NAME} ${INTEREST_SRC_LIST})
-target_include_directories(${INTEREST_TARGET_NAME} PUBLIC ${INTEREST_INCLUDE_DIR})
+add_library(${INTEREST_TARGET_NAME} INTERFACE)
+target_include_directories(${INTEREST_TARGET_NAME} INTERFACE ${INTEREST_INCLUDE_DIR})
 
 ###
 ### BOOST
 ###
 find_package(Boost REQUIRED)
 
-target_link_libraries(${INTEREST_TARGET_NAME} Boost::boost)
+target_link_libraries(${INTEREST_TARGET_NAME} INTERFACE Boost::boost)
 
 ###
 ### TESTS
@@ -106,8 +101,8 @@ configure_file(
 install(
         TARGETS ${INTEREST_TARGET_NAME}
         EXPORT ${INTEREST_TARGETS_EXPORT_NAME}
-        ARCHIVE DESTINATION ${INTEREST_LIBRARY_INSTALL_DIR}
-        LIBRARY DESTINATION ${INTEREST_LIBRARY_INSTALL_DIR}
+        #ARCHIVE DESTINATION ${INTEREST_LIBRARY_INSTALL_DIR}
+        #LIBRARY DESTINATION ${INTEREST_LIBRARY_INSTALL_DIR}
         PUBLIC_HEADER DESTINATION ${INTEREST_INCLUDE_INSTALL_DIR})
 
 install(
