@@ -57,7 +57,9 @@ public:
      * @param key key to check
      * @return m_key == key
      */
-    auto operator==(const std::string& key) const noexcept -> bool { return m_key == key; }
+    [[nodiscard]] auto operator==(const std::string& key) const noexcept -> bool {
+        return m_key == key;
+    }
 
     /**
      * @brief Parse key and value from string
@@ -95,13 +97,13 @@ public:
      * @brief Determine if class is empty
      * @return true if value is empty
      */
-    auto empty() const noexcept -> bool { return m_value.empty(); }
+    [[nodiscard]] auto empty() const noexcept -> bool { return m_value.empty(); }
 
     /**
      * @brief Determine if class is wrong
      * @return true if key and value are empty
      */
-    auto wrong() const noexcept -> bool { return m_key.empty() && m_value.empty(); }
+    [[nodiscard]] auto wrong() const noexcept -> bool { return m_key.empty() && m_value.empty(); }
 
     friend auto operator<<(std::ostream& os, const KV& kv) -> std::ostream& {
         os << kv.m_key << EQUAL_SYMBOL << kv.m_value << std::endl;

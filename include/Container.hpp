@@ -55,14 +55,14 @@ public:
      * @return m_name == name
      * @see find()
      */
-    auto operator==(const std::string& name) const noexcept -> bool { return m_name == name; }
+    [[nodiscard]] auto operator==(const std::string& name) const noexcept -> bool { return m_name == name; }
 
     /**
      * @brief Finds element (T must have operator== implementation)
      * @details Uses find() to find object
      * @return boost::none if not found or l-value reference to object
      */
-    auto find(std::string line) -> boost::optional<T&> {
+    [[nodiscard]] auto find(std::string line) -> boost::optional<T&> {
         if (!m_elements->empty()) {
             auto temp = std::find(m_elements->begin(), m_elements->end(), line);
 
@@ -81,7 +81,7 @@ public:
      * @details Uses find() to find object
      * @return boost::none if not found or const l-value reference on object
      */
-    auto find(std::string line) const -> boost::optional<const T&> {
+    [[nodiscard]] auto find(std::string line) const -> boost::optional<const T&> {
         if (!m_elements->empty()) {
             auto temp = std::find(m_elements->begin(), m_elements->end(), line);
 
@@ -109,7 +109,7 @@ public:
     auto clear() noexcept -> void { m_elements->clear(); }
 
     /// @brief Check if container is empty
-    auto empty() const noexcept -> bool { return m_elements->empty(); }
+    [[nodiscard]] auto empty() const noexcept -> bool { return m_elements->empty(); }
 
     /// @brief Empty destructor
     virtual ~Container() = default;
@@ -120,14 +120,14 @@ protected:
      * @param line line that used to construct
      * @return new constructed element
      */
-    virtual auto construct(std::string line) -> T = 0;
+    [[nodiscard]] virtual auto construct(std::string line) -> T = 0;
 
     /**
      * @brief Inserts temporary object in m_elements
      * @param temp temporary object
      * @return l-value reference on this object
      */
-    auto insert(T temp) -> T& {
+    [[nodiscard]] auto insert(T temp) -> T& {
         m_elements->push_back(temp);
         return m_elements->back();
     }
@@ -140,7 +140,7 @@ protected:
      * @see construct()
      * @see insert()
      */
-    auto findOrInsert(std::string line) -> T& {
+    [[nodiscard]] auto findOrInsert(std::string line) -> T& {
         boost::optional<T&> temp = find(line);
 
         if (temp) {

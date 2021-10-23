@@ -38,10 +38,10 @@ public:
     Section(Section&& section) noexcept = default;
 
     /// @brief Copy assignment operator
-    Section& operator=(const Section& section) = default;
+    auto operator=(const Section& section) -> Section& = default;
 
     /// @brief Move assignment operator
-    Section& operator=(Section&& section) = default;
+    auto operator=(Section&& section) -> Section& = default;
 
     /**
      * @brief Finds and returns l-value reference on KV's m_value or inserts KV and returns same
@@ -52,7 +52,7 @@ public:
      * @see find()
      * @see insert()
      */
-    auto operator[](std::string key) -> std::string& {
+    [[nodiscard]] auto operator[](std::string key) -> std::string& {
         return findOrInsert(std::move(key)).m_value;
     }
 
@@ -62,7 +62,7 @@ public:
      * @return l-value reference to found KV's value or boost::none if not found
      * @see find()
      */
-    auto operator[](std::string key) const -> boost::optional<const std::string&> {
+    [[nodiscard]] auto operator[](std::string key) const -> boost::optional<const std::string&> {
         boost::optional<const KV&> temp = find(std::move(key));
 
         if (temp) {

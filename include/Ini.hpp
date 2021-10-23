@@ -52,7 +52,9 @@ public:
      * @see find()
      * @see insert()
      */
-    auto operator[](std::string name) -> Section& { return findOrInsert(std::move(name)); }
+    [[nodiscard]] auto operator[](std::string name) -> Section& {
+        return findOrInsert(std::move(name));
+    }
 
     /**
      * @brief Finds and returns const l-value reference or boost::none
@@ -60,7 +62,7 @@ public:
      * @return l-value reference to found Section or boost::none if not found
      * @see find()
      */
-    auto operator[](std::string name) const -> const Section& {
+    [[nodiscard]] auto operator[](std::string name) const -> const Section& {
         boost::optional<const Section&> temp = (find(std::move(name)));
 
         if (temp) {
@@ -76,7 +78,7 @@ public:
      * stream contains wrong ini formatting
      * @param is std::istream l-value reference
      */
-    auto parseFromStream(std::istream& is) -> boost::optional<Error> {
+    [[nodiscard]] auto parseFromStream(std::istream& is) -> boost::optional<Error> {
         if (is) {
             if (m_settings.m_parse_type == ParseType::NEW) {
                 clear();
@@ -157,7 +159,7 @@ private:
     static inline Section m_empty = {};
 
     /// @brief Construct a new Section
-    auto construct(std::string name) -> Section override { return {std::move(name)}; }
+    [[nodiscard]] auto construct(std::string name) -> Section override { return {std::move(name)}; }
 
     auto createSection(Section** section, std::string& line, bool& skip,
                        std::vector<std::string>& names, std::vector<std::string>& keys) -> void {
@@ -193,7 +195,7 @@ private:
         skip = false;
     }
 
-    auto createOption(Section& section, std::string& line, std::vector<std::string>& keys)
+    [[nodiscard]] auto createOption(Section& section, std::string& line, std::vector<std::string>& keys)
         -> boost::optional<Error> {
         KV option(std::move(line));
 
