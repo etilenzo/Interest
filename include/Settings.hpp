@@ -43,20 +43,21 @@ enum class QuotationMarks { REMOVE, KEEP };
 /// @brief Settings struct for Ini parser
 struct Settings {
     /// @brief Decide what to do when there is a section duplicate
-    SectionDuplicate m_section_duplicate;
+    SectionDuplicate m_section_duplicate = {};
 
     /// @brief Decide what to do when there is a option duplicate
-    OptionDuplicate m_option_duplicate;
+    OptionDuplicate m_option_duplicate = {};
 
     /// @brief Decide how to do parseFromStream()
-    ParseType m_parse_type;
+    ParseType m_parse_type = {};
 
     /// @brief Decide what to do when there are quotation marks
-    QuotationMarks m_quotation_marks;
+    QuotationMarks m_quotation_marks = {};
 
     /// @brief Constructor with param initialization (or empty)
-    Settings(SectionDuplicate section_duplicate = {}, OptionDuplicate option_duplicate = {},
-             ParseType parse_type = {}, QuotationMarks quotation_marks = {})
+    explicit Settings(SectionDuplicate section_duplicate = {},
+                      OptionDuplicate option_duplicate = {}, ParseType parse_type = {},
+                      QuotationMarks quotation_marks = {})
         : m_section_duplicate(section_duplicate),
           m_option_duplicate(option_duplicate),
           m_parse_type(parse_type),
