@@ -29,8 +29,7 @@ jobs:
         run: brew install boost
 
       - name: Install doctest
-        run: git clone https://github.com/onqtam/doctest && mkdir doctest/build && cd doctest && \
-             cmake -B build && cmake --build build && cmake --install build
+        run: git clone https://github.com/onqtam/doctest && mkdir doctest/build && cd doctest && cmake -B build && cmake --build build && cmake --install build
 
       - name: CMake configure
         run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler }}
