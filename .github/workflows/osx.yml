@@ -1,0 +1,55 @@
+name: macOS
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+      - evilenzo_branch
+  pull_request:
+    branches:
+      - master
+      - dev
+      - evilenzo_branch
+  release:
+    types: [ published, created, edited ]
+
+
+jobs:
+  Build:
+    strategy:
+      matrix:
+        compiler: [ g++, clang++ ]
+        BUILD_TYPE: [ Release, Debug ]
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install boost
+        run: brew install boost
+
+      - name: Install doctest
+        run: git clone https://github.com/onqtam/doctest && mkdir doctest/build && cd doctest && \
+             cmake -B build && cmake --build build && cmake --install build
+
+      - name: CMake configure
+        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{ matrix.BUILD_TYPE }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler }}
+
+      - name: Build
+        run: cmake --build ${{github.workspace}}/build --config ${{ matrix.BUILD_TYPE }}
+
+      - name: Test
+        working-directory: ${{github.workspace}}/build
+        run: ctest -C ${{ matrix.BUILD_TYPE }} -VV -j
+
+      - name: Install
+        working-directory: ${{github.workspace}}/build
+        run: sudo make install
+
+      - name: Test Installation
+        working-directory: ${{github.workspace}}/build/test/cmake
+        run: cmake ./
+
+      - name: Test README Example
+        working-directory: ${{github.workspace}}/build/test/example
+        run: cmake ./ && cmake --build ./ && ./MyProject
