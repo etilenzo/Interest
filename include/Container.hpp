@@ -55,14 +55,14 @@ public:
      * @return m_name == name
      * @see find()
      */
-    bool operator==(const std::string& name) const noexcept { return m_name == name; }
+    auto operator==(const std::string& name) const noexcept -> bool { return m_name == name; }
 
     /**
      * @brief Finds element (T must have operator== implementation)
      * @details Uses find() to find object
      * @return boost::none if not found or l-value reference to object
      */
-    boost::optional<T&> find(std::string line) {
+    auto find(std::string line) -> boost::optional<T&> {
         if (!m_elements->empty()) {
             auto temp = std::find(m_elements->begin(), m_elements->end(), line);
 
@@ -81,7 +81,7 @@ public:
      * @details Uses find() to find object
      * @return boost::none if not found or const l-value reference on object
      */
-    boost::optional<const T&> find(std::string line) const {
+    auto find(std::string line) const -> boost::optional<const T&> {
         if (!m_elements->empty()) {
             auto temp = std::find(m_elements->begin(), m_elements->end(), line);
 
@@ -99,17 +99,17 @@ public:
      * @brief Remove empty entries
      * @details Works only for types having empty() function. Must be overrided for others!
      */
-    virtual void removeEmpty() noexcept {
+    virtual auto removeEmpty() noexcept -> void {
         m_elements->erase(std::remove_if(m_elements->begin(), m_elements->end(),
                                          [](const T& i) { return i.empty(); }),
                           m_elements->end());
     }
 
     /// @brief Clear container
-    void clear() noexcept { m_elements->clear(); }
+    auto clear() noexcept -> void { m_elements->clear(); }
 
     /// @brief Check if container is empty
-    bool empty() const noexcept { return m_elements->empty(); }
+    auto empty() const noexcept -> bool { return m_elements->empty(); }
 
     /// @brief Empty destructor
     virtual ~Container() = default;
@@ -120,14 +120,14 @@ protected:
      * @param line line that used to construct
      * @return new constructed element
      */
-    virtual T construct(std::string line) = 0;
+    virtual auto construct(std::string line) -> T = 0;
 
     /**
      * @brief Inserts temporary object in m_elements
      * @param temp temporary object
      * @return l-value reference on this object
      */
-    T& insert(T temp) {
+    auto insert(T temp) -> T& {
         m_elements->push_back(temp);
         return m_elements->back();
     }
@@ -140,7 +140,7 @@ protected:
      * @see construct()
      * @see insert()
      */
-    T& findOrInsert(std::string line) {
+    auto findOrInsert(std::string line) -> T& {
         boost::optional<T&> temp = find(line);
 
         if (temp) {
