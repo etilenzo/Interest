@@ -3,7 +3,7 @@
 
 [![Build Status](https://app.travis-ci.com/etilenzo/Interest.svg?branch=master)](https://app.travis-ci.com/etilenzo/Interest)
 [![Ubuntu](https://github.com/etilenzo/Interest/actions/workflows/ubuntu.yml/badge.svg?branch=master)](https://github.com/etilenzo/Interest/actions/workflows/ubuntu.yml)
-[![macOS](https://github.com/etilenzo/Interest/actions/workflows/osx.yml/badge.svg?branch=master)](https://github.com/etilenzo/Interest/actions/workflows/osx.yml)
+[![macOS](https://github.com/etilenzo/Interest/actions/workflows/osx.yml/badge.svg?branch=master)](https://github.com/etilenzo/Interest/actions/workflows/macos.yml)
 
 [![Issues](https://img.shields.io/github/issues/etilenzo/Interest)](https://github.com/etilenzo/Interest/issues)
 [![Last commit](https://img.shields.io/github/last-commit/etilenzo/Interest)](https://github.com/etilenzo/Interest/commit/master)

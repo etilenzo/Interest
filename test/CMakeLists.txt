@@ -40,5 +40,6 @@ foreach(filename ${INTEREST_TESTS_LIST})
             NAME "${testcase}"
             COMMAND ${testcase} ${DOCTEST_TEST_FILTER} --no-skip)
 
-    target_link_libraries(${testcase} PRIVATE ${INTEREST_TARGET_NAME} doctest::doctest)
+    target_include_directories(${testcase} PUBLIC ${DOCTEST_INCLUDE_DIR})
+    target_link_libraries(${testcase} Interest)
 endforeach()
