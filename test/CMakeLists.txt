@@ -27,9 +27,10 @@ set(INTEREST_TESTS_LIST
         unit-Ini.cpp
     )
 
-add_library(doctest_main OBJECT unit.cpp)
-
 find_package(doctest REQUIRED)
+include_directories(${DOCTEST_INCLUDE_DIR})
+
+add_library(doctest_main OBJECT unit.cpp)
 
 foreach(filename ${INTEREST_TESTS_LIST})
     string(REGEX REPLACE "unit-([^_]+).cpp" "test-\\1" testcase ${filename})
@@ -40,6 +41,5 @@ foreach(filename ${INTEREST_TESTS_LIST})
             NAME "${testcase}"
             COMMAND ${testcase} ${DOCTEST_TEST_FILTER} --no-skip)
 
-    target_include_directories(${testcase} PUBLIC ${DOCTEST_INCLUDE_DIR})
     target_link_libraries(${testcase} Interest)
 endforeach()
