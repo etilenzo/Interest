@@ -47,17 +47,19 @@ public:
     KV(KV&& kv) noexcept = default;
 
     /// @brief Copy assignment operator
-    KV& operator=(const KV& kv) = default;
+    auto operator=(const KV& kv) -> KV& = default;
 
     /// @brief Move assignment operator
-    KV& operator=(KV&& kv) noexcept = default;
+    auto operator=(KV&& kv) noexcept -> KV& = default;
 
     /**
      * @brief Equality operator for find algorithm
      * @param key key to check
      * @return m_key == key
      */
-    bool operator==(const std::string& key) const noexcept { return m_key == key; }
+    [[nodiscard]] auto operator==(const std::string& key) const noexcept -> bool {
+        return m_key == key;
+    }
 
     /**
      * @brief Parse key and value from string
@@ -67,7 +69,7 @@ public:
      * @see beautifyPrefix()
      * @see beautifySuffix()
      */
-    void fromString(std::string line) {
+    auto fromString(std::string line) -> void {
         delComment(line);
 
         if (!line.empty()) {
@@ -95,15 +97,15 @@ public:
      * @brief Determine if class is empty
      * @return true if value is empty
      */
-    bool empty() const noexcept { return m_value.empty(); }
+    [[nodiscard]] auto empty() const noexcept -> bool { return m_value.empty(); }
 
     /**
      * @brief Determine if class is wrong
      * @return true if key and value are empty
      */
-    bool wrong() const noexcept { return m_key.empty() && m_value.empty(); }
+    [[nodiscard]] auto wrong() const noexcept -> bool { return m_key.empty() && m_value.empty(); }
 
-    friend std::ostream& operator<<(std::ostream& os, const KV& kv) {
+    friend auto operator<<(std::ostream& os, const KV& kv) -> std::ostream& {
         os << kv.m_key << EQUAL_SYMBOL << kv.m_value << std::endl;
         return os;
     }

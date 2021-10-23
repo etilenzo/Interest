@@ -43,16 +43,16 @@ enum class QuotationMarks { REMOVE, KEEP };
 /// @brief Settings struct for Ini parser
 struct Settings {
     /// @brief Decide what to do when there is a section duplicate
-    SectionDuplicate m_section_duplicate;
+    SectionDuplicate m_section_duplicate = {};
 
     /// @brief Decide what to do when there is a option duplicate
-    OptionDuplicate m_option_duplicate;
+    OptionDuplicate m_option_duplicate = {};
 
     /// @brief Decide how to do parseFromStream()
-    ParseType m_parse_type;
+    ParseType m_parse_type = {};
 
     /// @brief Decide what to do when there are quotation marks
-    QuotationMarks m_quotation_marks;
+    QuotationMarks m_quotation_marks = {};
 
     /// @brief Constructor with param initialization (or empty)
     Settings(SectionDuplicate section_duplicate = {}, OptionDuplicate option_duplicate = {},
@@ -69,10 +69,10 @@ struct Settings {
     Settings(Settings&& settings) noexcept = default;
 
     /// @brief Copy assignment operator
-    Settings& operator=(const Settings& settings) = default;
+    auto operator=(const Settings& settings) -> Settings& = default;
 
     /// @brief Move assignment operator
-    Settings& operator=(Settings&& settings) noexcept = default;
+    auto operator=(Settings&& settings) noexcept -> Settings& = default;
 
     /// @brief Empty destructor
     ~Settings() = default;

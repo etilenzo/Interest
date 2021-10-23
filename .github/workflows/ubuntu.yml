@@ -5,10 +5,12 @@ on:
     branches:
       - master
       - dev
+      - evilenzo_branch
   pull_request:
     branches:
       - master
       - dev
+      - evilenzo_branch
   release:
     types: [ published, created, edited ]
 

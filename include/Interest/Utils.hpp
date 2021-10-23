@@ -28,7 +28,7 @@ inline constexpr char EMPTY_STRING[1] = "";
 
 
 /// @brief Delete everything after # or ! from  the line
-inline void delComment(std::string& line) {
+inline auto delComment(std::string& line) -> void {
     if (!line.empty()) {
         std::size_t comment_pos = std::string::npos;
 
@@ -50,7 +50,7 @@ inline void delComment(std::string& line) {
 }
 
 /// @brief Delete all quotation marks
-inline void delQuotationMarks(std::string& line) {
+inline auto delQuotationMarks(std::string& line) -> void {
     line.erase(std::remove_if(line.begin(), line.end(),
                               [](const char& i) {
                                   return i == QUOTATION_MARKS[0] || i == QUOTATION_MARKS[1];
@@ -60,7 +60,7 @@ inline void delQuotationMarks(std::string& line) {
 
 
 /// @brief Delete space symbols from the line prefix
-inline void prefixDelSpaces(std::string& line) {
+inline auto prefixDelSpaces(std::string& line) -> void {
     std::size_t not_space = line.find_first_not_of(SPACE_SYMBOL);
 
     if (not_space == std::string::npos) {
@@ -71,7 +71,7 @@ inline void prefixDelSpaces(std::string& line) {
 }
 
 /// @brief Delete space symbols from the line suffix
-inline void suffixDelSpaces(std::string& line) {
+inline auto suffixDelSpaces(std::string& line) -> void {
     std::string::reverse_iterator iter = line.rbegin();
     bool cycled = false;
 
@@ -90,7 +90,7 @@ inline void suffixDelSpaces(std::string& line) {
 }
 
 /// @brief Delete line breakers carriage return and space symbols from the line suffix
-inline void suffixDelBreakers(std::string& line) {
+inline auto suffixDelBreakers(std::string& line) -> void {
     std::string::reverse_iterator iter = line.rbegin();
     bool cycled = false;
 
@@ -109,7 +109,7 @@ inline void suffixDelBreakers(std::string& line) {
 }
 
 /// @brief Trim brackets for Section name
-inline void trimBrackets(std::string& line) {
+inline auto trimBrackets(std::string& line) -> void {
     if (line.starts_with(OPENING_BRACKET)) {
         if (line.ends_with(CLOSING_BRACKET)) {
             line = line.substr(1, line.size() - 2);
