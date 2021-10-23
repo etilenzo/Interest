@@ -2,7 +2,7 @@
 
 
 [![Build Status](https://app.travis-ci.com/etilenzo/Interest.svg?branch=master)](https://app.travis-ci.com/etilenzo/Interest)
-[![Ubuntu](https://github.com/etilenzo/Interest/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/etilenzo/Interest/actions/workflows/ubuntu.yml)
+[![Ubuntu](https://github.com/etilenzo/Interest/actions/workflows/ubuntu.yml/badge.svg?branch=dev)](https://github.com/etilenzo/Interest/actions/workflows/ubuntu.yml)
 [![Issues](https://img.shields.io/github/issues/etilenzo/Interest)](https://github.com/etilenzo/Interest/issues)
 [![Last commit](https://img.shields.io/github/last-commit/etilenzo/Interest)](https://github.com/etilenzo/Interest/commit/master)
 [![Licence](https://img.shields.io/badge/licence-MIT-blue)](https://gitlab.com/Evilenzo/interest/-/blob/master/LICENSE)
