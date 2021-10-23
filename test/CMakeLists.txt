@@ -1,3 +1,5 @@
+set(INTEREST_THIRDPARTY_DIR     "${INTEREST_ROOT}/thirdparty/")
+
 set(INTEREST_INI_EXAMPLES_DIR   "ini")
 set(INTEREST_CMAKE_EXAMPLE      "cmake/InstallationTest.cmake")
 set(INTEREST_README_EXAMPLE     "example")
@@ -27,10 +29,10 @@ set(INTEREST_TESTS_LIST
         unit-Ini.cpp
     )
 
-find_package(doctest REQUIRED)
-include_directories(${DOCTEST_INCLUDE_DIR})
+include_directories(${INTEREST_THIRDPARTY_DIR})
 
 add_library(doctest_main OBJECT unit.cpp)
+
 
 foreach(filename ${INTEREST_TESTS_LIST})
     string(REGEX REPLACE "unit-([^_]+).cpp" "test-\\1" testcase ${filename})

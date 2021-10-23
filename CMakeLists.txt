@@ -31,6 +31,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED        ON)
 set(CMAKE_CXX_FLAGS_DEBUG              "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 set(CMAKE_LINKER_FLAGS_DEBUG           "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 
+set(INTEREST_ROOT                      ${CMAKE_CURRENT_SOURCE_DIR})
 set(INTEREST_TARGET_NAME               ${PROJECT_NAME})
 set(INTEREST_TARGETS_EXPORT_NAME       "${PROJECT_NAME}Targets")
 set(INTEREST_INCLUDE_DIR               "include/Interest")
