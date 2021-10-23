@@ -37,10 +37,10 @@ struct Error {
     Error(Error&& error) noexcept = default;
 
     /// @brief Copy assignment operator
-    Error& operator=(const Error& error) = default;
+    auto operator=(const Error& error) -> Error& = default;
 
     /// @brief Move assignment operator
-    Error& operator=(Error&& error) noexcept = default;
+    auto operator=(Error&& error) noexcept -> Error& = default;
 
     /// @brief Empty destructor
     ~Error() = default;

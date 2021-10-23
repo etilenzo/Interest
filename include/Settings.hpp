@@ -55,9 +55,8 @@ struct Settings {
     QuotationMarks m_quotation_marks = {};
 
     /// @brief Constructor with param initialization (or empty)
-    Settings(SectionDuplicate section_duplicate = {},
-                      OptionDuplicate option_duplicate = {}, ParseType parse_type = {},
-                      QuotationMarks quotation_marks = {})
+    Settings(SectionDuplicate section_duplicate = {}, OptionDuplicate option_duplicate = {},
+             ParseType parse_type = {}, QuotationMarks quotation_marks = {})
         : m_section_duplicate(section_duplicate),
           m_option_duplicate(option_duplicate),
           m_parse_type(parse_type),
@@ -70,10 +69,10 @@ struct Settings {
     Settings(Settings&& settings) noexcept = default;
 
     /// @brief Copy assignment operator
-    Settings& operator=(const Settings& settings) = default;
+    auto operator=(const Settings& settings) -> Settings& = default;
 
     /// @brief Move assignment operator
-    Settings& operator=(Settings&& settings) noexcept = default;
+    auto operator=(Settings&& settings) noexcept -> Settings& = default;
 
     /// @brief Empty destructor
     ~Settings() = default;

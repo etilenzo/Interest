@@ -52,7 +52,9 @@ public:
      * @see find()
      * @see insert()
      */
-    std::string& operator[](std::string key) { return findOrInsert(std::move(key)).m_value; }
+    auto operator[](std::string key) -> std::string& {
+        return findOrInsert(std::move(key)).m_value;
+    }
 
     /**
      * @brief Finds and returns const l-value reference or boost::none
@@ -60,7 +62,7 @@ public:
      * @return l-value reference to found KV's value or boost::none if not found
      * @see find()
      */
-    boost::optional<const std::string&> operator[](std::string key) const {
+    auto operator[](std::string key) const -> boost::optional<const std::string&> {
         boost::optional<const KV&> temp = find(std::move(key));
 
         if (temp) {
@@ -76,7 +78,7 @@ public:
      * @param section section const l-value reference
      * @return std::ostream l-value reference
      */
-    friend std::ostream& operator<<(std::ostream& os, const Section& section) {
+    friend auto operator<<(std::ostream& os, const Section& section) -> std::ostream& {
         os << OPENING_BRACKET << section.m_name << CLOSING_BRACKET << std::endl;
 
         for (const auto& i : *section.m_elements) {

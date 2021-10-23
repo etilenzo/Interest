@@ -38,10 +38,10 @@ public:
     Ini(Ini&& ini) noexcept = default;
 
     /// @brief Copy assignment operator
-    Ini& operator=(const Ini& ini) = default;
+    auto operator=(const Ini& ini) -> Ini& = default;
 
     /// @brief Move assignment operator
-    Ini& operator=(Ini&& ini) = default;
+    auto operator=(Ini&& ini) -> Ini& = default;
 
     /**
      * @brief Finds and returns l-value reference on Section or inserts new
@@ -52,7 +52,7 @@ public:
      * @see find()
      * @see insert()
      */
-    Section& operator[](std::string name) { return findOrInsert(std::move(name)); }
+    auto operator[](std::string name) -> Section& { return findOrInsert(std::move(name)); }
 
     /**
      * @brief Finds and returns const l-value reference or boost::none
@@ -60,7 +60,7 @@ public:
      * @return l-value reference to found Section or boost::none if not found
      * @see find()
      */
-    const Section& operator[](std::string name) const {
+    auto operator[](std::string name) const -> const Section& {
         boost::optional<const Section&> temp = (find(std::move(name)));
 
         if (temp) {
@@ -76,7 +76,7 @@ public:
      * stream contains wrong ini formatting
      * @param is std::istream l-value reference
      */
-    boost::optional<Error> parseFromStream(std::istream& is) {
+    auto parseFromStream(std::istream& is) -> boost::optional<Error> {
         if (is) {
             if (m_settings.m_parse_type == ParseType::NEW) {
                 clear();
@@ -130,7 +130,7 @@ public:
      * @details Writes Ini contents to std::ostream with standard ini formatting
      * @param os std::ostream l-value reference
      */
-    void dumpToStream(std::ostream& os) const {
+    auto dumpToStream(std::ostream& os) const -> void {
         for (const auto& i : *m_elements) {
             os << i << std::endl;
         }
@@ -143,7 +143,7 @@ public:
      * @param container Ini container const reference
      * @return std::ostream l-value reference
      */
-    friend std::ostream& operator<<(std::ostream& os, const Ini& container) {
+    friend auto operator<<(std::ostream& os, const Ini& container) -> std::ostream& {
         container.dumpToStream(os);
 
         return os;
@@ -157,10 +157,10 @@ private:
     static inline Section m_empty = {};
 
     /// @brief Construct a new Section
-    Section construct(std::string name) override { return {std::move(name)}; }
+    auto construct(std::string name) -> Section override { return {std::move(name)}; }
 
-    void createSection(Section** section, std::string& line, bool& skip,
-                       std::vector<std::string>& names, std::vector<std::string>& keys) {
+    auto createSection(Section** section, std::string& line, bool& skip,
+                       std::vector<std::string>& names, std::vector<std::string>& keys) -> void {
         if (m_settings.m_section_duplicate == SectionDuplicate::FIRST) {
             if (!names.empty()) {
                 auto entry = std::find(names.begin(), names.end(), line);
@@ -193,8 +193,8 @@ private:
         skip = false;
     }
 
-    boost::optional<Error> createOption(Section& section, std::string& line,
-                                        std::vector<std::string>& keys) {
+    auto createOption(Section& section, std::string& line, std::vector<std::string>& keys)
+        -> boost::optional<Error> {
         KV option(std::move(line));
 
         if (!option.wrong()) {

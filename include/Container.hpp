@@ -44,10 +44,10 @@ public:
     Container(Container&& container) noexcept = default;
 
     /// @brief Copy assignment operator
-    Container& operator=(const Container& container) = default;
+    auto operator=(const Container& container) -> Container& = default;
 
     /// @brief Move assignment operator
-    Container& operator=(Container&& container) noexcept = default;
+    auto operator=(Container&& container) noexcept -> Container& = default;
 
     /**
      * @brief Equality operator for find() algorithm
