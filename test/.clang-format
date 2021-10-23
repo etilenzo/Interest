@@ -6,7 +6,7 @@ TabWidth: '4'
 AccessModifierOffset: '-4'
 MaxEmptyLinesToKeep: '4'
 UseTab: Never
-SortIncludes: false 
+SortIncludes: Never
 AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
 
