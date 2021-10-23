@@ -55,7 +55,7 @@ struct Settings {
     QuotationMarks m_quotation_marks = {};
 
     /// @brief Constructor with param initialization (or empty)
-    explicit Settings(SectionDuplicate section_duplicate = {},
+    Settings(SectionDuplicate section_duplicate = {},
                       OptionDuplicate option_duplicate = {}, ParseType parse_type = {},
                       QuotationMarks quotation_marks = {})
         : m_section_duplicate(section_duplicate),
