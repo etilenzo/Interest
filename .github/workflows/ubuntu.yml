@@ -45,3 +45,7 @@ jobs:
       - name: Test Installation
         working-directory: ${{github.workspace}}/build/test/cmake
         run: cmake ./
+
+      - name: Test README Example
+        working-directory: ${{github.workspace}}/build/test/example
+        run: cmake ./ && cmake --build ./ && ./MyProject
