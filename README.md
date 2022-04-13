@@ -1,15 +1,14 @@
 # Interest
 
 
-[![Build Status](https://app.travis-ci.com/etilenzo/Interest.svg?branch=master)](https://app.travis-ci.com/etilenzo/Interest)
-[![Ubuntu](https://github.com/etilenzo/Interest/actions/workflows/ubuntu.yml/badge.svg?branch=master)](https://github.com/etilenzo/Interest/actions/workflows/ubuntu.yml)
-[![macOS](https://github.com/etilenzo/Interest/actions/workflows/macos.yml/badge.svg)](https://github.com/etilenzo/Interest/actions/workflows/macos.yml)
+[![Ubuntu](https://github.com/evilenzo/ini/actions/workflows/ubuntu.yml/badge.svg?branch=master)](https://github.com/evilenzo/ini/actions/workflows/ubuntu.yml)
+[![macOS](https://github.com/evilenzo/ini/actions/workflows/macos.yml/badge.svg)](https://github.com/evilenzo/ini/actions/workflows/macos.yml)
 
-[![Issues](https://img.shields.io/github/issues/etilenzo/Interest)](https://github.com/etilenzo/Interest/issues)
-[![Last commit](https://img.shields.io/github/last-commit/etilenzo/Interest)](https://github.com/etilenzo/Interest/commit/master)
-[![Licence](https://img.shields.io/badge/licence-MIT-blue)](https://gitlab.com/Evilenzo/interest/-/blob/master/LICENSE)
-[![Language](https://img.shields.io/github/languages/top/etilenzo/Interest)](https://img.shields.io/github/languages/top/etilenzo/Interest)
-[![Release](https://img.shields.io/github/v/release/etilenzo/Interest)](https://github.com/etilenzo/Interest/releases)
+[![Issues](https://img.shields.io/github/issues/evilenzo/ini)](https://github.com/evilenzo/ini/issues)
+[![Last commit](https://img.shields.io/github/last-commit/evilenzo/ini)](https://github.com/evilenzo/ini/commit/master)
+[![Licence](https://img.shields.io/badge/licence-MIT-blue)](https://github.com/evilenzo/ini/blob/master/LICENSE)
+[![Language](https://img.shields.io/github/languages/top/evilenzo/ini)](https://img.shields.io/github/languages/top/evilenzo/ini)
+[![Release](https://img.shields.io/github/v/release/evilenzo/ini)](https://github.com/evilenzo/ini/releases)
 
 
 #### Example library written in C++ using last standards features for parsing ini formatted streams
