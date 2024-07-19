@@ -1,6 +1,6 @@
 # DISCLAIMER - This is an interview project, no need in review/comments
 
-# Ini
+# IniLib
 
 
 [![Ubuntu](https://github.com/evilenzo/ini/actions/workflows/ubuntu.yml/badge.svg?branch=master)](https://github.com/evilenzo/ini/actions/workflows/ubuntu.yml)
