@@ -1,3 +1,5 @@
+# DISCLAIMER - This is an interview project, no need in review/comments
+
 # Interest
 
 
